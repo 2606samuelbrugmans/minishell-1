@@ -6,7 +6,7 @@
 /*   By: scesar <scesar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 16:06:50 by scesar            #+#    #+#             */
-/*   Updated: 2025/04/08 18:15:32 by scesar           ###   ########.fr       */
+/*   Updated: 2025/04/08 18:53:09 by scesar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char *find_command(char *command)
     path = getenv("PATH");
     path_tab = ft_split(path, ':');
     
-    
+    while()
 }
 
 void    run_command(char **tab_inputs)
