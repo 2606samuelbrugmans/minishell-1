@@ -3,25 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: scesar <scesar@student.42.fr>              +#+  +:+       +#+        */
+/*   By: stephen <stephen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 16:06:50 by scesar            #+#    #+#             */
-/*   Updated: 2025/04/08 18:53:09 by scesar           ###   ########.fr       */
+/*   Updated: 2025/04/10 16:22:06 by stephen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-char *find_command(char *command)
-{
-    char *path;
-    char **path_tab;
+// char *find_command(char *command)
+// {
+//     char *path;
+//     char **path_tab;
 
-    path = getenv("PATH");
-    path_tab = ft_split(path, ':');
+//     path = getenv("PATH");
+//     path_tab = ft_split(path, ':');
     
-    while()
-}
+//     while()
+// }
 
 void    run_command(char **tab_inputs)
 {
