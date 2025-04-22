@@ -6,11 +6,11 @@
 /*   By: scesar <scesar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 16:26:57 by scesar            #+#    #+#             */
-/*   Updated: 2024/07/01 13:23:31 by scesar           ###   ########.fr       */
+/*   Updated: 2025/04/09 12:50:37 by scesar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "../../inc/get_next_line_bonus.h"
 
 size_t	ft_strlen(const char	*str)
 {

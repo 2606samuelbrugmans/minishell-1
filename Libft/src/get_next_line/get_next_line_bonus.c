@@ -6,11 +6,11 @@
 /*   By: scesar <scesar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 14:50:41 by scesar            #+#    #+#             */
-/*   Updated: 2024/07/02 18:01:24 by scesar           ###   ########.fr       */
+/*   Updated: 2025/04/09 12:50:15 by scesar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line_bonus.h"
+#include "../../inc/get_next_line_bonus.h"
 
 char	*fill_line(int fd, char *buff, char *save)
 {
