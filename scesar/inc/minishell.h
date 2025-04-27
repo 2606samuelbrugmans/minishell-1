@@ -6,7 +6,7 @@
 /*   By: scesar <scesar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 17:04:18 by scesar            #+#    #+#             */
-/*   Updated: 2025/04/25 19:27:00 by scesar           ###   ########.fr       */
+/*   Updated: 2025/04/27 17:33:23 by scesar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 # include <stdbool.h>
 
 # define PATH_MAX 4096
+
+# define NONE 0
 # define SIMPLE_QUOTE -1
 # define DOUBLE_QUOTE -2
 
@@ -56,4 +58,10 @@ typedef struct s_token
 }               t_token;
 
 
+//split_shell
+char **ft_split_shell(char *input);
+size_t nbr_of_elem(char *input);
+int    put_elem_in_tab(char **tab, size_t tab_index, char *input, size_t *input_index);
+size_t next_arg_len(char *input, size_t index);
+void free_tab(char **tab);
 #endif
