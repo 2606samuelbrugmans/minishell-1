@@ -6,7 +6,7 @@
 /*   By: scesar <scesar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 16:06:50 by scesar            #+#    #+#             */
-/*   Updated: 2025/04/27 17:38:52 by scesar           ###   ########.fr       */
+/*   Updated: 2025/04/28 16:00:37 by scesar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,9 @@ void	shell()
         }
         if (*input)
             add_history(input);
+        // commands = tokenizer(input);
         tab_inputs = ft_split_shell(input);      //see if my split is enough (work with tab or smth ele)
+        
         // run_command(tab_inputs);
         int i = 0;
         while(tab_inputs[i])

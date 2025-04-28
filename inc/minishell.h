@@ -6,7 +6,7 @@
 /*   By: scesar <scesar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 17:04:18 by scesar            #+#    #+#             */
-/*   Updated: 2025/04/27 17:33:23 by scesar           ###   ########.fr       */
+/*   Updated: 2025/04/28 15:53:57 by scesar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,40 +22,40 @@
 # define PATH_MAX 4096
 
 # define NONE 0
-# define SIMPLE_QUOTE -1
-# define DOUBLE_QUOTE -2
 
 typedef struct s_shell
 {
     char **env;
 }               t_shell;
 
+typedef enum e_token_type
+{
+    CMD,
+    ARG,
+    PIPE,
+    REDIR_OUT,
+    REDIR_IN,
+    SINGLE_QUOTE,
+    DOUBLE_QUOTE,
+    HEREDOC,
+    APPEND,
+    
+}            t_token_type;
+
+typedef struct s_token
+{
+    char *token;
+    t_token_type  type;
+}               t_token;
+
 typedef struct s_commands
 {
-    char *args;
+    t_token **args;
     int infile;
     int outfile;
     bool valid;
     
 }               t_commands;
-
-typedef enum e_tok_type
-{
-    TOK_PIPE,
-    TOK_REDIR_OUT,
-    TOK_REDIR_IN,
-    TOK_SINGLE_QUOTE,
-    TOK_DOUBLE_QUOTE,
-    TOK_HEREDOC,
-    TOK_APPEND,
-    
-}            t_tok_type;
-
-typedef struct s_token
-{
-    char *token;
-    t_tok_type  type;
-}               t_token;
 
 
 //split_shell
