@@ -1,5 +1,13 @@
 #include "../inc/minishell.h"
 
+int sepcial_char(char c)
+{
+    if(c == '<' || c == '>' || c == '|')
+        return(1);
+    else
+        return(0);
+}
+
 void free_tab(char **tab)
 {
     size_t i;
@@ -88,10 +96,19 @@ size_t nbr_of_elem(char *input)
                 index++;
         }
         while (input[index] != ' ' && input[index])
+        {
             index++;
+            if (sepcial_char(input[index]))
+            {
+                nbr ++;
+                break;
+            }
+        }
         if (input[index] || (input[index - 1] != ' ')) //checks if the line finishes with spaces or if we reached the end
             nbr++;
     }
+    printf("nbr : %zu\n", nbr);
+    exit(1);
     return(nbr);
 }
 
