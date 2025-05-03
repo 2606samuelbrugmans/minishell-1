@@ -1,6 +1,18 @@
 #include "../inc/minishell.h"
 
-int sepcial_char(char c)
+int end_quotes(char *input, size_t *index)
+{
+    char quote;
+
+    quote = input[*index];
+    while (input[*index] && input[*index] != quote)
+        (*index)++;
+    if (input[*index] != quote)
+        return(0);
+    return(1);
+}
+
+int special_char(char c)
 {
     if(c == '<' || c == '>' || c == '|')
         return(1);
@@ -86,28 +98,23 @@ size_t nbr_of_elem(char *input)
     {
         while(input[index] == ' ')
             index++;
-        if (input[index] == '\'' || input[index] == '\"')
-        {
-            quote = input[index];
+        if (special_char(input[index]))
             index++;
-            while(input[index] && input[index] != quote)
-                index++;
-            if (input[index] == quote)
-                index++;
-        }
-        while (input[index] != ' ' && input[index])
+        else
         {
-            index++;
-            if (sepcial_char(input[index]))
+            while (input[index] && input[index] != ' ' && !special_char(input[index]))
             {
-                nbr ++;
-                break;
+                if (input[index] == '\'' || input[index] == '\"')
+                {
+                    end_quotes(input, &index);  //have to wait if we don't have an ending quote
+                }
+                index++;
             }
         }
         if (input[index] || (input[index - 1] != ' ')) //checks if the line finishes with spaces or if we reached the end
             nbr++;
     }
-    printf("nbr : %zu\n", nbr);
+    printf("nbr : %d\n", nbr);
     exit(1);
     return(nbr);
 }
