@@ -5,8 +5,11 @@ int end_quotes(char *input, size_t *index)
     char quote;
 
     quote = input[*index];
+    (*index)++;
     while (input[*index] && input[*index] != quote)
         (*index)++;
+    // if (input[*index] == quote)
+    //     (*index)++;
     if (input[*index] != quote)
         return(0);
     return(1);
@@ -112,9 +115,9 @@ size_t nbr_of_elem(char *input)
             }
         }
         if (input[index] || (input[index - 1] != ' ')) //checks if the line finishes with spaces or if we reached the end
-            nbr++;
+        nbr++;
+        printf("nbr : %d\n", nbr);
     }
-    printf("nbr : %d\n", nbr);
     exit(1);
     return(nbr);
 }
