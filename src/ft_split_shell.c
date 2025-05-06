@@ -1,18 +1,24 @@
 #include "../inc/minishell.h"
 
-int end_quotes(char *input, size_t *index)
+size_t end_quotes(char *input, size_t *index)
 {
     char quote;
+    size_t  true_size;
 
+    true_size = 0;
     quote = input[*index];
     (*index)++;
     while (input[*index] && input[*index] != quote)
+    {
+        if (input[*index] != '\'' || input[*index] != '\"')
+            true_size++;
         (*index)++;
-    // if (input[*index] == quote)
-    //     (*index)++;
+    }
+    if (input[*index] == quote)
+        (*index)++;
     if (input[*index] != quote)
         return(0);
-    return(1);
+    return(true_size);
 }
 
 int special_char(char c)
@@ -38,32 +44,22 @@ void free_tab(char **tab)
     free(tab);
 }
 
-size_t next_arg_len(char *input, size_t index)
+size_t next_arg_len(char *input, size_t input_index)
 {
     size_t len;
     char quote;
 
     len = 0;
     quote = NONE;
-    if (input[index] == '\'' || input[index] == '\"')
+    if (special_char(input[input_index]))
+        return (1);
+    if (input[input_index] == '\'' || input[input_index] == '\"')
     {
-        quote = input[index];
-        len++;
-        index++;
+        return(end_quotes(input, input_index));
     }
-    while (input[index] != '\0')
-    {
-        if(quote != NONE && input[index] == quote)
-        {
+    else
+        while (input[input_index] && input[input_index] == ' ' && (!special_char(input[input_index])))
             len++;
-            index++;
-            break;
-        }
-        else if (quote == NONE && input[index] == ' ')
-            break;
-        len++;
-        index++;
-    }
     return(len);
 }
 
@@ -111,12 +107,13 @@ size_t nbr_of_elem(char *input)
                 {
                     end_quotes(input, &index);  //have to wait if we don't have an ending quote
                 }
-                index++;
+                else
+                    index++;
             }
         }
         if (input[index] || (input[index - 1] != ' ')) //checks if the line finishes with spaces or if we reached the end
         nbr++;
-        printf("nbr : %d\n", nbr);
+        printf("nbr : %lu\n", nbr);
     }
     exit(1);
     return(nbr);

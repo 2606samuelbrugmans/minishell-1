@@ -1,12 +1,16 @@
-#include "./inc/minishell.h"
+#include "inc/minishell.h"
+#include "Libft/inc/libft.h"
 
 int main(int ac, char **av)
 {
-    int i = 0;
-    printf("ac : %d\n", ac);
-    while(av[i])
-    {
-        printf("av[%d] : %s\n", i, av[i]);
-        i++;
-    }
+    // int i = 0;
+    // printf("ac : %d\n", ac);
+    // while(av[i])
+    // {
+    //     printf("av[%d] : %s\n", i, av[i]);
+    //     i++;
+    // }
+    char *str = "eeePar exemple oui ";
+    char *str2 = ft_strtrim(str, "e");
+    printf("after trim : %s\n", str2);
 }
