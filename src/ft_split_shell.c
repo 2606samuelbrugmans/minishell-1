@@ -47,15 +47,23 @@ void free_tab(char **tab)
 size_t next_arg_len(char *input, size_t input_index)
 {
     size_t len;
-    char quote;
+    int start_of_quotes;
+    char quotes_type;
+    char *quotes;
+    char *temp;
 
     len = 0;
-    quote = NONE;
     if (special_char(input[input_index]))
         return (1);
     if (input[input_index] == '\'' || input[input_index] == '\"')
     {
-        return(end_quotes(input, input_index));
+        quotes_type = input[input_index];
+        start_of_quotes = (int) input_index;
+        end_quotes(input, input_index);
+        quotes = ft_substr(input, start_of_quotes, input_index - start_of_quotes);
+        temp = ft_delchar(quotes, quotes_type);
+        free(quotes);
+        return(next_arg_len(temp, 0));
     }
     else
         while (input[input_index] && input[input_index] == ' ' && (!special_char(input[input_index])))
@@ -113,9 +121,9 @@ size_t nbr_of_elem(char *input)
         }
         if (input[index] || (input[index - 1] != ' ')) //checks if the line finishes with spaces or if we reached the end
         nbr++;
-        printf("nbr : %lu\n", nbr);
+        // printf("nbr : %lu\n", nbr);
     }
-    exit(1);
+    // exit(1);
     return(nbr);
 }
 

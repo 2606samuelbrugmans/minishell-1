@@ -10,7 +10,7 @@ int main(int ac, char **av)
     //     printf("av[%d] : %s\n", i, av[i]);
     //     i++;
     // }
-    char *str = "eeePar exemple oui ";
-    char *str2 = ft_strtrim(str, "e");
-    printf("after trim : %s\n", str2);
+    char *str = "ee'ePar' exem'ple 'oui ";
+    char *str2 = ft_delchar(str, '\'');
+    printf("after del : %s\n", str2);
 }
