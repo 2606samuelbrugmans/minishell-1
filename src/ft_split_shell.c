@@ -10,14 +10,13 @@ size_t end_quotes(char *input, size_t *index)
     (*index)++;
     while (input[*index] && input[*index] != quote)
     {
-        if (input[*index] != '\'' || input[*index] != '\"')
-            true_size++;
+        true_size++;
         (*index)++;
     }
+    if (input[*index] != quote) //if it does not end quotes (for later)
+        return(0);
     if (input[*index] == quote)
         (*index)++;
-    if (input[*index] != quote)
-        return(0);
     return(true_size);
 }
 
@@ -46,36 +45,71 @@ void free_tab(char **tab)
 
 size_t next_arg_len(char *input, size_t input_index)
 {
+
     size_t len;
-    int start_of_quotes;
-    char quotes_type;
-    char *quotes;
-    char *temp;
+    size_t index;
 
     len = 0;
+    index = input_index;
+    // printf("input : %s\n", input);
+    // printf("index before : %ld\n", index);
     if (special_char(input[input_index]))
-        return (1);
-    if (input[input_index] == '\'' || input[input_index] == '\"')
+    return (1);
+    while(input[index])
     {
-        quotes_type = input[input_index];
-        start_of_quotes = (int) input_index;
-        end_quotes(input, input_index);
-        quotes = ft_substr(input, start_of_quotes, input_index - start_of_quotes);
-        temp = ft_delchar(quotes, quotes_type);
-        free(quotes);
-        return(next_arg_len(temp, 0));
-    }
-    else
-        while (input[input_index] && input[input_index] == ' ' && (!special_char(input[input_index])))
+        if(input[index] == '\'' || input[index] == '\"')
+        {
+            len += end_quotes (input, &index);
+        }
+        else if (input[index] == ' ' || special_char(input[index]))
+            break;
+        else
+        {
+            index ++;
             len++;
-    return(len);
+        }
+    }
+    // printf("index after : %ld\n", index);
+    // printf("len : %ld\n", len);
+    // exit(1);
+    return (len);
 }
+    // size_t len;
+    // int start_of_quotes;
+    // char quotes_type;
+    // char *quotes;
+    // char *temp;
+
+    // len = 0;
+    // if (special_char(input[input_index]))
+    //     return (1);
+    // if (input[input_index] == '\'' || input[input_index] == '\"')
+    // {
+    //     quotes_type = input[input_index];
+    //     start_of_quotes = (int) input_index;
+    //     end_quotes(input, input_index);
+    //     quotes = ft_substr(input, start_of_quotes, input_index - start_of_quotes);
+    //     temp = ft_delchar(quotes, quotes_type);
+    //     free(quotes);
+    //     len = next_arg_len(temp, 0);
+    // }
+    // else
+    //     while (input[input_index] && input[input_index] != ' ' && (!special_char(input[input_index])))
+    //     {
+    //         len++;
+    //         input_index++;
+    //     }
+    // return(len);
+
 
 int    put_elem_in_tab(char **tab, size_t tab_index, char *input, size_t *input_index)
 {
     char *elem;
     size_t elem_size;
     size_t elem_index;
+    size_t before_quote_index;
+    char quote;
+
     elem_index = 0;
     elem_size = next_arg_len(input, *input_index) + 1;
     elem = malloc(sizeof(char) * elem_size);
@@ -83,12 +117,23 @@ int    put_elem_in_tab(char **tab, size_t tab_index, char *input, size_t *input_
         return(0);                 //need to handle malloc error
     while(elem_index < elem_size - 1)
     {
-        elem[elem_index] = input[*input_index];
-        elem_index++;
-        (*input_index)++;
+        if(input[*input_index] == '\'' || input[*input_index] == '\"')
+        {
+            quote = input[*input_index];
+            (*input_index)++;
+            while(input[*input_index] && input[*input_index] != quote)
+                elem[elem_index++] = input[(*input_index)++];
+            if (input[*input_index] == quote)
+                (*input_index) ++;
+        }
+        else
+            elem[elem_index++] = input[(*input_index)++];
     }
     elem[elem_index] = '\0';
     tab[tab_index] = elem;
+    // printf("elem : %s\n", elem);
+    // printf("elem_size : %ld\n", elem_size);
+    // exit(1);
     return(1);
 }
 
@@ -157,5 +202,13 @@ char **ft_split_shell(char *input)
         tab_index++;
     }
     tab_of_elem[tab_index] = NULL;
+    int i = 0;
+    printf("tab_size : %ld\n", tab_size);
+    while (tab_of_elem[i])
+    {
+        printf("elem_%i : %s\n", i, tab_of_elem[i]);
+        i++;
+    }
+    exit(1);
     return (tab_of_elem);
 }
