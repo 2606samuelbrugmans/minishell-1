@@ -20,14 +20,6 @@ size_t end_quotes(char *input, size_t *index)
     return(true_size);
 }
 
-int special_char(char c)
-{
-    if(c == '<' || c == '>' || c == '|')
-        return(1);
-    else
-        return(0);
-}
-
 void free_tab(char **tab)
 {
     size_t i;
@@ -164,8 +156,8 @@ size_t nbr_of_elem(char *input)
                     index++;
             }
         }
-        if (input[index] || (input[index - 1] != ' ')) //checks if the line finishes with spaces or if we reached the end
-        nbr++;
+        if (input[index] || (index > 0 && input[index - 1] != ' ')) //checks if the line finishes with spaces or if we reached the end
+            nbr++;
         // printf("nbr : %lu\n", nbr);
     }
     // exit(1);
@@ -203,12 +195,12 @@ char **ft_split_shell(char *input)
     }
     tab_of_elem[tab_index] = NULL;
     int i = 0;
-    printf("tab_size : %ld\n", tab_size);
-    while (tab_of_elem[i])
-    {
-        printf("elem_%i : %s\n", i, tab_of_elem[i]);
-        i++;
-    }
-    exit(1);
+    // printf("tab_size : %ld\n", tab_size);
+    // while (tab_of_elem[i])
+    // {
+    //     printf("elem_%i : %s\n", i, tab_of_elem[i]);
+    //     i++;
+    // }
+    // exit(1);
     return (tab_of_elem);
 }

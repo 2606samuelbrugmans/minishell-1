@@ -6,7 +6,7 @@
 /*   By: scesar <scesar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 17:04:18 by scesar            #+#    #+#             */
-/*   Updated: 2025/05/07 17:23:14 by scesar           ###   ########.fr       */
+/*   Updated: 2025/05/08 18:56:07 by scesar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,9 @@
 
 # define PATH_MAX 4096
 
+# define NOPE 0
 # define NONE 0
+//watch out if it does equal CMD in enum, idrk
 
 typedef struct s_shell
 {
@@ -31,12 +33,10 @@ typedef struct s_shell
 typedef enum e_token_type
 {
     CMD,
-    ARG,
+    FLAG,
     PIPE,
     REDIR_OUT,
     REDIR_IN,
-    SINGLE_QUOTE,
-    DOUBLE_QUOTE,
     HEREDOC,
     APPEND,
     
@@ -44,15 +44,13 @@ typedef enum e_token_type
 
 typedef struct s_token
 {
-    char *token;
+    char *content;
     t_token_type  type;
 }               t_token;
 
 typedef struct s_commands
 {
     t_token **args;
-    int infile;
-    int outfile;
     bool valid;
     
 }               t_commands;
@@ -67,4 +65,8 @@ void free_tab(char **tab);
 
 char *ft_delchar(char *str, char to_del);
 size_t ft_countchar(char *str, char to_count);
+int special_char(char c)
+
+size_t tab_size(char **tab);
+
 #endif

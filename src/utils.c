@@ -6,7 +6,7 @@
 /*   By: scesar <scesar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 15:54:24 by scesar            #+#    #+#             */
-/*   Updated: 2025/05/07 17:30:53 by scesar           ###   ########.fr       */
+/*   Updated: 2025/05/08 18:48:52 by scesar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,4 +78,27 @@ size_t ft_countchar(char *str, char to_count)
         index++;
     }
     return (res);
+}
+
+size_t tab_size(char **tab)
+{
+    size_t index;
+
+    index = 0;
+    
+    while (tab[index])
+        index++;
+    return(index);
+}
+
+int special_char(char c)
+{
+    if(c == '<' )
+        return(REDIR_IN);
+    if(c == '>' )
+        return(REDIR_OUT);
+    if(c == '|' )
+        return(PIPE);
+    else
+        return(0);
 }
