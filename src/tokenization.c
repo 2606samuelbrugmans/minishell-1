@@ -1,18 +1,37 @@
 
 #include "../inc/minishell.h"
 
-int tok_type_init(char *tab_elem, t_commands *commands)
+int valid_arg(char *arg)
 {
-    size_t index;
-    
-    index = 0;
-    commands->args[index]->content = tab_elem;
-    if (special_char(tab_elem) != 0)
-        commands->args[index]->type = special_char(tab_elem);
-    else if (tab_elem[0] == '-')
+    return(1);
+}
+
+int tok_type_init(char **tab_input, t_commands *commands, size_t index)
+{
+    char *previous_arg;
+
+    previous_arg = NULL;
+    if(index > 0)
+        previous_arg = tab_input[index - 1];
+    commands->args[index] = malloc(sizeof(t_token));
+    if (!commands->args[index])
+        return (0); // Handle malloc failure
+    commands->args[index]->content = ft_strdup(tab_input[index]);
+    if (ft_strlen(tab_input[index]) == 1 && special_char(tab_input[index], 0) != NONE)
+        commands->args[index]->type = special_char(tab_input[index], 0);        //see if (char)tab_input[0] prettier
+    else if (tab_input[index][0] == '-')
         commands->args[index]->type = FLAG;
     else
-    commands->args[index]->type = CMD;
+    {
+        if(previous_arg 
+            && special_char(previous_arg, 0) == REDIR_IN 
+            || special_char(previous_arg, 0) == REDIR_OUT)
+        {
+                commands->args[index]->type = FILENAME;
+        }
+        else
+            commands->args[index]->type = CMD;
+    }
     return(0);
 }
 
@@ -24,13 +43,16 @@ t_commands    tokenizer(char *input)
     
     tab_input = ft_split_shell(input);
     tab_index = 0;
-    commands.args = malloc(sizeof(t_token) * (tab_size(tab_input) + 1));
+    commands.args = malloc(sizeof(t_token *) * (tab_size(tab_input) + 1));
     while(tab_input[tab_index])
     {
         if (valid_arg(tab_input[tab_index]) == NOPE)        //will treat inputs errors from here
             exit(1);
         else
-            tok_type_init(tab_input[tab_index], &commands);
+            tok_type_init(tab_input, &commands, tab_index);
         tab_index++;
     }
+    commands.args[tab_index] = NULL;
+    // free_tab(tab_input);
+    return(commands);
 }

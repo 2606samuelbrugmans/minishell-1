@@ -6,7 +6,7 @@
 /*   By: scesar <scesar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 15:54:24 by scesar            #+#    #+#             */
-/*   Updated: 2025/05/08 18:48:52 by scesar           ###   ########.fr       */
+/*   Updated: 2025/05/09 13:22:39 by scesar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,14 +91,36 @@ size_t tab_size(char **tab)
     return(index);
 }
 
-int special_char(char c)
+int special_char(char *input, size_t index)
 {
-    if(c == '<' )
-        return(REDIR_IN);
-    if(c == '>' )
-        return(REDIR_OUT);
-    if(c == '|' )
+    if(input[index] == '<' )
+    {
+        if(input[index + 1] && input[index + 1] == '<')
+            return(HEREDOC);
+        else
+            return (REDIR_IN);
+    }
+    else if(input[index] == '>' )
+    {
+        if(input[index + 1] && input[index + 1] == '>')
+            return(APPEND);
+        else
+            return (REDIR_OUT);
+    }
+    if(input[index] == '|' )
         return(PIPE);
     else
-        return(0);
+        return(NONE);
 }
+
+// int special_char(char c)
+// {
+//     if(c == '<' )
+//         return(REDIR_IN);
+//     if(c == '>' )
+//         return(REDIR_OUT);
+//     if(c == '|' )
+//         return(PIPE);
+//     else
+//         return(NONE);
+// }
