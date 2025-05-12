@@ -6,7 +6,7 @@
 /*   By: scesar <scesar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 17:04:18 by scesar            #+#    #+#             */
-/*   Updated: 2025/05/09 13:26:46 by scesar           ###   ########.fr       */
+/*   Updated: 2025/05/12 17:17:09 by scesar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,13 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <stdbool.h>
+# include <limits.h>
 
 # define PATH_MAX 4096
 
+# define YES 1
 # define NOPE 0
+# define INVALID_ARG -1
 //watch out if it does equal CMD in enum, idrk
 
 typedef struct s_shell
@@ -62,16 +65,23 @@ char **ft_split_shell(char *input);
 size_t nbr_of_elem(char *input);
 int    put_elem_in_tab(char **tab, size_t tab_index, char *input, size_t *input_index);
 size_t next_arg_len(char *input, size_t index);
+
+size_t end_quotes(char *input, size_t *index);
+
+//tokenizer
 int tok_type_init(char **tab_input, t_commands *commands, size_t index);
 t_commands    tokenizer(char *input);
 
+//checker
+void first_check(char *input);
+int special_symb(char *input, size_t index);
+int unclosed_quotes(char *input);
 
-
+//utils
 char *ft_delchar(char *str, char to_del);
 size_t ft_countchar(char *str, char to_count);
-int special_char(char *input, size_t index);
-
 size_t tab_size(char **tab);
 void free_tab(char **tab);
+
 
 #endif

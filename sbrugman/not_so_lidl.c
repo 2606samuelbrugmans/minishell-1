@@ -6,11 +6,9 @@ void skip_quotes(const char *str, int base_index, int *offset_index)
 
     if (!str || !offset_index)
         return ;
-
     i = base_index + *offset_index;
     if (str[i] != '"' && str[i] != '\'')
         return ;
-
     i++; // Skip opening quote
     while (str[i] != '\0' && str[i] != str[base_index + *offset_index])
     {
@@ -18,42 +16,106 @@ void skip_quotes(const char *str, int base_index, int *offset_index)
             i++; // Skip escaped character
         i++;
     }
-
     if (str[i] == str[base_index + *offset_index])
         i++; // Skip closing quote
-
     *offset_index = i - base_index;
 }
+int	find_start(const char *str, int i)
+{
+	char c;
+
+	c = str[i];
+	while (str[i] == c)
+		i++;
+	while (str[i] != '\0')
+	{
+		if (str[i] != ' ' && str[i] != '\t' && str[i] != '\n')
+			return (i);
+		i++;
+	}
+	return (-1);
+}
+
+
 int	get_string(t_minishell *minish, int where, int pars, char direction)
 {
 	int		start;
 	int		end;
 	char	quote;
-	char	*filename;
+	char	*str;
 
-	where = skip_spaces(minish->parsed_string, where);
+	if (direction == '>' || direction == '<')
+		start = find_start(minish->parsed_string, where);
 	quote = 0;
 	if (minish->parsed_string[where] == '\'' || minish->parsed_string[where] == '"')
-		quote = minish->parsed_string[where++];
+		quote = minish->parsed_string[where];
 	start = where;
 	end = find_end_index(minish->parsed_string, where, quote);
-	filename = ft_substr(minish->parsed_string, start, end - start);
-	store_filename(minish, pars, filename, direction);
+	str = remove_quote(ft_substr(minish->parsed_string, start, end), quote);
+	store(minish, pars, str, direction);
 	if (quote && minish->parsed_string[end] == quote)
 		end++;
 	return (end);
 }
+int number_strings(char **array)
+{
+    int count;
 
-void	store_filename(t_minishell *minish, int pars,
+	count = 0;
+    while (array[count] != NULL)
+        count++;
+    return count;
+}
+
+void	store(t_minishell *minish, int pars,
 	char *filename, char direction)
 {
 	t_instructions	*instr;
+	int n;
+
+	n = 0;
 
 	instr = &minish->instru[pars];
 	if (!filename)
 		return ;
 	if (direction == '>')
 		instr->to_file_str[instr->number_files_to - 1] = filename;
-	else if (!ft_strncmp(direction, "from", 5))
+	else if (direction == '<')
 		instr->from_file_str[instr->number_files_from - 1] = filename;
+	else if (direction == 'c')
+		instr->command = filename;
+	if (direction == 'e' || direction == 'c')
+	{
+		if (direction == 'c')
+			instr->executable = malloc(2 * sizeof(char *));
+		else
+		{
+			n = number_strings(instr->executable);
+			instr->executable = realloc(instr->executable, (n + 2) * sizeof(char *));
+		}
+		instr->executable[n] = filename;
+		instr->executable[n + 1] = '\0';
+	}
+}
+char	*remove_quote(char *string, char quote)
+{
+	char *new;
+	int new_size;
+	int index;
+
+	if (quote == 0)
+		return (string);
+	index = 0;
+	new_size = ft_strlen(string);
+	new_size -= count_quote(string, quote);
+	new = malloc((new_size + 1) * sizeof(char));
+	if (!new)
+		return (NULL);
+	while (string[index] != '\0')
+	{
+		if (string[index] != quote)
+			*new++ = string[index];
+		index++;
+	}
+	return (new);
 }

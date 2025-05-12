@@ -45,9 +45,9 @@ size_t next_arg_len(char *input, size_t input_index)
     index = input_index;
     // printf("input : %s\n", input);
     // printf("index before : %ld\n", index);
-    if (special_char(input, input_index) != NONE)
+    if (special_symb(input, input_index) != NONE)
     {
-        if(special_char(input, index) == HEREDOC || special_char(input, index) == APPEND)
+        if(special_symb(input, index) == HEREDOC || special_symb(input, index) == APPEND)
             return(2);
         else
             return(1);
@@ -58,7 +58,7 @@ size_t next_arg_len(char *input, size_t input_index)
         {
             len += end_quotes (input, &index);
         }
-        else if (input[index] == ' ' || (special_char(input, index) != NONE))
+        else if (input[index] == ' ' || (special_symb(input, index) != NONE))
             break;
         else
         {
@@ -78,7 +78,7 @@ size_t next_arg_len(char *input, size_t input_index)
     // char *temp;
 
     // len = 0;
-    // if (special_char(input[input_index]))
+    // if (special_symb(input[input_index]))
     //     return (1);
     // if (input[input_index] == '\'' || input[input_index] == '\"')
     // {
@@ -91,7 +91,7 @@ size_t next_arg_len(char *input, size_t input_index)
     //     len = next_arg_len(temp, 0);
     // }
     // else
-    //     while (input[input_index] && input[input_index] != ' ' && (!special_char(input[input_index])))
+    //     while (input[input_index] && input[input_index] != ' ' && (!special_symb(input[input_index])))
     //     {
     //         len++;
     //         input_index++;
@@ -145,16 +145,16 @@ size_t nbr_of_elem(char *input)
     {
         while(input[index] == ' ')
             index++;
-        if (special_char(input, index) != NONE)
+        if (special_symb(input, index) != NONE)
         {
-            if(special_char(input, index) == HEREDOC || special_char(input, index) == APPEND)
+            if(special_symb(input, index) == HEREDOC || special_symb(input, index) == APPEND)
                 index +=2;
             else
                 index +=1;
         }
         else
         {
-            while (input[index] && input[index] != ' ' && special_char(input, index) == NONE)
+            while (input[index] && input[index] != ' ' && special_symb(input, index) == NONE)
             {
                 if (input[index] == '\'' || input[index] == '\"')
                 {
