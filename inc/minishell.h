@@ -6,7 +6,7 @@
 /*   By: scesar <scesar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 17:04:18 by scesar            #+#    #+#             */
-/*   Updated: 2025/05/12 17:17:09 by scesar           ###   ########.fr       */
+/*   Updated: 2025/05/13 11:21:47 by scesar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ typedef struct s_token
 typedef struct s_commands
 {
     t_token **args;
+    t_commands *next_command;
     bool valid;
     
 }               t_commands;
@@ -70,10 +71,10 @@ size_t end_quotes(char *input, size_t *index);
 
 //tokenizer
 int tok_type_init(char **tab_input, t_commands *commands, size_t index);
-t_commands    tokenizer(char *input);
+void    tokenizer(t_commands *first_command, char *input);
 
 //checker
-void first_check(char *input);
+int first_check(char *input);
 int special_symb(char *input, size_t index);
 int unclosed_quotes(char *input);
 

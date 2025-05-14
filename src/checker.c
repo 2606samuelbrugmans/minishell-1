@@ -1,6 +1,6 @@
 #include "../inc/minishell.h"
 
-void first_check(char *input)
+int first_check(char *input)
 {
     size_t index;
 
@@ -8,14 +8,21 @@ void first_check(char *input)
     if (unclosed_quotes(input))
     {
         printf("Syntax error: Unclosed quotes.\n");
-        exit(1);
+        return(0);
     }
     while(input[index])
     {
+        while(input[index] == ' ')
+            index ++;
+        if(input[index] = '|')
+        {
+            printf("Syntax error near unexpected token `|'\n");
+            return(0);
+        }
         if((unsigned char)input[index] < 32 && input[index] != '\t' && input[index] != '\n')
         {
             printf("Syntax error: Unescaped character: ASCII %d\n", input[index]);
-            exit(1);
+            return(0);
         }
         index ++;
     }
