@@ -6,7 +6,7 @@
 /*   By: scesar <scesar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 17:04:18 by scesar            #+#    #+#             */
-/*   Updated: 2025/05/13 11:21:47 by scesar           ###   ########.fr       */
+/*   Updated: 2025/05/15 21:10:15 by scesar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@
 # define NOPE 0
 # define INVALID_ARG -1
 //watch out if it does equal CMD in enum, idrk
+
+typedef struct s_commands   t_commands;
 
 typedef struct s_shell
 {
@@ -71,7 +73,7 @@ size_t end_quotes(char *input, size_t *index);
 
 //tokenizer
 int tok_type_init(char **tab_input, t_commands *commands, size_t index);
-void    tokenizer(t_commands *first_command, char *input);
+t_commands    *tokenizer(char *input);
 
 //checker
 int first_check(char *input);

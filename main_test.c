@@ -4,13 +4,15 @@
 int main(int ac, char **av)
 {
     int i = 0;
-    printf("ac : %d\n", ac);
-    while(av[i])
-    {
-        printf("av[%d] : %s\n", i, av[i]);
-        i++;
-    }
-    // char *str = "ee'ePar' exem'ple 'oui ";
-    // char *str2 = ft_delchar(str, '\'');
+    // printf("ac : %d\n", ac);
+    // while(av[i])
+    // {
+    //     printf("av[%d] : %s\n", i, av[i]);
+    //     i++;
+    // }
     // printf("after del : %s\n", str2);
+    char *str = "Bonjour";
+    char *str2 = "Bonjourr";
+    i = ft_strncmp(str, str2, ft_strlen(str2));
+    printf("res : %d\n", i);
 }

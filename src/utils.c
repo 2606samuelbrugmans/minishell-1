@@ -6,7 +6,7 @@
 /*   By: scesar <scesar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 15:54:24 by scesar            #+#    #+#             */
-/*   Updated: 2025/05/09 14:38:21 by scesar           ###   ########.fr       */
+/*   Updated: 2025/05/15 21:37:10 by scesar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,9 +93,9 @@ size_t tab_size(char **tab)
 
 int special_symb(char *input, size_t index)
 {
-    if(input[index] == '<' )
+    if (input[index] == '<' )
     {
-        if(input[index + 1] && input[index + 1] == '<')
+        if(input[index + 1] && input[index + 1] == '<' )
             return(HEREDOC);
         else
             return (REDIR_IN);
@@ -107,7 +107,7 @@ int special_symb(char *input, size_t index)
         else
             return (REDIR_OUT);
     }
-    if(input[index] == '|' )
+    if(input[index] == '|' ) //put strcmp ? bc compare a char to a char*
         return(PIPE);
     else
         return(NONE);

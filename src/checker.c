@@ -10,15 +10,15 @@ int first_check(char *input)
         printf("Syntax error: Unclosed quotes.\n");
         return(0);
     }
+    while(input[index] == ' ')
+        index ++;
+    if(input[index] == '|')
+    {
+        printf("Syntax error near unexpected token `|'\n");
+        return(0);
+    }
     while(input[index])
     {
-        while(input[index] == ' ')
-            index ++;
-        if(input[index] = '|')
-        {
-            printf("Syntax error near unexpected token `|'\n");
-            return(0);
-        }
         if((unsigned char)input[index] < 32 && input[index] != '\t' && input[index] != '\n')
         {
             printf("Syntax error: Unescaped character: ASCII %d\n", input[index]);
@@ -26,7 +26,7 @@ int first_check(char *input)
         }
         index ++;
     }
-
+    return(1);
 }
 
 int unclosed_quotes(char *input)
