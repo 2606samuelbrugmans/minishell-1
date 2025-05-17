@@ -25,7 +25,7 @@ t_commands *new_command_node()
     return (cmd);
 }
 
-int tok_type_init(char **tab_input, t_commands *commands, size_t index)
+int tok_type_init(char *content, t_commands *commands, size_t index)
 {
     t_token *previous_arg;
 
@@ -33,20 +33,20 @@ int tok_type_init(char **tab_input, t_commands *commands, size_t index)
     commands->args[index] = malloc(sizeof(t_token));
     if (!commands->args[index])
         return (0); // Handle malloc failure
-    commands->args[index]->content = ft_strdup(tab_input[index]);
+    commands->args[index]->content = ft_strdup(content);
     if(!commands->args[index]->content)
         return(0);
     if(index > 0)  
         previous_arg = commands->args[index - 1];
-    if (special_symb(tab_input[index], 0) != NONE)
-        commands->args[index]->type = special_symb(tab_input[index], 0);        //see if (char)tab_input[0] prettier
-    else if (previous_arg && tab_input[index][0] == '-' && previous_arg->type == CMD)
+    if (special_symb_2(content) != NONE )
+        commands->args[index]->type = special_symb_2(content);        //see if (char)tab_input[0] prettier
+    else if (previous_arg && content[0] == '-' && previous_arg->type == CMD)
         commands->args[index]->type = FLAG;
     else
     {
         if(previous_arg && 
-            special_symb(previous_arg->content, 0) != NONE &&
-            special_symb(previous_arg->content, 0) != PIPE)
+            special_symb_2(previous_arg->content) != NONE &&
+            special_symb_2(previous_arg->content) != PIPE)
             commands->args[index]->type = FILENAME;
         else
             commands->args[index]->type = CMD;
@@ -100,7 +100,7 @@ t_commands    *tokenizer(char *input)
     }
     while(tab_input[tab_index])
     {
-        if(!tok_type_init(tab_input, &whole_commands, tab_index))
+        if(!tok_type_init(tab_input[tab_index], &whole_commands, tab_index))
         {
             free_tab(tab_input);
             exit(1);

@@ -11,8 +11,8 @@ int main(int ac, char **av)
     //     i++;
     // }
     // printf("after del : %s\n", str2);
-    char *str = "Bonjour";
-    char *str2 = "Bonjourr";
-    i = ft_strncmp(str, str2, ft_strlen(str2));
+    char *str = "|Bonjour";
+    char *str2 = "|";
+    i = ft_strncmp(str2, str, ft_strlen(str));
     printf("res : %d\n", i);
 }

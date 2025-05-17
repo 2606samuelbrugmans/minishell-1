@@ -6,7 +6,7 @@
 /*   By: scesar <scesar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 17:04:18 by scesar            #+#    #+#             */
-/*   Updated: 2025/05/15 21:10:15 by scesar           ###   ########.fr       */
+/*   Updated: 2025/05/17 11:46:49 by scesar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,12 +72,13 @@ size_t next_arg_len(char *input, size_t index);
 size_t end_quotes(char *input, size_t *index);
 
 //tokenizer
-int tok_type_init(char **tab_input, t_commands *commands, size_t index);
+int tok_type_init(char *content, t_commands *commands, size_t index);
 t_commands    *tokenizer(char *input);
 
 //checker
 int first_check(char *input);
 int special_symb(char *input, size_t index);
+int special_symb_2(char *input);
 int unclosed_quotes(char *input);
 
 //utils
