@@ -6,7 +6,7 @@
 /*   By: scesar <scesar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 17:04:18 by scesar            #+#    #+#             */
-/*   Updated: 2025/05/17 11:46:49 by scesar           ###   ########.fr       */
+/*   Updated: 2025/05/19 17:56:30 by scesar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef enum e_token_type
 {
     NONE = -1,
     CMD,
+    ARG,
     FLAG,
     PIPE,
     REDIR_OUT,
@@ -77,6 +78,9 @@ t_commands    *tokenizer(char *input);
 
 //checker
 int first_check(char *input);
+int second_check(t_commands whole_commands);
+int redir_check(t_token *current, t_token *next);
+int pipe_check(t_token *current, t_token *next);
 int special_symb(char *input, size_t index);
 int special_symb_2(char *input);
 int unclosed_quotes(char *input);

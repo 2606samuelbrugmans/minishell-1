@@ -45,9 +45,11 @@ int tok_type_init(char *content, t_commands *commands, size_t index)
     else
     {
         if(previous_arg && 
-            special_symb_2(previous_arg->content) != NONE &&
-            special_symb_2(previous_arg->content) != PIPE)
+            (previous_arg->type == REDIR_IN || previous_arg->type == REDIR_OUT
+            || previous_arg->type == HEREDOC ||previous_arg->type == APPEND))
             commands->args[index]->type = FILENAME;
+        else if (previous_arg && previous_arg->type == CMD)
+            commands->args[index]->type = ARG;
         else
             commands->args[index]->type = CMD;
     }
@@ -108,6 +110,11 @@ t_commands    *tokenizer(char *input)
         tab_index++;
     }
     whole_commands.args[tab_index] = NULL;
+    if(!second_check(whole_commands)) //second chek at whole_command, so we still have pipes
+    {
+        free(whole_commands.args);
+        return(NULL);
+    }
     tab_index = 0;
     first = new_command_node();
     if(!first)
