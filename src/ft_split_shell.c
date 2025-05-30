@@ -1,5 +1,7 @@
 #include "../inc/minishell.h"
 
+
+//watch out to tab !! I don't take those in consideration at all
 size_t end_quotes(char *input, size_t *index)
 {
     char quote;

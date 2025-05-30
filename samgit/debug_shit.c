@@ -63,7 +63,6 @@ void print_instructions(t_instructions *instr)
     }
     printf("\n");
 
-    printf("\n");
 }
 
 // Function to print the contents of t_minishell

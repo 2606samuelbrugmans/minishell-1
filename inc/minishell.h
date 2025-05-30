@@ -6,7 +6,7 @@
 /*   By: scesar <scesar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 17:04:18 by scesar            #+#    #+#             */
-/*   Updated: 2025/05/19 17:56:30 by scesar           ###   ########.fr       */
+/*   Updated: 2025/05/30 11:48:41 by scesar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ typedef struct s_token
 
 typedef struct s_commands
 {
+    char *as_str;
     t_token **args;
     t_commands *next_command;
     bool valid;

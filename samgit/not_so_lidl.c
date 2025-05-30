@@ -92,7 +92,7 @@ void	store(t_minishell *minish, int pars,
 			minish->instru[pars].executable = realloc(minish->instru[pars].executable, (n + 2) * sizeof(char *));
 		}
 		minish->instru[pars].executable[n] = filename;
-		minish->instru[pars].executable[n + 1] = '\0';
+		minish->instru[pars].executable[n + 1] = NULL;
 	}
 	write(1, filename, ft_strlen(filename));
 }

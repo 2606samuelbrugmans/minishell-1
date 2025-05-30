@@ -72,7 +72,7 @@ void pre_init_command(t_minishell *minish, int pars, int *where)
 	write(2, "sexe1", 6);
 	while (minish->parsed_string[*where])
 	{
-		if ((minish->parsed_string[*where] == '|'))
+		if (minish->parsed_string[*where] == '|')
 			break;
 		if (redirection(minish, *where) == 0)
 			(*where) = get_file_and_redirection(minish, *where, pars);
@@ -118,7 +118,7 @@ void	*init_commands(t_commands	*cmd_as_tokens)
 	while(cmd_as_tokens)
 	{
 		next_instr = malloc(sizeof(t_myinstructions));
-		next_instr->cmd_name = cmd_as_tokens->args[0];
+		next_instr->cmd_name = cmd_as_tokens->args[0]->content;
 		next_instr->executable = cmd_as_tokens->args;
 		next_instr->next = NULL;
 		if (!first_instr)

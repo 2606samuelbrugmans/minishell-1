@@ -1,12 +1,40 @@
 
 #include "../inc/minishell.h"
 
+//will need to free all the as_str !!!
+char    *fill_str(t_commands whole_commands, t_commands *current_command, size_t whole_index)
+{
+    char *res;
+    char *temp;
+
+    res = NULL;
+    temp = NULL;
+    res = ft_strdup(whole_commands.args[whole_index]->content);
+    if(!res)
+        return(NULL);
+    whole_index++;
+    while(whole_commands.args[whole_index] && whole_commands.args[whole_index]->type != PIPE)
+    {
+        temp = ft_strjoin(res, " ");
+        free(res);
+        if (!temp)
+            return (NULL);
+        res = ft_strjoin(temp, whole_commands.args[whole_index]->content);
+        if(!res)
+            return(NULL);
+        free(temp);
+        whole_index++;
+    }
+    current_command->as_str = res;
+    return(res);
+}
+
 size_t count_next_tokens(t_token **whole_commands, size_t index)
 {
     size_t tokens;
 
     tokens = 0;
-    while(whole_commands[index] && ft_strncmp(whole_commands[index]->content, "|", ft_strlen(whole_commands[index]->content)) != 0)
+    while(whole_commands[index] && whole_commands[index]->type != PIPE)
     {
         tokens++;
         index++;
@@ -19,6 +47,7 @@ t_commands *new_command_node()
     t_commands *cmd = malloc(sizeof(t_commands));
     if (!cmd)
         return NULL;
+    cmd->as_str = NULL;
     cmd->args = NULL;
     cmd->next_command = NULL;
     cmd->valid = true;
@@ -85,7 +114,10 @@ t_commands    *tokenizer(char *input)
     t_commands *current;
     char **tab_input;
     size_t tab_index;
+    size_t cmd_index;
 
+    if (!input)
+        return(NULL);
     whole_commands.args = NULL;
     whole_commands.valid = false;
     if(!first_check(input))
@@ -115,19 +147,26 @@ t_commands    *tokenizer(char *input)
         free(whole_commands.args);
         return(NULL);
     }
+    cmd_index = 0;
     tab_index = 0;
     first = new_command_node();
     if(!first)
         return (NULL);
-    linker(whole_commands, first, &tab_index);
+    if (!fill_str(whole_commands, first, cmd_index))
+        return(NULL);           //handle errors
+    linker(whole_commands, first, &cmd_index);
     current = first;
-    while(whole_commands.args[tab_index])
+    while(whole_commands.args[cmd_index])
     {
         current->next_command = new_command_node();
         current = current->next_command;
-        linker(whole_commands, current, &tab_index);
+        if (!fill_str(whole_commands, current, cmd_index))
+            return(NULL);           //handle errors
+        linker(whole_commands, current, &cmd_index);
+        tab_index++;
     }
-    free_tab(tab_input);
+    current->next_command = NULL;       //need this right ?
+    free(tab_input);
     free(whole_commands.args);
     return(first);
 }
