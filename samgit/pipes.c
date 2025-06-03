@@ -12,3 +12,17 @@ void close_stuff(t_minishell *minish)
         i++;
 	}
 }
+/*
+void    close_nested_stuff(t_minishell *minish)
+{
+    int i;
+
+    i = 0;
+	while (i <= minish->nested_width )
+	{
+		close(minish->pipe_nested[minish->nested[0]][i][1]);
+        close(minish->pipe_nested[minish->nested[0]][i][0]);
+        i++;
+	}
+}
+*/

@@ -2,7 +2,6 @@
 
 # define MINISHELL_H
 
-# include "./minishell_scesar.h"
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
@@ -12,7 +11,6 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 ///
-
 typedef struct t_instructions
 {
 	char 	*command;
@@ -30,7 +28,7 @@ typedef struct t_instructions
 
 typedef struct t_minishell
 {
-	t_myinstructions *instru;
+	t_instructions *instru;
 	int		number_of_commands;
 	int		(*fd_pipes)[2];
 	/// @pipe_location 0 is the command concerned 1 is write or read interaction
@@ -58,10 +56,10 @@ void 	pre_init_command(t_minishell *minish, int pars, int *where);
 int 	get_file_and_redirection(t_minishell *minish, int where, int pars);
 void 	set_up_redirection(t_minishell *minish, char direction, int type, int pars);
 int		get_Command(t_minishell *minish, int location, int *has_command, int pars);
-int		find_end_index(char *str, int where, char quote);
+int		find_end_index(char *str, int where, char *quote);
 int		is_stopper(char c);
 int		initialise(t_minishell *minish, char *string);
-
+void	init_minishell(t_minishell *minish);
 int		skip_spaces(char *str, int where);
 int 	within_executable(t_minishell *minish, int i);
 int 	redirection(t_minishell *minish, int i);

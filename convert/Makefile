@@ -1,8 +1,9 @@
 CC = cc
 CFLAGS = -Wall -Werror -Wextra
-
-SRCS = 	family.c \
-		main.c \
+LIBFT = ./Libft/libft.a
+SRCS = $(wildcard *.c) \
+		# family.c \
+		# main.c \
 		# lidl_function.c \
 		# not_so_lidl.c \
 		# pipes.c \
@@ -10,26 +11,30 @@ SRCS = 	family.c \
 		# path.c \
 		# basic2.c \
 		# debug_shit.c
-	
 
+INC = inc/minishell.h
 NAME = minishell
 
 OBJ = $(SRCS:.c=.o)
 
 all: $(NAME)
 
-$(NAME): $(OBJ)
-	$(CC) $(OBJ) -o $(NAME) -lreadline 
+$(LIBFT):
+	@make -C ./Libft
 
-%.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
-	$(info Object files: $(OBJ))
+$(NAME): $(OBJ) $(LIBFT)
+	$(CC) $(OBJ) ${LIBFT} -o $(NAME) -lreadline
+
+%.o : %.c
+	${CC} -I${INC} -c -o $@ $<
 
 clean:
 	rm -rf $(OBJ)
+	@make clean -C ./Libft
 
 fclean: clean
 	rm -rf $(NAME)
+	@make fclean -C ./Libft
 
 re: fclean all
 

@@ -1,5 +1,29 @@
 #include "minishell.h"
-
+/*
+int	make_pipes(t_minishell *minish, int commands)
+{
+	if (minish->pipes_already_found == 0)
+	{
+		minish->fd_pipes = malloc(1 * sizeof(int[2]));
+		minish->pipe_location = malloc(1 * sizeof(int));
+	}
+	else 
+	{
+		minish->fd_pipes = realloc(minish->fd_pipes,
+			 (1 + minish->pipes_already_found)* sizeof(int[2]));
+		minish->pipe_location = realloc(minish->pipe_location,
+			 (1 + minish->pipes_already_found) * sizeof(int));
+	}
+	minish->pipe_location[minish->pipes_already_found] = commands;
+	minish->pipes_already_found++;
+}
+int	make_pipes(t_minishell *minish, int commands)
+{
+	minish->fd_pipes = malloc(minish->number_of_commands * sizeof(int[2]));
+	if (!minish->fd_pipes)
+		return (-1);
+}
+*/
 int	get_Command(t_minishell *minish, int location, int *has_command, int pars)
 {
 	// if hascommand = 0 make the executable and the command if not
@@ -20,11 +44,19 @@ void	set_up_redirection(t_minishell *minish, char direction, int type, int pars)
 	{
 		minish->instru[pars].number_files_from++;
 		if (minish->instru[pars].number_files_from == 1)
+		{
 			minish->instru[pars].redirection_from = malloc(1 * sizeof(int));
-		else 
+			minish->instru[pars].from_file_str = malloc(1 * sizeof(char *));
+		}
+		else
+		{
 			minish->instru[pars].redirection_from
 			= realloc(minish->instru[pars].redirection_from,
 				minish->instru[pars].number_files_from * sizeof(int));
+			minish->instru[pars].from_file_str
+			= realloc(minish->instru[pars].from_file_str,
+				minish->instru[pars].number_files_from * sizeof(char *));
+		}
 		minish->instru[pars].redirection_from[minish->instru[pars].number_files_from - 1]
 		= type;
 	}
@@ -32,11 +64,19 @@ void	set_up_redirection(t_minishell *minish, char direction, int type, int pars)
 	{
 		minish->instru[pars].number_files_to++;
 		if (minish->instru[pars].number_files_to == 1)
+		{
 			minish->instru[pars].redirection_to = malloc(1 * sizeof(int));
-		else 
+			minish->instru[pars].to_file_str  = malloc(1 * sizeof(char *));
+		}
+		else
+		{
 			minish->instru[pars].redirection_to
 			= realloc(minish->instru[pars].redirection_to,
 			minish->instru[pars].number_files_to * sizeof(int));
+			minish->instru[pars].to_file_str
+			= realloc(minish->instru[pars].to_file_str, 
+				minish->instru[pars].number_files_to * sizeof(char *));
+		}
 		minish->instru[pars].redirection_to[minish->instru[pars].number_files_to - 1]
 		= type;
 	}
@@ -55,7 +95,6 @@ int get_file_and_redirection(t_minishell *minish, int where, int pars)
 		set_up_redirection(minish, '<', 1, pars);
 	else if (minish->parsed_string[where] == '>')
 		set_up_redirection(minish, '>', 1, pars);
-	write(1, "tut tes fais encule", 20);
 	where = get_string(minish, where, pars, minish->parsed_string[where]);
 	
 	return (where);
@@ -65,14 +104,12 @@ void pre_init_command(t_minishell *minish, int pars, int *where)
 	int has_command;
 
 	/// we can deal with some parsing errors here
-	write(2, "sexestr\n", 9);
 
 	minish->instru[pars] = init_instructions(minish->instru[pars]);
 	has_command = 0;
-	write(2, "sexe1", 6);
-	while (minish->parsed_string[*where])
+	while (minish->parsed_string[*where] != '\0')
 	{
-		if ((minish->parsed_string[*where] == '|'))
+		if (minish->parsed_string[*where] == '|')
 			break;
 		if (redirection(minish, *where) == 0)
 			(*where) = get_file_and_redirection(minish, *where, pars);
@@ -81,6 +118,52 @@ void pre_init_command(t_minishell *minish, int pars, int *where)
 		(*where)++;
 	}
 }
+/*
+int its_a_FILE(t_minishell minish, int index, char c)
+{
+	/// A SINGLE QUOTE IN THIS CASE IS A PARSING ERROR ACCORDING TO CHATGPT
+	/// I DON4T HAVE BASH AT HOME SORRY
+	while (minish.parsed_string[index] == 'c')
+		index++;
+	while (minish.parsed_string[index] == ' ')
+		index++;
+	while (minish.parsed_string[index] != '|' && minish.parsed_string[index] != '\0')
+	{
+		if (minish.parsed_string[index] == 39)
+			return (lookfor_single_quote(minish, index));
+		if (minish.parsed_string[index] == '"')
+			return (lookfor_double_quote(minish, index));
+		if (minish.parsed_string[index] == ' ')
+			break;
+		index++;
+	}
+	return (index);
+}
+*/
+/*
+int skip_nested_command(char *parsed_string, int index)
+{
+	int parentheses;
+	int index_two;
+
+	index_two = 0;
+	parentheses = 1;
+	while (parsed_string[index + index_two] != '\0')
+	{
+		skip_quotes(parsed_string, index, &index_two);
+		if (parsed_string[index + index_two] == '(')
+			parentheses++;
+		if (parsed_string[index + index_two] == ')')
+			parentheses--;
+			index_two++;
+		if (parentheses == 0)
+			break;
+	}
+	if (type && (*type == 0 || type == 1))
+		make_executable(minish, index, index_two, parser);
+	return (index + index_two);
+}
+*/
 int count_commands(t_minishell *minish)
 {
 	int index;
@@ -90,6 +173,11 @@ int count_commands(t_minishell *minish)
 	index = 0;
 	while (minish->parsed_string[index] != '\0')
 	{
+		/*
+		if (minish->parsed_string[index] == '$' && minish->parsed_string[(index) + 1] == '('
+		&& minish->quote % 2 == 0)
+			index = skip_nested_command(minish, index + 2);
+		*/
 		if (not_quoted(minish) && minish->parsed_string[index] == '|')
 			commands++;
 		if (minish->doublequote % 2 == 0 && minish->parsed_string[index] == '\'')
@@ -101,86 +189,90 @@ int count_commands(t_minishell *minish)
 	minish->fd_pipes = malloc(commands * sizeof(int[2]));
 	return (commands + 1);
 }
-//////////////principal changes
-//////////////
-//////////////
-void	*init_commands(t_commands	*cmd_as_tokens)
-{
-	t_myinstructions *first_instr;
-	t_myinstructions *current_instr;
-	t_myinstructions *next_instr;
-	size_t index;
-	
-	first_instr = NULL;
-	current_instr = NULL;
-	next_instr = NULL;
-	index = 0;
-	while(cmd_as_tokens)
-	{
-		next_instr = malloc(sizeof(t_myinstructions));
-		next_instr->cmd_name = cmd_as_tokens->args[0];
-		next_instr->executable = cmd_as_tokens->args;
-		next_instr->next = NULL;
-		if (!first_instr)
-			first_instr = next_instr;
-		else
-			current_instr->next = next_instr;
-		current_instr = next_instr;
-		cmd_as_tokens = cmd_as_tokens->next_command;
-	}
-	return(first_instr);
-}
 
+/*
+int count_commands(t_minishell *minish)
+{
+	int index;
+	int commands;
+	int found_stuff;
+
+	commands = 0;
+	index = 0;
+	while (minish->parsed_string[index] != '\0')
+	{
+		/// unsure about the quotes within single quotes and vice versa
+		if (minish->parsed_string[index] == 39 && minish->doublequote % 2 == 0)
+			minish->quote++;
+		if (minish->parsed_string[index] == '"' && minish->quote % 2 == 0)
+		minish->doublequote++;
+		else if (redirection(minish))
+		{
+			found_stuff = 0;
+			its_a_FILE(*minish, &index, minish->parsed_string[index]);
+		}
+		// it's gonna be a problem if there's no command after
+		else if (minish->parsed_string[index] == '|' && not_quoted(minish))
+			make_pipes(minish, commands);
+		else if (minish->doublequote != ' ' && 
+			found_stuff == 0 && not_quoted(minish))
+		{
+			found_stuff = 1;
+			commands++;
+		}
+		index++;
+	}
+	minish->doublequote = 0;
+	minish->quote = 0;
+	return (commands);
+	
+}
+*/
 int initialise(t_minishell *minish, char *string)
 {
-	t_commands *cmd_as_tokens;
-	t_myinstructions *first_instr;
-	t_myinstructions *next_instr;
-	size_t	index;
-	
-	index = 0;
+	int pars;
+	int where;
+
 	minish->parsed_string = string;
-	cmd_as_tokens = tokenizer(string);
-	if(!cmd_as_tokens)
-		return(0);		//handle errors
-	minish->instru = init_commands(cmd_as_tokens);
-	int i = 0;
-	while (minish->instru)
+	minish->doublequote = 0;
+	minish->quote = 0;
+	minish->number_of_commands = count_commands(minish);
+	minish->instru = malloc(minish->number_of_commands * sizeof(t_instructions));
+	pars = 0;
+	where = 0;
+	while (pars < minish->number_of_commands)
 	{
-		printf("|instr %i| : %s\n", i, minish->instru);
-		i++;
-		minish->instru = minish->instru->next;
+		pre_init_command(minish, pars, &where);
+		pars++;
 	}
-	exit(1);
-	if (!minish->instru)
-		return(0);		//handle errors or empty inputs
-	return (1);
+	return (0);
 }
-//////////////
-//////////////
-//////////////
 
 int main(int argc, char **argv, char **envp)
 {
-	char 			*prompt;
-	char 			*string;
+	///char 			*prompt;
+	///char 			*string;
 	t_minishell		*minish;
 
+	if (!envp)
+		return (-1);
 	if (argc != 1 || !argv)
 		return (-1);
-	prompt = ft_strdup("");
+	///prompt = ft_strdup("");
 	minish = malloc(1 * sizeof(t_minishell));
+	init_minishell(minish);
+	run(minish);
+	/*
 	while (1)
 	{
 		minish->envp = envp;
-		string = readline(prompt);
-		/*
+		///string = readline(prompt);
 		if (parsing_errors(minish) != 0)
 			continue;
-		*/
-		initialise(minish, string);
-
+		init_minishell(minish);
 		run(minish);
 	}
+	free_everything(minish);
+	*/
 	return (0);
 }

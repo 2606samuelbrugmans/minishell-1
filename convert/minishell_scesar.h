@@ -35,7 +35,7 @@ typedef enum e_token_type
     HEREDOC,
     APPEND,
     FILENAME,
-    
+
 }            t_token_type;
 
 typedef struct s_token
@@ -46,15 +46,16 @@ typedef struct s_token
 
 typedef struct s_commands
 {
+    char *as_str;
     t_token **args;
     t_commands *next_command;
-    
+
 }               t_commands;
 
-typedef struct s_myinstructions 
+typedef struct s_myinstructions
 {
 	char *cmd_name;
-	char **executable;
+	char *executable;
 	int pipe[2];
 	t_myinstructions *next;
     char 	*command;
