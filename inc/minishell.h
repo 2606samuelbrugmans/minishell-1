@@ -6,7 +6,7 @@
 /*   By: scesar <scesar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 17:04:18 by scesar            #+#    #+#             */
-/*   Updated: 2025/05/30 11:48:41 by scesar           ###   ########.fr       */
+/*   Updated: 2025/06/05 17:44:08 by scesar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ typedef enum e_token_type
     HEREDOC,
     APPEND,
     FILENAME,
-    
+
 }            t_token_type;
 
 typedef struct s_token
@@ -61,7 +61,7 @@ typedef struct s_commands
     t_token **args;
     t_commands *next_command;
     bool valid;
-    
+
 }               t_commands;
 
 
@@ -75,7 +75,7 @@ size_t end_quotes(char *input, size_t *index);
 
 //tokenizer
 int tok_type_init(char *content, t_commands *commands, size_t index);
-t_commands    *tokenizer(char *input);
+t_commands    *tokenizer(char *input, char **env);
 
 //checker
 int first_check(char *input);

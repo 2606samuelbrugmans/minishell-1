@@ -107,7 +107,7 @@ void  linker(t_commands whole_commands, t_commands *current_command, size_t *who
 
 }
 
-t_commands    *tokenizer(char *input)
+t_commands    *tokenizer(char *input, char **env)
 {
     t_commands whole_commands;
     t_commands *first;
