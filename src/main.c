@@ -6,7 +6,7 @@
 /*   By: scesar <scesar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 16:06:50 by scesar            #+#    #+#             */
-/*   Updated: 2025/06/05 19:02:52 by scesar           ###   ########.fr       */
+/*   Updated: 2025/06/06 16:50:20 by scesar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,6 @@ void	shell(char **env)
 
 int	main(int ac, char **av, char **env)
 {
-	shell(env);
+	shell();
 	return(0);
 }

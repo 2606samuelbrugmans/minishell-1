@@ -30,6 +30,8 @@ typedef struct t_instructions
 
 typedef struct t_minishell
 {
+	t_env *envp;
+	t_env *local_var;
 	t_myinstructions *instru;
 	int		number_of_commands;
 	int		(*fd_pipes)[2];
@@ -38,8 +40,6 @@ typedef struct t_minishell
 	int		*pipe_location;
 	int		pipes_already_found;
 	char	*parsed_string;
-	char	**envp;
-	char	**local_variables;
 	int		quote;
 	int		doublequote;
 } 	t_minishell;

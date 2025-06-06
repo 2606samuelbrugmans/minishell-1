@@ -15,7 +15,7 @@
 # define INVALID_ARG -1
 //watch out if it does equal CMD in enum, idrk
 
-typedef struct s_commands   t_commands;
+// typedef struct s_commands   t_commands;
 typedef struct s_myinstructions   t_myinstructions;
 
 typedef struct s_shell
@@ -48,9 +48,17 @@ typedef struct s_commands
 {
     char *as_str;
     t_token **args;
-    t_commands *next_command;
+    struct s_commands *next_command;
 
 }               t_commands;
+
+typedef struct s_env
+{
+    char *VAR;
+    char *value;
+    struct s_env *next;
+}              t_env;
+
 
 typedef struct s_myinstructions
 {
@@ -97,5 +105,10 @@ size_t ft_countchar(char *str, char to_count);
 size_t tab_size(char **tab);
 void free_tab(char **tab);
 
+//init_env
+t_env	*set_envp(t_env **minish_env, char **envp);
+char *valid_var_add(char *input);
+int add_loc_var(t_env **minish_local_var, char *input);
+void free_envp(t_env *env);
 
 #endif

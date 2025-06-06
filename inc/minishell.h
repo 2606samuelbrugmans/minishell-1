@@ -6,7 +6,7 @@
 /*   By: scesar <scesar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 17:04:18 by scesar            #+#    #+#             */
-/*   Updated: 2025/06/05 17:44:08 by scesar           ###   ########.fr       */
+/*   Updated: 2025/06/06 19:53:23 by scesar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ size_t end_quotes(char *input, size_t *index);
 
 //tokenizer
 int tok_type_init(char *content, t_commands *commands, size_t index);
-t_commands    *tokenizer(char *input, char **env);
+t_commands    *tokenizer(char *input);
 
 //checker
 int first_check(char *input);
