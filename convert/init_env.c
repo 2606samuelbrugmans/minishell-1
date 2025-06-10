@@ -125,7 +125,7 @@ int add_loc_var(t_env **minish_local_var, char *input) //minish_loc_var has to b
 	next_var->next = NULL;
 	if(!*minish_local_var)
 		*minish_local_var = next_var;
-	else if(var_already_there(minish_local_var, next_var))
+	else if(var_already_there(*minish_local_var, next_var))
 		return(1);
 	else
 	{

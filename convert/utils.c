@@ -6,11 +6,11 @@
 /*   By: scesar <scesar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 15:54:24 by scesar            #+#    #+#             */
-/*   Updated: 2025/05/17 11:46:25 by scesar           ###   ########.fr       */
+/*   Updated: 2025/06/10 18:26:32 by scesar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "minishell.h"
 
 void    run_command(char **tab_input)
 {
@@ -85,7 +85,7 @@ size_t tab_size(char **tab)
     size_t index;
 
     index = 0;
-    
+
     while (tab[index])
         index++;
     return(index);
@@ -93,7 +93,7 @@ size_t tab_size(char **tab)
 
 int special_symb(char *input, size_t index)
 {
-    
+
     if (input[index] == '<' )
     {
         if(input[index + 1] && input[index + 1] == '<' )
@@ -133,6 +133,19 @@ int special_symb_2(char *input)
         return(NONE);
 }
 
+char    *replace_var(t_env *local_var, char *string) // in progress
+{
+    size_t i;
+
+    i= 0;
+    while (string[i])
+    {
+        if(string[i] == '\'')
+            end_quotes(string, &i);
+        if(string[i] == '\"')
+        i++;
+    }
+}
 // int special_symb(char c)
 // {
 //     if(c == '<' )

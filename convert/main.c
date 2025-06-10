@@ -36,10 +36,12 @@ int initialise(t_minishell *minish, char *string)
 	size_t	index;
 
 	index = 0;
-	minish->parsed_string = string;
+	if(!string || *string == '\0')
+		return(1);
 	if(add_loc_var(&minish->local_var, string))
 		return(1);
-	cmd_as_tokens = tokenizer(string);
+	minish->parsed_string = replace_var(minish->local_var, string);
+	cmd_as_tokens = tokenizer(minish->parsed_string);
 	if(!cmd_as_tokens)
 		return(0);		//handle errors
 	minish->instru = init_commands(cmd_as_tokens);
@@ -57,7 +59,7 @@ int initialise(t_minishell *minish, char *string)
 	return (1);
 }
 
-int main(int argc, char **argv, char **envp)	//crash with empty inputs, will treat it tomorrow, and can dup var wich you shouldn't be able to
+int main(int argc, char **argv, char **envp)
 {
 	char 			*prompt;
 	char 			*string;
@@ -83,14 +85,14 @@ int main(int argc, char **argv, char **envp)	//crash with empty inputs, will tre
 		string = readline(prompt);
 		initialise(minish, string);
 	/***********************************if you want to try loc var***********************************/
-		// printf("|---------local variable :---------|\n");
-		// t_env *loc = minish->local_var;
-		// while(loc)
-		// {
-		// 	printf("key : [%s]\n", loc->VAR);
-		// 	printf("value : [%s]\n", loc->value);
-		// 	loc = loc->next;
-		// }
+		printf("|---------local variable :---------|\n");
+		t_env *loc = minish->local_var;
+		while(loc)
+		{
+			printf("key : [%s]\n", loc->VAR);
+			printf("value : [%s]\n", loc->value);
+			loc = loc->next;
+		}
 	}
 	return (0);
 }

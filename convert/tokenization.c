@@ -116,14 +116,14 @@ t_commands    *tokenizer(char *input)
     size_t tab_index;
     size_t cmd_index;
 
-    if (!input)
+    if (!input || *input == '\0')
         return(NULL);
     whole_commands.args = NULL;
     whole_commands.valid = false;
     if(!first_check(input))
         return(NULL);
     tab_input = ft_split_shell(input);
-    if (!tab_input)
+    if (!tab_input || !tab_input[0])
         return(NULL); // could be empty input or malloc error I think but have to check
     tab_index = 0;
     whole_commands.args = malloc(sizeof(t_token *) * (tab_size(tab_input) + 1));
