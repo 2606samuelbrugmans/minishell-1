@@ -6,13 +6,13 @@
 /*   By: scesar <scesar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 16:06:50 by scesar            #+#    #+#             */
-/*   Updated: 2025/06/06 16:50:20 by scesar           ###   ########.fr       */
+/*   Updated: 2025/06/10 15:45:22 by scesar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-void	shell(char **env)
+void	shell()
 {
     char	*input;
     t_commands *commands;
@@ -35,7 +35,7 @@ void	shell(char **env)
             add_history(input);
         // printf("inputs : |%s|\n\n", input); why doesnt work with empty input ?
         // add_env_var (input);                                                                   //here but maybe more efficient to put it inside ft_split_shell
-        commands = tokenizer(input, env);
+        commands = tokenizer(input);
         if(commands)
         {
             while(commands)
