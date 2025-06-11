@@ -38,9 +38,11 @@ int initialise(t_minishell *minish, char *string)
 	index = 0;
 	if(!string || *string == '\0')
 		return(1);
+	if(!first_check(string))
+        return(NULL);
 	if(add_loc_var(&minish->local_var, string))
 		return(1);
-	minish->parsed_string = replace_var(minish->local_var, string);
+	minish->parsed_string = get_new_string(minish->local_var, string);
 	cmd_as_tokens = tokenizer(minish->parsed_string);
 	if(!cmd_as_tokens)
 		return(0);		//handle errors

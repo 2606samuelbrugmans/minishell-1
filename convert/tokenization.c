@@ -120,8 +120,6 @@ t_commands    *tokenizer(char *input)
         return(NULL);
     whole_commands.args = NULL;
     whole_commands.valid = false;
-    if(!first_check(input))
-        return(NULL);
     tab_input = ft_split_shell(input);
     if (!tab_input || !tab_input[0])
         return(NULL); // could be empty input or malloc error I think but have to check

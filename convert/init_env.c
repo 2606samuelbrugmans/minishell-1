@@ -83,25 +83,34 @@ char *valid_var_add(char *input)
 	return(equal);
 }
 
-int	var_already_there(t_env *minish_local_var, t_env *next_var)
+int	var_already_there(t_env *minish_local_var, char *next_var)
 {
 	t_env *travel_var;
 
 	travel_var = minish_local_var;
 	while(travel_var)
 	{
-		if(ft_strncmp((travel_var)->VAR, next_var->VAR, ft_strlen(travel_var->VAR)) == 0)
-		{
-			free((travel_var)->value);
-			(travel_var)->value = next_var->value;
-			free((next_var)->VAR);
-			free(next_var);
+		if(ft_strncmp((travel_var)->VAR, next_var, ft_strlen(travel_var->VAR)) == 0)
 			return(1);
-		}
 		travel_var = travel_var->next;
 	}
 	return(0);
 }
+
+t_env *get_VAR(t_env *minish_local_var, char *VAR)
+{
+	t_env *travel_var;
+
+	travel_var = minish_local_var;
+	while (travel_var)
+	{
+		if(ft_strncmp((travel_var)->VAR, VAR, ft_strlen(travel_var->VAR)) == 0)
+			return(travel_var);
+		travel_var = travel_var->next;
+	}
+	return(NULL);
+}
+
 
 int add_loc_var(t_env **minish_local_var, char *input) //minish_loc_var has to be set NULL
 {
@@ -122,11 +131,15 @@ int add_loc_var(t_env **minish_local_var, char *input) //minish_loc_var has to b
 	key_len = equal - input;
 	next_var->VAR = ft_substr(input, 0, key_len);
 	next_var->value = ft_strdup(equal + 1);
+	if(var_already_there(*minish_local_var, next_var->VAR))
+	{
+		get_VAR(*minish_local_var, next_var->VAR)->value = next_var->value;
+		free((next_var)->VAR);	//should I free it in var_already_there ?
+		return(1);
+	}
 	next_var->next = NULL;
 	if(!*minish_local_var)
 		*minish_local_var = next_var;
-	else if(var_already_there(*minish_local_var, next_var))
-		return(1);
 	else
 	{
 		last_var = *minish_local_var;

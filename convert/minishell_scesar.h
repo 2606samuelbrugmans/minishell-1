@@ -107,8 +107,10 @@ void free_tab(char **tab);
 
 //init_env
 t_env	*set_envp(t_env **minish_env, char **envp);
+int	var_already_there(t_env *minish_local_var, t_env *next_var);
 char *valid_var_add(char *input);
 int add_loc_var(t_env **minish_local_var, char *input);
 void free_envp(t_env *env);
+t_env *get_VAR(t_env **minish_local_var, char *VAR);
 
 #endif
