@@ -1,3 +1,31 @@
--rw-r--r-- 1 sbrugman 2024_s19    42 Jun  2 18:22 input.txt
--rw-r--r-- 1 sbrugman 2024_s19     0 Jun  4 20:47 output.txt
--rw-r--r-- 1 sbrugman 2024_s19    96 May 10 17:09 tests.txt
+Makefile
+basic.c
+basic.o
+basic2.c
+basic2.o
+builtins.c
+builtins.o
+debug_shit.c
+debug_shit.o
+family.c
+family.o
+input.txt
+lidl_function.c
+lidl_function.o
+main.c
+main.o
+minishell
+minishell.h
+nested_commands.c
+nested_concatenation.c
+not_so_lidl.c
+not_so_lidl.o
+output.txt
+parsing.c
+path.c
+path.o
+pipes.c
+pipes.o
+stuff
+teste.c
+tests.txt

@@ -17,13 +17,13 @@ typedef struct t_instructions
 	char	**executable;
 	char 	*path_command;
 	int		number_files_to;
-	int		*redirection_to;
-	int		number_files_from;
-	int		*redirection_from;
-	char	**from_file_str;
-	int		from_file;
-	char	**to_file_str;
-	int		to_file;
+	int		*redirection_to; //> | >>
+	int		number_files_from; // size of from_files_str
+	int		*redirection_from; //  << |< tous les types de redirections des ficbiers a lire
+	char	**from_file_str; // tous les fichiers a lire
+	int		from_file; // fd
+	char	**to_file_str; // tous les fichiers a ecrire
+	int		to_file; // fd
 }	t_instructions;
 
 typedef struct t_minishell
@@ -33,16 +33,17 @@ typedef struct t_minishell
 	int		(*fd_pipes)[2];
 	/// @pipe_location 0 is the command concerned 1 is write or read interaction
 	/// if value is 0 it's read otherwhise it's write
-	int		*pipe_location;
-	int		pipes_already_found;
 	char	*parsed_string;
 	char	**envp;
 	char	**local_variables;
-	int		quote;
-	int		doublequote;
 } 	t_minishell;
 /// @brief // redirection type [0] is the input [1] is the output
 ///// first file in the arrays of files are the executed ones
+char	**ft_sstrjoin(char **s1, char *s2);
+int builtin_exit(void);
+char	*ft_strchr(const char *s, int c);
+int is_in_where(int *repertoire, int index, int unseteds);
+
 
 void 	close_parent(t_minishell *minish);
 char	*remove_quote(char *string, char quote);
@@ -50,6 +51,18 @@ void	child_process(t_minishell *minish, int parser);
 void	close_stuff(t_minishell *minish, int parser);
 void	store(t_minishell *minish, int pars,
 	char *filename, char direction);
+int is_builtin(const char *cmd);
+int built_in_parent(char *cmd);
+int exec_builtin(char **argv, t_minishell *shell);
+int builtin_echo(char **argv);
+int builtin_cd(char **argv, t_minishell *minish);
+int builtin_pwd(void);
+int ft_sstrlen(char **string);
+char **remake_env(char **envpsrc, int *where, int unseteds);
+int builtin_unset(char **argv, t_minishell *minish);
+int builtin_export(char **argv, t_minishell *minish);
+
+void	ft_putnbr_fd(int n, int fd);
 int		get_string(t_minishell *minish, int where, int pars, char direction);
 void	skip_quotes(const char *str, int base_index, int *offset_index);
 int 	count_commands(t_minishell *minish);
@@ -81,6 +94,8 @@ void	store(t_minishell *minish, int pars,
 int	count_quote(char *string, char c);
 char	*ft_substr(char const *s, unsigned int start,
 	size_t len);
+int	ft_strcmp(const char *s1, const char *s2);
+
 ////////////////////////////////// paths
 char	*path_finding(char *pathed, char **env);
 char	*potential_pathing(char *paths, char *command_to_path, int *index);

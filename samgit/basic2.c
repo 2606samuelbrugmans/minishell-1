@@ -39,3 +39,41 @@ size_t len)
 		return (NULL);
 	return (subordonate(s, start, len, string));
 }
+int	ft_strcmp(const char *s1, const char *s2)
+{
+	size_t			index;
+	unsigned char	c1;
+	unsigned char	c2;
+
+	index = 0;
+	while ((s1[index] != '\0' || s2[index] != '\0'))
+	{
+		c1 = (unsigned char) s1[index];
+		c2 = (unsigned char) s2[index];
+		if (c1 != c2)
+			return (c1 - c2);
+		index++;
+	}
+	return (0);
+}
+char	*ft_strchr(const char *s, int c)
+{
+	int		index;
+	char	convc;
+
+	convc = (char)c;
+	index = 0;
+	if (convc == '\0')
+	{
+		while (s[index] != '\0')
+			index++;
+		return ((char *)&s[index]);
+	}
+	while (s[index] != '\0')
+	{
+		if (s[index] == convc)
+			return ((char *)&s[index]);
+		index++;
+	}
+	return (NULL);
+}

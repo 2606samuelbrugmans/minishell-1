@@ -6,7 +6,7 @@
 /*   By: scesar <scesar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 15:52:55 by scesar            #+#    #+#             */
-/*   Updated: 2024/09/19 16:47:43 by scesar           ###   ########.fr       */
+/*   Updated: 2025/06/13 17:54:01 by scesar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ size_t			ft_strlcat(char *dst, const char *src, size_t dstsize);
 size_t			ft_strlcpy(char *dst, const char *src, size_t dstsize);
 size_t			ft_strlen(const	char *str);
 int				ft_strncmp(const char *s1, const char *s2, size_t n);
+int				ft_strcmp(const char *s1, const char *s2);
 char			*ft_strnstr(const char *haystack, const char *needle,
 					size_t len);
 char			*ft_strtrim(char const *s1, char const *set);

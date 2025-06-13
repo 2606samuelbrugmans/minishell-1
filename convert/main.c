@@ -39,23 +39,16 @@ int initialise(t_minishell *minish, char *string)
 	if(!string || *string == '\0')
 		return(1);
 	if(!first_check(string))
-        return(NULL);
-	if(add_loc_var(&minish->local_var, string))
+        return(0);
+	if(add_loc_var(&minish->envp, &minish->local_var, string))
 		return(1);
-	minish->parsed_string = get_new_string(minish->local_var, string);
+	minish->parsed_string = get_new_string(minish->envp, minish->local_var, string);		//finish this
+	// minish->parsed_string = string;
+	printf("after var_loc : \n|%s|\n", minish->parsed_string);
 	cmd_as_tokens = tokenizer(minish->parsed_string);
 	if(!cmd_as_tokens)
 		return(0);		//handle errors
 	minish->instru = init_commands(cmd_as_tokens);
-	int i = 0;
-	// while (minish->instru)
-	// {
-	// 	printf("|whole instr %i| : %s\n", i, minish->instru->executable);
-	// 	printf("cmd : %s\n", minish->instru->cmd_name);
-	// 	i++;
-	// 	minish->instru = minish->instru->next;
-	// }
-	// exit(1);
 	if (!minish->instru)
 		return(0);		//handle errors or empty inputs
 	return (1);
@@ -74,7 +67,7 @@ int main(int argc, char **argv, char **envp)
 	minish->local_var = NULL;					//need an init to set everything  NULL;
 	set_envp(&minish->envp, envp);
 	/***********************************if you want to try env var***********************************/
-	// t_env *env = minish->envp;
+	t_env *env = minish->envp;
 	// printf("|---------environment variable :---------|\n");
 	// while(env)
 	// {
@@ -87,14 +80,15 @@ int main(int argc, char **argv, char **envp)
 		string = readline(prompt);
 		initialise(minish, string);
 	/***********************************if you want to try loc var***********************************/
-		printf("|---------local variable :---------|\n");
-		t_env *loc = minish->local_var;
-		while(loc)
-		{
-			printf("key : [%s]\n", loc->VAR);
-			printf("value : [%s]\n", loc->value);
-			loc = loc->next;
-		}
+		// printf("|---------local variable :---------|\n");
+		// t_env *loc = minish->local_var;
+		// while(loc)
+		// {
+		// 	printf("key : [%s]\n", loc->VAR);
+		// 	printf("value : [%s]\n", loc->value);
+		// 	loc = loc->next;
+		// }
+		// printf("|----------------------------------|\n");
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: scesar <scesar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 15:54:24 by scesar            #+#    #+#             */
-/*   Updated: 2025/06/12 01:05:26 by scesar           ###   ########.fr       */
+/*   Updated: 2025/06/12 18:42:05 by scesar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,73 +131,6 @@ int special_symb_2(char *input)
         return (PIPE);
     else
         return(NONE);
-}
-
-char *fill_renew_str(char *last_str, size_t len_var, t_env * actual_var)
-{
-    char *renew_str;
-    size_t len_value;
-
-    if (actual_var == NULL)
-        len_value = 0;
-    else
-        len_value = ft_strlen(actual_var->value);
-    renew_str = malloc(sizeof(char) * (ft_strlen(last_str) - len_var + len_value - 1 + 1)); // (-1 + 1) = (-$ +'\0')
-    // in progress.............
-}
-
-char    *replace_var(t_env *minish_local_var, char *string, size_t *str_ind, char *new_str, size_t *new_str_ind)
-{
-    size_t len_var;
-    t_env *actual_var;
-    char *pres_var;
-    char *renew_str;
-
-    len_var = 0;
-    renew_str = NULL;
-    (*str_ind)++;
-    while(string[*str_ind + len_var] && string[*str_ind + len_var] != ' ')
-        len_var++;
-    pres_var = ft_substr(string, *str_ind, len_var);
-    if(!pres_var)
-        return(NULL);       //malloc error;
-    (*str_ind) += len_var;
-    actual_var = get_VAR(minish_local_var, pres_var);
-    if(!actual_var)
-        renew_str = fill_renew_str(new_str, len_var, NULL);
-    else
-        renew_str = fill_renew_str(new_str, len_var, actual_var);
-    if(!renew_str)
-        return(NULL);       //malloc error;
-    //find a way to update new_str_ind
-    return(renew_str);
-    }
-
-
-char    *get_new_string(t_env *minish_local_var, char *string) // in progress
-{
-    char *temp;
-    char *new_str;
-    size_t str_ind;
-    size_t new_str_ind;
-
-    str_ind = 0;
-    temp = string;
-    new_str = NULL;
-    while (string[str_ind])
-    {
-        if(string[str_ind] == '$' && (string[str_ind] && string[str_ind] != ' '))
-        {
-            temp = new_str;
-            new_str = replace_var(minish_local_var, string, &str_ind, temp, &new_str_ind);
-            free(temp);
-        }
-        if(string[str_ind] == '\'')
-            end_quotes(string, &str_ind);
-        str_ind++;
-    }
-    if (!temp)
-        free(temp);
 }
 // int special_symb(char c)
 // {

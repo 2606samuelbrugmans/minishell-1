@@ -8,6 +8,15 @@ size_t	ft_strlen(const char *s)
 		index++;
 	return (index);
 }
+int ft_sstrlen(char **string)
+{
+	int index;
+
+	index = 0;
+	while (string[index] != NULL)
+		index++;
+	return (index);
+}
 char	*ft_strdup(const char *s1)
 {
 	int		index;
@@ -82,7 +91,30 @@ t_instructions init_instructions(t_instructions instr)
 
 	return (instr);
 }
+void	ft_putnbr_fd(int n, int fd)
+{
+	char	c;
 
+	if (n >= 0 && n <= 9)
+	{
+		c = (n % 10) + 48;
+		write(fd, &c, 1);
+	}
+	else if (n == -2147483648)
+		write(fd, "-2147483648", 12);
+	else if (n < 0)
+	{
+		n *= -1;
+		write(fd, "-", 1);
+		ft_putnbr_fd(n, fd);
+	}
+	else
+	{
+		c = (n % 10) + 48;
+		ft_putnbr_fd(n / 10, fd);
+		write(fd, &c, 1);
+	}
+}
 void	ft_putstr_fd(char *s, int fd)
 {
 	int	index;
@@ -97,4 +129,16 @@ void	ft_putstr_fd(char *s, int fd)
 		write(fd, &s[index], 1);
 		index++;
 	}
+}
+char	**ft_sstrjoin(char **s1, char *s2)
+{
+	size_t	len_s1;
+	size_t	index;
+
+	index = 0;
+	len_s1 = ft_sstrlen(s1);
+	s1 = realloc(s1, (len_s1 +  2) * sizeof(char *));
+	s1[len_s1] = s2;
+	s1[len_s1 + 1] = NULL;
+	return (s1);
 }

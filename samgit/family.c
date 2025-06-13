@@ -6,14 +6,19 @@ int	run(t_minishell *minish)
 
 	i = 0;
 	//// give_minishell(minish);
-	print_minishell(minish);
-	while (i < minish->number_of_commands)
+	if (built_in_parent(minish->instru[0].executable[0]) && minish->number_of_commands == 1)
+		exec_builtin(minish->instru[0].executable, minish);
+	else
 	{
-		if (pipe(minish->fd_pipes[i]) == -1 )
-			perror("bablda");
-		i++;
+		print_minishell(minish);
+		while (i < minish->number_of_commands)
+		{
+			if (pipe(minish->fd_pipes[i]) == -1 )
+				perror("bablda");
+			i++;
+		}
+		process(minish);
 	}
-	process(minish);
 	return (0);
 }
 void	process(t_minishell *minish)
@@ -21,7 +26,7 @@ void	process(t_minishell *minish)
 	pid_t	forked;
 	int		parser;
 	int		index;
-	
+
 	parser = 0;
 	while (parser < minish->number_of_commands)
 	{
@@ -73,7 +78,7 @@ void access_test(t_minishell *minish, int parser)
 				}
 				if (index != minish->instru[parser].number_files_from - 1)
 					close(fd);
-				else 
+				else
 					minish->instru[parser].from_file = fd;
 			}
 			else
@@ -107,12 +112,10 @@ void access_test(t_minishell *minish, int parser)
 			minish->instru[parser].to_file = fd;
 		index++;
 	}
-	write(2, "accessed", 9);
 }
 
 void no_redirection_proc(t_minishell *minish, int parser)
 {
-	write(2, "reached no redirection", 23);
 	if (minish->instru[parser].number_files_from != 0)
 		dup2(minish->instru[parser].from_file, STDIN_FILENO);
 	else if (parser != 0)
@@ -133,16 +136,18 @@ void	child_process(t_minishell *minish, int parser)
 	// reduce the size for the norminette
 	// in the parsing should test if the path is absolute
 	/// nested(minish, parser);
-	/*
-	if (access(minish->instru[parser].executable[0], F_OK) == 0)
+	if (is_builtin(minish->instru[parser].executable[0]))
+		minish->instru[parser].path_command = minish->instru[parser].executable[0];
+	else if (access(minish->instru[parser].executable[0], F_OK) == 0)
 		minish->instru[parser].path_command = minish->instru[parser].executable[0];
 	else
-		minish->instru[parser].path_command = path_finding(minish->instru[parser].path_command, minish->envp);
-	*/
+		minish->instru[parser].path_command = path_finding(minish->instru[parser].executable[0], minish->envp);
 	access_test(minish, parser);
 	no_redirection_proc(minish, parser);
-	write(2, "\n ready to kill\n", 17);
-	execute(minish, parser);
+	if (is_builtin(minish->instru[parser].path_command))
+		exec_builtin(minish->instru[parser].executable, minish);
+	else
+		execute(minish, parser);
 }
 
 void	error(t_minishell *minish, char *reason, int parser)
@@ -164,3 +169,4 @@ void	error(t_minishell *minish, char *reason, int parser)
 	}
 	exit(-1);
 }
+

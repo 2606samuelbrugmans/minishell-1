@@ -83,69 +83,44 @@ char *valid_var_add(char *input)
 	return(equal);
 }
 
-int	var_already_there(t_env *minish_local_var, char *next_var)
+int	var_already_there(t_env **minish_envp, t_env **minish_local_var, char *next_var)
 {
 	t_env *travel_var;
 
-	travel_var = minish_local_var;
+	travel_var = *minish_local_var;
 	while(travel_var)
 	{
-		if(ft_strncmp((travel_var)->VAR, next_var, ft_strlen(travel_var->VAR)) == 0)
+		if(ft_strcmp((travel_var)->VAR, next_var) == 0)
 			return(1);
+		travel_var = travel_var->next;
+	}
+	travel_var = *minish_envp;
+	while(travel_var)
+	{
+		if(ft_strcmp((travel_var)->VAR, next_var) == 0)
+			return(2);
 		travel_var = travel_var->next;
 	}
 	return(0);
 }
 
-t_env *get_VAR(t_env *minish_local_var, char *VAR)
+t_env *get_VAR(t_env **minish_envp, t_env **minish_local_var, char *VAR)
 {
 	t_env *travel_var;
 
-	travel_var = minish_local_var;
+	travel_var = *minish_local_var;
 	while (travel_var)
 	{
-		if(ft_strncmp((travel_var)->VAR, VAR, ft_strlen(travel_var->VAR)) == 0)
+		if(ft_strcmp((travel_var)->VAR, VAR) == 0)
+			return(travel_var);
+		travel_var = travel_var->next;
+	}
+	travel_var = *minish_envp;
+	while (travel_var)
+	{
+		if(ft_strcmp((travel_var)->VAR, VAR) == 0)
 			return(travel_var);
 		travel_var = travel_var->next;
 	}
 	return(NULL);
-}
-
-
-int add_loc_var(t_env **minish_local_var, char *input) //minish_loc_var has to be set NULL
-{
-	t_env *last_var;
-	t_env *next_var;
-	char *equal;
-	size_t key_len;
-	size_t i;
-
-	last_var = NULL;
-	next_var = NULL;
-	equal = valid_var_add(input);
-	if (!equal)
-		return(0);
-	next_var = malloc(sizeof(t_env));
-	if(!next_var)
-		return(0);							//malloc error
-	key_len = equal - input;
-	next_var->VAR = ft_substr(input, 0, key_len);
-	next_var->value = ft_strdup(equal + 1);
-	if(var_already_there(*minish_local_var, next_var->VAR))
-	{
-		get_VAR(*minish_local_var, next_var->VAR)->value = next_var->value;
-		free((next_var)->VAR);	//should I free it in var_already_there ?
-		return(1);
-	}
-	next_var->next = NULL;
-	if(!*minish_local_var)
-		*minish_local_var = next_var;
-	else
-	{
-		last_var = *minish_local_var;
-		while(last_var->next)
-			last_var = last_var->next;
-		last_var->next = next_var;
-	}
-	return(1);
 }
