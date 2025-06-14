@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../inc/minishell.h"
 
 int add_loc_var(t_env **minish_envp, t_env **minish_local_var, char *input) //minish_loc_var has to be set NULL
 {
@@ -92,7 +92,7 @@ char    *replace_var(t_env *minish_envp, t_env *minish_local_var, char *string, 
     len_var = 0;
     renew_str = NULL;
     (*str_ind)++;
-    while(string[*str_ind + len_var] && string[*str_ind + len_var] != ' ' && string[*str_ind + len_var] != '\"')        //see if it is enough ? "" are handled later in tokenization sooo -> don't work with input = "comment va "$USER""
+    while(string[*str_ind + len_var] && string[*str_ind + len_var] != ' ' && string[*str_ind + len_var] != '\"' && string[*str_ind + len_var] != '\'')
         len_var++;
     pres_var = ft_substr(string, *str_ind, len_var);
     if(!pres_var)
@@ -123,12 +123,13 @@ char    *get_new_string(t_env *minish_envp, t_env *minish_local_var, char *strin
 {
     char *temp;
     char *new_str;
-    size_t new_str_len;
+    bool in_double;
     size_t str_ind;
     size_t new_str_ind;
 
     str_ind = 0;
     new_str_ind = 0;
+    in_double = false;
     new_str = ft_strdup(string);
     if(!new_str)
         return(NULL);   //malloc error
@@ -137,7 +138,14 @@ char    *get_new_string(t_env *minish_envp, t_env *minish_local_var, char *strin
             return(NULL);   //malloc error
     while (string[str_ind])
     {
-        if(string[str_ind] == '\'')
+        if(string[str_ind] == '\"')
+        {
+            if(in_double == false)
+                in_double = true;
+            else
+                in_double = false;
+        }
+        if(string[str_ind] == '\'' && !in_double)
         {
             end_quotes(string, &str_ind);
             continue;
@@ -145,6 +153,7 @@ char    *get_new_string(t_env *minish_envp, t_env *minish_local_var, char *strin
 		if(string[str_ind] == '$')
 		{
             new_str = replace_var(minish_envp, minish_local_var, string, &str_ind, temp, &new_str_ind);
+            free(temp);
             if (!new_str)
             {
                 free(temp);

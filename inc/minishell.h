@@ -1,96 +1,103 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: scesar <scesar@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/29 17:04:18 by scesar            #+#    #+#             */
-/*   Updated: 2025/06/06 19:53:23 by scesar           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef MINISHELL_H
+
 # define MINISHELL_H
-# include "../Libft/inc/libft.h"
+
+# include "./minishell_scesar.h"
+# include <unistd.h>
+# include <stdlib.h>
+# include <stdio.h>
+# include <fcntl.h>
+# include <stddef.h>
+# include <sys/wait.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-# include <sys/types.h>
-# include <sys/wait.h>
-# include <stdbool.h>
-# include <limits.h>
+///
 
-# define PATH_MAX 4096
-
-# define YES 1
-# define NOPE 0
-# define INVALID_ARG -1
-//watch out if it does equal CMD in enum, idrk
-
-typedef struct s_commands   t_commands;
-
-typedef struct s_shell
+typedef struct t_instructions
 {
-    char **env;
-}               t_shell;
+	char 	*command;
+	char	**executable;
+	char 	*path_command;
+	int		number_files_to;
+	int		*redirection_to;
+	int		number_files_from;
+	int		*redirection_from;
+	char	**from_file_str;
+	int		from_file;
+	char	**to_file_str;
+	int		to_file;
+}	t_instructions;
 
-typedef enum e_token_type
+typedef struct t_minishell
 {
-    NONE = -1,
-    CMD,
-    ARG,
-    FLAG,
-    PIPE,
-    REDIR_OUT,
-    REDIR_IN,
-    HEREDOC,
-    APPEND,
-    FILENAME,
+	t_env *envp;
+	t_env *local_var;
+	t_myinstructions *instru;
+	int		number_of_commands;
+	int		(*fd_pipes)[2];
+	/// @pipe_location 0 is the command concerned 1 is write or read interaction
+	/// if value is 0 it's read otherwhise it's write
+	int		*pipe_location;
+	int		pipes_already_found;
+	char	*parsed_string;
+	int		quote;
+	int		doublequote;
+} 	t_minishell;
+/// @brief // redirection type [0] is the input [1] is the output
+///// first file in the arrays of files are the executed ones
 
-}            t_token_type;
+int main(int argc, char **argv, char **envp);
+// char	*remove_quote(char *string, char quote);
+// void	child_process(t_minishell *minish, int parser);
+// void 	close_stuff(t_minishell *minish);
+// void	store(t_minishell *minish, int pars,
+// 	char *filename, char direction);
+// int		get_string(t_minishell *minish, int where, int pars, char direction);
+// void	skip_quotes(const char *str, int base_index, int *offset_index);
+// int 	count_commands(t_minishell *minish);
+// void 	pre_init_command(t_minishell *minish, int pars, int *where);
+// int 	get_file_and_redirection(t_minishell *minish, int where, int pars);
+// void 	set_up_redirection(t_minishell *minish, char direction, int type, int pars);
+// int		get_Command(t_minishell *minish, int location, int *has_command, int pars);
+// int		find_end_index(char *str, int where, char quote);
+// int		is_stopper(char c);
+// int		initialise(t_minishell *minish, char *string);
 
-typedef struct s_token
-{
-    char *content;
-    t_token_type  type;
-}               t_token;
+// int		skip_spaces(char *str, int where);
+// int 	within_executable(t_minishell *minish, int i);
+// int 	redirection(t_minishell *minish, int i);
+// int 	not_quoted(t_minishell *minish);
+// void 	nested(t_minishell *minish, int parser);
+// int 	pipe_nested(t_minishell *minish, int length);
+// void 	no_redirection_proc(t_minishell *minish, int parser);
+// void 	access_test(t_minishell *minish, int parser);
+// void	execute(t_minishell *minish, int parser);
+// void	process(t_minishell *minish);
+// int		run(t_minishell *minish);
+// void	error(t_minishell *minish, char *reason, int parser);
+// void	ft_putstr_fd(char *s, int fd);
+// size_t	ft_strlen(const char *s);
+// char	*ft_strdup(const char *s1);
+// void	store(t_minishell *minish, int pars,
+// 	char *filename, char direction);
+// int	count_quote(char *string, char c);
+// char	*ft_substr(char const *s, unsigned int start,
+// 	size_t len);
+// ////////////////////////////////// paths
+// char	*path_finding(char *pathed, char **env);
+// char	*potential_pathing(char *paths, char *command_to_path, int *index);
+// int		find_string(char **env, char *path);
+// char	*get_path(char *command_to_path, char *paths, int index);
+// int	path_len(char *string, int index);
+// void	putcommand(char *command_to_path, char *potential_path, int size);
+// t_myinstructions init_instructions(t_myinstructions instr);
+// /////////////// debug
+// void print_minishell(t_minishell *minish);
+// void print_instructions(t_instructions *instr);
 
-typedef struct s_commands
-{
-    char *as_str;
-    t_token **args;
-    t_commands *next_command;
-    bool valid;
-
-}               t_commands;
 
 
-//split_shell
-char **ft_split_shell(char *input);
-size_t nbr_of_elem(char *input);
-int    put_elem_in_tab(char **tab, size_t tab_index, char *input, size_t *input_index);
-size_t next_arg_len(char *input, size_t index);
 
-size_t end_quotes(char *input, size_t *index);
-
-//tokenizer
-int tok_type_init(char *content, t_commands *commands, size_t index);
-t_commands    *tokenizer(char *input);
-
-//checker
-int first_check(char *input);
-int second_check(t_commands whole_commands);
-int redir_check(t_token *current, t_token *next);
-int pipe_check(t_token *current, t_token *next);
-int special_symb(char *input, size_t index);
-int special_symb_2(char *input);
-int unclosed_quotes(char *input);
-
-//utils
-char *ft_delchar(char *str, char to_del);
-size_t ft_countchar(char *str, char to_count);
-size_t tab_size(char **tab);
-void free_tab(char **tab);
 
 
 #endif

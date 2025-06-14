@@ -6,7 +6,7 @@
 /*   By: scesar <scesar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 15:54:24 by scesar            #+#    #+#             */
-/*   Updated: 2025/05/17 11:46:25 by scesar           ###   ########.fr       */
+/*   Updated: 2025/06/14 16:31:30 by scesar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ size_t tab_size(char **tab)
     size_t index;
 
     index = 0;
-    
+
     while (tab[index])
         index++;
     return(index);
@@ -93,7 +93,7 @@ size_t tab_size(char **tab)
 
 int special_symb(char *input, size_t index)
 {
-    
+
     if (input[index] == '<' )
     {
         if(input[index + 1] && input[index + 1] == '<' )
@@ -132,7 +132,6 @@ int special_symb_2(char *input)
     else
         return(NONE);
 }
-
 // int special_symb(char c)
 // {
 //     if(c == '<' )

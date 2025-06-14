@@ -1,0 +1,105 @@
+scesar@fu-r8-p4:~$ echo Une journee dans le 'peau de Stephen' pendant "que scesar "je m'amuse" avec $USER
+scesar@fu-r8-p4:~$ echo Une journee dans le 'peau de Stephen' pendant "que scesar "je m'amuse" avec $USER
+> ^C
+scesar@fu-r8-p4:~$ echo Une journee dans le 'peau de Stephen' pendant "que scesar "je m'amuse" avec $USER"
+> ^C
+scesar@fu-r8-p4:~$ echo Une journee dans le 'peau de Stephen' pendant "que scesar "je m'amuse" avec $USER'
+Une journee dans le peau de Stephen pendant que scesar je mamuse" avec $USER
+scesar@fu-r8-p4:~$ echo Une journee dans le 'peau de Stephen' pendant "que scesar "je m amuse" avec $USER
+> ^C
+scesar@fu-r8-p4:~$ echo Une journee dans le 'peau de Stephen' pendant "que scesar "je m amuse "avec $USER"
+Une journee dans le peau de Stephen pendant que scesar je m amuse avec scesar
+scesar@fu-r8-p4:~$ Une journee dans le 'peau de $MOI' pendant "que $MOI" "je m'amuse" avec $USER
+Command 'Une' not found, did you mean:
+  command 'mne' from deb python3-mne (0.23.4+dfsg-1)
+  command 'ne' from deb ne (3.3.1-1)
+Try: apt install <deb name>
+scesar@fu-r8-p4:~$ Une journee dans le 'peau de $MOI' pendant "que $MOI" "je m'amuse" avec $USER
+Command 'Une' not found, did you mean:
+  command 'ne' from deb ne (3.3.1-1)
+  command 'mne' from deb python3-mne (0.23.4+dfsg-1)
+Try: apt install <deb name>
+scesar@fu-r8-p4:~$ echo Une journee dans le 'peau de $MOI' pendant "que $MOI" "je m'amuse" avec $USER
+Une journee dans le peau de $MOI pendant que Stephen je m'amuse avec scesar
+scesar@fu-r8-p4:~$ Une journee dans le 'peau de Stephen' pendant "que scesar "je m'amuse" avec $USER
+> ^C
+scesar@fu-r8-p4:~$ ^C
+scesar@fu-r8-p4:~$ echo Une journee dans le 'peau de Stephen' pendant "que scesar "je m'amuse" avec $USER
+> ^C
+scesar@fu-r8-p4:~$ Une journee dans le 'peau de Stephen' pendant "que scesar "je m'amuse" avec $USER'^C
+scesar@fu-r8-p4:~$ echo Une journee dans le 'peau de Stephen' pendant "que scesar "je m'amuse" avec $USER'
+Une journee dans le peau de Stephen pendant que scesar je mamuse" avec $USER
+scesar@fu-r8-p4:~$ echo Une journee dans le 'peau de $MOI' pendant "que $MOI" "je m'amuse" avec $USER
+Une journee dans le peau de $MOI pendant que Stephen je m'amuse avec scesar
+scesar@fu-r8-p4:~$ echo Une journee dans le 'peau de $MOI' pendant "que $MOI" "je m'amuse" avec $USER
+Une journee dans le peau de $MOI pendant que Stephen je m'amuse avec scesar
+scesar@fu-r8-p4:~$ echo Une journee dans le 'peau de $MOI' pendant "que $MOI" "je m'amuse" $USER
+Une journee dans le peau de $MOI pendant que Stephen je m'amuse scesar
+scesar@fu-r8-p4:~$ echo Une journee dans le 'peau de $MOI' pendant "que $MOI" $USER
+Une journee dans le peau de $MOI pendant que Stephen scesar
+scesar@fu-r8-p4:~$
+
+
+Comment va l|
+MOI=Stephen
+Comment va l$MOI
+after var_loc :
+|Comment va lStephen|
+Une journee dans le 'peau de $MOI' pendant "que $MOI" "je m'amuse" avec $USER
+after var_loc :
+|Une journee dans le 'peau de Stephen' pendant "que scesar "je m'amuse" avec $USER|
+Une journee dans le 'peau de $MOI' pendant "que $MOI" "je m'amuse" avec $USER
+after var_loc :
+|Une journee dans le 'peau de Stephen' pendant "que scesar "je m'amuse" avec $USER|
+Une journee dans le 'peau de Stephen' pendant "que scesar "je m'amuse" avec $USER
+Syntax error: Unclosed quotes.
+Une journee dans le 'peau de Stephen' pendant "que scesar "je m'amuse" avec $USER
+Syntax error: Unclosed quotes.
+Une journee dans le 'peau de Stephen' pendant "que scesar "je m'amuse" avec $USER
+Syntax error: Unclosed quotes.
+Une journee dans le 'peau de Stephen' pendant "que scesar "je m'amuse" avec $USER'
+after var_loc :
+|Une journee dans le 'peau de Stephen' pendant "que scesar "je m'amuse" avec $USER'|
+Une journee dans le 'peau de $MOI' pendant "que $MOI" "je m'amuse" avec $USER
+after var_loc :
+|Une journee dans le 'peau de Stephen' pendant "que scesar "je m'amuse" avec $USER|
+Une journee dans le 'peau de $MOI' pendant "que $MOI" "je m'amuse" avec $USER
+after var_loc :
+|Une journee dans le 'peau de Stephen' pendant "que scesar "je m'amuse" avec $USER|
+Une journee dans le 'peau de $MOI' pendant "que $MOI" "je m'amuse" avec $USER
+after var_loc :
+|Une journee dans le 'peau de Stephen' pendant "que scesar "je m'amuse" avec $USER|
+$MOI $MOI $MOI
+after var_loc :
+|Stephen Stephen Stephen|
+$MOI $USER $MOI
+after var_loc :
+|Stephen scesar Stephen|
+Une journee dans le 'peau de $MOI' pendant "que $MOI" "je m'amuse" avec $USER
+after var_loc :
+|Une journee dans le 'peau de Stephen' pendant "que scesar "je m'amuse" avec $USER|
+Une journee dans le 'peau de $MOI' pendant "que $MOI" "je m'amuse" $USER
+after var_loc :
+|Une journee dans le 'peau de Stephen' pendant "que scesar "je m'amuse" $USER|
+Une journee dans le 'peau de $MOI' pendant "que $MOI"  $USER
+after var_loc :
+|Une journee dans le 'peau de Stephen' pendant "que scesar  $USER|
+Syntax error near unexpected token `newline'
+Une journee dans le 'peau de $MOI' pendant "que $MOI" $USER
+after var_loc :
+|Une journee dans le 'peau de Stephen' pendant "que scesar $USER|
+Syntax error near unexpected token `newline'
+Blabla 'chez $MOI' blabla
+after var_loc :
+|Blabla 'chez $MOI' blabla|
+
+
+main prob :
+Une journee dans le 'peau de $MOI' pendant "que $MOI" $USER
+after var_loc :
+|Une journee dans le 'peau de Stephen' pendant "que scesar $USER| ///ou est le 2e double guillemet ?
+Syntax error near unexpected token `newline'
+
+alors que :
+scesar@fu-r8-p4:~$ echo Une journee dans le 'peau de $MOI' pendant "que $MOI" $USER
+Une journee dans le peau de $MOI pendant que Stephen scesar

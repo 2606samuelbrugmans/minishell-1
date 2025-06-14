@@ -1,6 +1,6 @@
 #ifndef MINISHELL_SCESAR_H
 # define MINISHELL_SCESAR_H
-# include "./Libft/inc/libft.h"
+# include "../Libft/inc/libft.h"
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <sys/types.h>
@@ -106,13 +106,15 @@ size_t tab_size(char **tab);
 void free_tab(char **tab);
 
 //init_env
+void free_envp(t_env *env);
 t_env	*set_envp(t_env **minish_env, char **envp);
 int	var_already_there(t_env **minish_envp, t_env **minish_local_var, char *next_var);
 char *valid_var_add(char *input);
-void free_envp(t_env *env);
 t_env *get_VAR(t_env **minish_envp, t_env **minish_local_var, char *VAR);
 
 //loc_var
+char *fill_renew_str(char *last_str, size_t len_var, t_env * actual_var);
+char    *replace_var(t_env *minish_envp, t_env *minish_local_var, char *string, size_t *str_ind, char *new_str, size_t *new_str_ind);
 char *get_new_string(t_env *minish_envp, t_env *minish_local_var, char *string);
 int add_loc_var(t_env **minish_envp, t_env **minish_local_var, char *input);
 #endif

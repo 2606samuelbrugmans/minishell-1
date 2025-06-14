@@ -50,7 +50,6 @@ t_commands *new_command_node()
     cmd->as_str = NULL;
     cmd->args = NULL;
     cmd->next_command = NULL;
-    cmd->valid = true;
     return (cmd);
 }
 
@@ -107,7 +106,7 @@ void  linker(t_commands whole_commands, t_commands *current_command, size_t *who
 
 }
 
-t_commands    *tokenizer(char *input, char **env)
+t_commands    *tokenizer(char *input)
 {
     t_commands whole_commands;
     t_commands *first;
@@ -116,14 +115,11 @@ t_commands    *tokenizer(char *input, char **env)
     size_t tab_index;
     size_t cmd_index;
 
-    if (!input)
+    if (!input || *input == '\0')
         return(NULL);
     whole_commands.args = NULL;
-    whole_commands.valid = false;
-    if(!first_check(input))
-        return(NULL);
     tab_input = ft_split_shell(input);
-    if (!tab_input)
+    if (!tab_input || !tab_input[0])
         return(NULL); // could be empty input or malloc error I think but have to check
     tab_index = 0;
     whole_commands.args = malloc(sizeof(t_token *) * (tab_size(tab_input) + 1));

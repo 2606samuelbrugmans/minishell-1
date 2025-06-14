@@ -1,37 +1,42 @@
-NAME = minishell
-
 CC = cc
-
-CFLAGS = -Werror -Wextra -Wall
-
+CFLAGS = -Wall -Werror -Wextra
 LIBFT = ./Libft/libft.a
+SRCS = $(wildcard src/*.c) \
+		# family.c \
+		# main.c \
+		# lidl_function.c \
+		# not_so_lidl.c \
+		# pipes.c \
+		# basic.c \
+		# path.c \
+		# basic2.c \
+		# debug_shit.c
 
 INC = inc/minishell.h
+NAME = minishell
 
-SRCS = $(wildcard src/*.c)
+OBJ = $(SRCS:.c=.o)
 
-OBJS = $(SRCS:.c=.o)
-
-RM = rm -rf
-
-all : $(NAME)
-
-%.o : %.c
-	${CC} -I${INC} -c -o $@ $<
+all: $(NAME)
 
 $(LIBFT):
 	@make -C ./Libft
 
-$(NAME) : $(OBJS) $(LIBFT)
-	${CC} $(OBJS) ${LIBFT} -o ${NAME} ${CFLAGS} -lreadline
+$(NAME): $(OBJ) $(LIBFT)
+	$(CC) $(OBJ) ${LIBFT} -o $(NAME) -lreadline
 
-clean :
-	$(RM) $(OBJS)
+%.o : %.c
+	${CC} -I${INC} -c -o $@ $<
+
+clean:
+	rm -rf $(OBJ)
 	@make clean -C ./Libft
-fclean : clean
-	$(RM) $(NAME)
+
+fclean: clean
+	rm -rf $(NAME)
 	@make fclean -C ./Libft
-re : fclean all
 
+re: fclean all
 
-.PHONY : all clean fclean re
+# Mark these as not actual files
+.PHONY: fclean clean all re
