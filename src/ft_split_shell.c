@@ -5,27 +5,27 @@
 size_t end_quotes(char *input, size_t *index)
 {
     char quote;
-    size_t  true_size;
+    size_t  size;
 
-    true_size = 0;
+    size = 0;
     quote = input[*index];
     (*index)++;
     while (input[*index] && input[*index] != quote)
     {
-        true_size++;
+        size++;
         (*index)++;
     }
     if (input[*index] != quote) //if it does not end quotes (for later)
         return(0);
     if (input[*index] == quote)
         (*index)++;
-    return(true_size);
+    return(size + 2); //count quotes
 }
 
 void free_tab(char **tab)
 {
     size_t i;
-    
+
     i = 0;
     if (!tab)
         return;
@@ -58,7 +58,7 @@ size_t next_arg_len(char *input, size_t input_index)
     {
         if(input[index] == '\'' || input[index] == '\"')
         {
-            len += end_quotes (input, &index);
+            len += (end_quotes (input, &index) - 2);
         }
         else if (input[index] == ' ' || (special_symb(input, index) != NONE))
             break;
@@ -140,7 +140,7 @@ size_t nbr_of_elem(char *input)
 {
     size_t index;
     size_t nbr;
-    
+
     index = 0;
     nbr = 0;
     while(input[index])
@@ -180,7 +180,7 @@ char **ft_split_shell(char *input)
 	size_t	tab_index;
 	size_t	tab_size;
     char **tab_of_elem;
-    
+
     if(!input)
         return(NULL);
     tab_index = 0;

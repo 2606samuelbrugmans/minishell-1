@@ -15,7 +15,7 @@ int unclosed_quotes(char *input)
         else
             index ++;
     }
-        return(NOPE);
+    return(NOPE);
 }
 
 int first_check(char *input)
@@ -23,6 +23,7 @@ int first_check(char *input)
     size_t index;
 
     index = 0;
+
     if (unclosed_quotes(input))
     {
         printf("Syntax error: Unclosed quotes.\n");

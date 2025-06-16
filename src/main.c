@@ -54,7 +54,7 @@ int initialise(t_minishell *minish, char *string)
 	return (1);
 }
 
-int main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
 	char 			*prompt;
 	char 			*string;
@@ -92,3 +92,4 @@ int main(int argc, char **argv, char **envp)
 	}
 	return (0);
 }
+

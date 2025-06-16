@@ -113,7 +113,7 @@ char *valid_var_add(char *input);
 t_env *get_VAR(t_env **minish_envp, t_env **minish_local_var, char *VAR);
 
 //loc_var
-char *fill_renew_str(char *last_str, size_t len_var, t_env * actual_var);
+char *fill_renew_str(char *last_str, size_t last_str_ind, size_t len_var, t_env *actual_var);
 char    *replace_var(t_env *minish_envp, t_env *minish_local_var, char *string, size_t *str_ind, char *new_str, size_t *new_str_ind);
 char *get_new_string(t_env *minish_envp, t_env *minish_local_var, char *string);
 int add_loc_var(t_env **minish_envp, t_env **minish_local_var, char *input);

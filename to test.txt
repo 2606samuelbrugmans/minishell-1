@@ -103,3 +103,5 @@ Syntax error near unexpected token `newline'
 alors que :
 scesar@fu-r8-p4:~$ echo Une journee dans le 'peau de $MOI' pendant "que $MOI" $USER
 Une journee dans le peau de $MOI pendant que Stephen scesar
+
+'$MOI' "$MOI" $USER
