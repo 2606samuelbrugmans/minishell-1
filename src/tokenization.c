@@ -1,6 +1,11 @@
 
 #include "../inc/minishell.h"
 
+void    free_commands(t_commands cmd)
+{
+    //has to be done
+}
+
 //will need to free all the as_str !!!
 char    *fill_str(t_commands whole_commands, t_commands *current_command, size_t whole_index)
 {

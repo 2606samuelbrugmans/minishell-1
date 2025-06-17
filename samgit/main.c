@@ -7,7 +7,7 @@ int	make_pipes(t_minishell *minish, int commands)
 		minish->fd_pipes = malloc(1 * sizeof(int[2]));
 		minish->pipe_location = malloc(1 * sizeof(int));
 	}
-	else 
+	else
 	{
 		minish->fd_pipes = realloc(minish->fd_pipes,
 			 (1 + minish->pipes_already_found)* sizeof(int[2]));
@@ -32,7 +32,7 @@ int	get_Command(t_minishell *minish, int location, int *has_command, int pars)
 	index = 0;
 	if (*has_command == 0)
 		index = get_string(minish, location, pars, 'c');
-	else 
+	else
 		index = get_string(minish, location, pars, 'e');
 	*has_command = 1;
 	return (index);
@@ -74,7 +74,7 @@ void	set_up_redirection(t_minishell *minish, char direction, int type, int pars)
 			= realloc(minish->instru[pars].redirection_to,
 			minish->instru[pars].number_files_to * sizeof(int));
 			minish->instru[pars].to_file_str
-			= realloc(minish->instru[pars].to_file_str, 
+			= realloc(minish->instru[pars].to_file_str,
 				minish->instru[pars].number_files_to * sizeof(char *));
 		}
 		minish->instru[pars].redirection_to[minish->instru[pars].number_files_to - 1]
@@ -96,7 +96,7 @@ int get_file_and_redirection(t_minishell *minish, int where, int pars)
 	else if (minish->parsed_string[where] == '>')
 		set_up_redirection(minish, '>', 1, pars);
 	where = get_string(minish, where, pars, minish->parsed_string[where]);
-	
+
 	return (where);
 }
 void pre_init_command(t_minishell *minish, int pars, int *where)
@@ -213,7 +213,7 @@ int count_commands(t_minishell *minish)
 		// it's gonna be a problem if there's no command after
 		else if (minish->parsed_string[index] == '|' && not_quoted(minish))
 			make_pipes(minish, commands);
-		else if (minish->doublequote != ' ' && 
+		else if (minish->doublequote != ' ' &&
 			found_stuff == 0 && not_quoted(minish))
 		{
 			found_stuff = 1;
@@ -224,7 +224,7 @@ int count_commands(t_minishell *minish)
 	minish->doublequote = 0;
 	minish->quote = 0;
 	return (commands);
-	
+
 }
 */
 int initialise(t_minishell *minish, char *string)
