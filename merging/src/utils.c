@@ -6,7 +6,7 @@
 /*   By: scesar <scesar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 15:54:24 by scesar            #+#    #+#             */
-/*   Updated: 2025/06/20 11:02:59 by scesar           ###   ########.fr       */
+/*   Updated: 2025/06/20 11:55:57 by scesar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,8 @@ char *ft_strjoinchar(char *str, char c)
 	temp[0] = c;
 	temp[1] = '\0';
 	new_str = ft_strjoin(str, temp);
-	free(str);
+    // if(str)
+	//     free(str);
 	return(new_str);
 }
 // int special_symb(char c)

@@ -26,6 +26,7 @@ path.c
 path.o
 pipes.c
 pipes.o
+printf
 stuff
 teste.c
 tests.txt

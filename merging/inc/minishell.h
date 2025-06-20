@@ -88,6 +88,11 @@ typedef struct t_minishell
 
 ///////////////////////////////////////////////////////PARSING///////////////////////////////////////////////////////
 int main(int argc, char **argv, char **envp);
+void	init_minish(t_minishell **minish, char **envp);
+
+//prompt
+char *get_prompt(t_env **envp);
+char *get_path(t_env **envp);
 
 //split_shell
 char **ft_split_shell(char *input);
@@ -118,7 +123,6 @@ void free_tab(char **tab);
 char *ft_strjoinchar(char *str, char c);
 
 //init_env
-void free_envp(t_env *env);
 t_env	*set_envp(t_env **minish_env, char **envp);
 int	var_already_there(t_env **minish_envp, t_env **minish_local_var, char *next_var);
 char *valid_var_add(char *input);
@@ -130,8 +134,9 @@ char *replace_var(t_minishell minishell, char *string, size_t *str_ind, char *te
 char *get_new_string(t_minishell minishell, char *string);
 int add_loc_var(t_env **minish_envp, t_env **minish_local_var, char *input);
 
-
-
+//free everything
+void free_minish(t_minishell **minish);
+void free_envp(t_env *env);
 
 
 
