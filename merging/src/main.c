@@ -6,40 +6,11 @@
 /*   By: scesar <scesar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 17:03:54 by scesar            #+#    #+#             */
-/*   Updated: 2025/06/20 15:40:57 by scesar           ###   ########.fr       */
+/*   Updated: 2025/06/20 21:38:27 by scesar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-
-void	*init_commands(t_commands	*cmd_as_tokens)
-{
-	t_instructions *first_instr;
-	t_instructions *current_instr;
-	t_instructions *next_instr;
-	size_t index;
-
-	first_instr = NULL;
-	current_instr = NULL;
-	next_instr = NULL;
-	index = 0;
-	while(cmd_as_tokens)
-	{
-		next_instr = malloc(sizeof(t_instructions));
-		if(!next_instr)
-			return(NULL);
-		next_instr->cmd_name = cmd_as_tokens->args[0]->content;
-		next_instr->executable = cmd_as_tokens->as_str;
-		next_instr->next = NULL;
-		if (!first_instr)
-			first_instr = next_instr;
-		else
-			current_instr->next = next_instr;
-		current_instr = next_instr;
-		cmd_as_tokens = cmd_as_tokens->next_command;
-	}
-	return(first_instr);
-}
 
 int treat_input(t_minishell **minish, char *input)
 {
@@ -57,8 +28,44 @@ int treat_input(t_minishell **minish, char *input)
 	cmd_as_tokens = tokenizer((*minish)->parsed_string);
 	if(!cmd_as_tokens)
 		return(0);		//handle errors
-	(*minish)->instru = init_commands(cmd_as_tokens);
-	free(cmd_as_tokens);
+	(*minish)->number_of_commands = count_commands(cmd_as_tokens);
+	(*minish)->instru = init_insrtu((*minish), cmd_as_tokens);
+	t_instructions *instr = (*minish)->instru;
+	size_t i = 0;
+	while(instr)
+	{
+		printf("--------------------------\n");
+		printf("        next redir        \n");
+		printf("--------------------------\n");
+		printf("|whole command : %s|\n", instr->command);
+		while(instr->executable[i])
+		{
+			printf("executable : %s | type : %d\n", instr->executable[i]->content, instr->executable[i]->type);
+			i++;
+		}
+		t_redir *in = instr->in_redir;
+		if(!in)
+			printf("NO REDIR_IN\n");
+
+		else
+			while(in)
+			{
+				printf("redir_in : |file=%s|, |type=%d|\n", in->file_name, in->type);
+				in = in->next;
+			}
+		t_redir *out = instr->out_redir;
+		if(!out)
+			printf("NO REDIR_OUT\n");
+
+		else
+			while(out)
+			{
+				printf("redir_in : |file=%s|, |type=%d|\n", out->file_name, out->type);
+				out = out->next;
+			}
+		instr = instr->next;
+	}
+	// free_commands(cmd_as_tokens);
 	//need to free cmd_as_tokens_here
 	if (!(*minish)->instru)
 		return(0);		//handle errors or empty inputs
