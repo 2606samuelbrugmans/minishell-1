@@ -6,7 +6,7 @@
 /*   By: scesar <scesar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 17:03:54 by scesar            #+#    #+#             */
-/*   Updated: 2025/06/20 21:38:27 by scesar           ###   ########.fr       */
+/*   Updated: 2025/06/21 14:01:33 by scesar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,18 +30,21 @@ int treat_input(t_minishell **minish, char *input)
 		return(0);		//handle errors
 	(*minish)->number_of_commands = count_commands(cmd_as_tokens);
 	(*minish)->instru = init_insrtu((*minish), cmd_as_tokens);
-	t_instructions *instr = (*minish)->instru;
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//for you to test, but a bit wierd, I'l simplify things and explain you also
 	size_t i = 0;
-	while(instr)
+	while(i < (*minish)->number_of_commands)
 	{
+		t_instructions *instr = &(*minish)->instru[i];
 		printf("--------------------------\n");
-		printf("        next redir        \n");
+		printf("        instr        \n");
 		printf("--------------------------\n");
 		printf("|whole command : %s|\n", instr->command);
-		while(instr->executable[i])
+		size_t j = 0;
+		while(instr->executable[j])
 		{
-			printf("executable : %s | type : %d\n", instr->executable[i]->content, instr->executable[i]->type);
-			i++;
+			printf("executable : %s | type : %d\n", instr->executable[j]->content, instr->executable[j]->type);
+			j++;
 		}
 		t_redir *in = instr->in_redir;
 		if(!in)
@@ -63,8 +66,9 @@ int treat_input(t_minishell **minish, char *input)
 				printf("redir_in : |file=%s|, |type=%d|\n", out->file_name, out->type);
 				out = out->next;
 			}
-		instr = instr->next;
+		i++;
 	}
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// free_commands(cmd_as_tokens);
 	//need to free cmd_as_tokens_here
 	if (!(*minish)->instru)
