@@ -131,6 +131,7 @@ char *ft_strjoinchar(char *str, char c);
 
 //init_env
 t_env	*set_envp(t_env **minish_env, char **envp);
+int	set_next_var(t_env **next_envv, char *envv, char *equal);
 int	var_already_there(t_env **minish_envp, t_env **minish_local_var, char *next_var);
 char *valid_var_add(char *input);
 t_env *get_VAR(t_env **minish_envp, t_env **minish_local_var, char *VAR);
@@ -148,6 +149,7 @@ void  *add_redir(t_redir **redir_list, t_token_type type, char *file);
 int	count_commands(t_commands *cmd_as_token);
 
 //free everything
+void	exit_shell(char *error_message, t_minishell *minish);
 void free_minish(t_minishell **minish);
 void free_envp(t_env *env);
 

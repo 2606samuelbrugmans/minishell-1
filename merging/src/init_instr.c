@@ -6,7 +6,7 @@
 /*   By: scesar <scesar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 20:06:44 by scesar            #+#    #+#             */
-/*   Updated: 2025/06/21 13:55:39 by scesar           ###   ########.fr       */
+/*   Updated: 2025/06/24 13:45:28 by scesar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,21 +61,6 @@ void set_redir(t_instructions *instr, t_commands *cmd)
 		}
 		index ++;
 	}
-}
-
-int	count_commands(t_commands *cmd_as_token)
-{
-	int count;
-	t_commands *travel;
-
-	count = 0;
-	travel = cmd_as_token;
-	while(travel)
-	{
-		count++;
-		travel = travel->next_command;
-	}
-	return(count);
 }
 
 t_instructions	*init_insrtu(t_minishell *minish, t_commands	*cmd_as_tokens)

@@ -1,32 +1,66 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   loc_var.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: scesar <scesar@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/24 19:32:43 by scesar            #+#    #+#             */
+/*   Updated: 2025/06/24 19:48:05 by scesar           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/minishell.h"
 
-int add_loc_var(t_env **minish_envp, t_env **minish_local_var, char *input) //minish_loc_var has to be set NULL
+char *valid_var_add(char *input)	//check if enough protection
+{
+	size_t i;
+	char *equal;
+
+	if(!input || input[0] == '=' || ft_isdigit(input[0]))
+		return (NULL);
+	equal = ft_strchr(input, '=');
+	if(!equal)
+		return (NULL);
+	i = 0;
+	while(input[i] && input[i] != '=')
+	{
+		if(!ft_isalnum(input[i]))
+			return(NULL);
+		i++;
+	}
+	return(equal);
+}
+
+int	update_val(t_env **minish_envp, t_env **minish_local_var, t_env *next_var, char *after_equal, char *to_free)
+{
+	if(to_free)
+		free(to_free);
+	if(next_var->value)
+		free(next_var->value);
+	next_var->value = ft_strdup(after_equal);
+	if(next_var->value)
+		return(0);
+	return(1);
+}
+
+int add_loc_var(t_env **minish_envp, t_env **minish_local_var, char *input)
 {
 	t_env *last_var;
 	t_env *next_var;
 	char *equal;
-	size_t key_len;
-	size_t i;
+	char *pres_var;
 
-	last_var = NULL;
-	next_var = NULL;
 	equal = valid_var_add(input);
 	if (!equal)
 		return(0);
-	next_var = malloc(sizeof(t_env));
-	if(!next_var)
-		return(0);							//malloc error
-	key_len = equal - input;
-	next_var->VAR = ft_substr(input, 0, key_len);
-	next_var->value = ft_strdup(equal + 1);
-	if(var_already_there(minish_envp, minish_local_var, next_var->VAR))
-	{
-		free(get_VAR(minish_envp, minish_local_var, next_var->VAR)->value);
-		get_VAR(minish_envp, minish_local_var, next_var->VAR)->value = next_var->value;
-		free((next_var)->VAR);	//should I free it in var_already_there ?
-		free(next_var);
-		return(1);
-	}
+	pres_var = ft_substr(input, 0, equal - input);
+	if(!pres_var)
+		return(0);
+	next_var = get_VAR(minish_envp, minish_local_var, pres_var);
+	if(next_var != NULL)
+		return(update_val(minish_envp, minish_local_var, next_var, equal + 1, pres_var));						//malloc error
+	set_next_var(&next_var, input, equal);
 	next_var->next = NULL;
 	if(!*minish_local_var)
 		*minish_local_var = next_var;
@@ -39,6 +73,44 @@ int add_loc_var(t_env **minish_envp, t_env **minish_local_var, char *input) //mi
 	}
 	return(1);
 }
+
+// int add_loc_var(t_env **minish_envp, t_env **minish_local_var, char *input)
+// {
+// 	t_env *last_var;
+// 	t_env *next_var;
+// 	char *equal;
+// 	size_t key_len;
+
+// 	// last_var = NULL;
+// 	// next_var = NULL;
+// 	equal = valid_var_add(input);
+// 	if (!equal)
+// 		return(0);
+// 	next_var = malloc(sizeof(t_env));
+// 	if(!next_var)
+// 		return(0);							//malloc error
+// 	next_var->VAR = ft_substr(input, 0, equal - input);
+// 	next_var->value = ft_strdup(equal + 1);
+// 	if(var_already_there(minish_envp, minish_local_var, next_var->VAR))
+// 	{
+// 		free(get_VAR(minish_envp, minish_local_var, next_var->VAR)->value);
+// 		get_VAR(minish_envp, minish_local_var, next_var->VAR)->value = next_var->value;
+// 		free((next_var)->VAR);	//should I free it in var_already_there ?
+// 		free(next_var);
+// 		return(1);
+// 	}
+// 	next_var->next = NULL;
+// 	if(!*minish_local_var)
+// 		*minish_local_var = next_var;
+// 	else
+// 	{
+// 		last_var = *minish_local_var;
+// 		while(last_var->next)
+// 			last_var = last_var->next;
+// 		last_var->next = next_var;
+// 	}
+// 	return(1);
+// }
 
 char *replace_var(t_minishell minishell, char *string, size_t *str_ind, char *temp)
 {
@@ -132,4 +204,28 @@ char    *get_new_string(t_minishell minishell, char *string)
 		}
 	}
 	return(new_str);
+}
+
+int	var_already_there(t_env **minish_envp, t_env **minish_local_var, char *next_var)
+{
+	t_env *travel_var;
+
+	travel_var = *minish_envp;
+	while(travel_var)
+	{
+		if(ft_strncmp((travel_var)->VAR, next_var, ft_strlen(travel_var->VAR) == 0))
+		return(2);
+		travel_var = travel_var->next;
+	}
+	if(minish_local_var != NULL && *minish_local_var != NULL)
+	{
+		travel_var = *minish_local_var;
+		while(travel_var)
+		{
+			if(ft_strncmp((travel_var)->VAR, next_var, ft_strlen(travel_var->VAR) == 0))
+				return(1);
+			travel_var = travel_var->next;
+		}
+	}
+	return(0);
 }

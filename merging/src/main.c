@@ -6,7 +6,7 @@
 /*   By: scesar <scesar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 17:03:54 by scesar            #+#    #+#             */
-/*   Updated: 2025/06/21 14:01:33 by scesar           ###   ########.fr       */
+/*   Updated: 2025/06/24 19:50:10 by scesar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,14 @@ int treat_input(t_minishell **minish, char *input)
 		return(0);
 	if(add_loc_var(&(*minish)->envp,&(*minish)->local_var, input))
 		return(1);
+	// t_env *travel = (*minish)->local_var;
+	// int i = 0;
+	// while(travel)
+	// {
+	// 	printf("var [%d] : %s=%s\n", i, travel->VAR, travel->value);
+	// 	i++;
+	// 	travel = travel->next;
+	// }
 	(*minish)->parsed_string = get_new_string(**minish, input);
 	if(!(*minish)->parsed_string)
 		return(0);		//handle error
@@ -32,42 +40,42 @@ int treat_input(t_minishell **minish, char *input)
 	(*minish)->instru = init_insrtu((*minish), cmd_as_tokens);
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//for you to test, but a bit wierd, I'l simplify things and explain you also
-	size_t i = 0;
-	while(i < (*minish)->number_of_commands)
-	{
-		t_instructions *instr = &(*minish)->instru[i];
-		printf("--------------------------\n");
-		printf("        instr        \n");
-		printf("--------------------------\n");
-		printf("|whole command : %s|\n", instr->command);
-		size_t j = 0;
-		while(instr->executable[j])
-		{
-			printf("executable : %s | type : %d\n", instr->executable[j]->content, instr->executable[j]->type);
-			j++;
-		}
-		t_redir *in = instr->in_redir;
-		if(!in)
-			printf("NO REDIR_IN\n");
+	// size_t i = 0;
+	// while(i < (*minish)->number_of_commands)
+	// {
+	// 	t_instructions *instr = &(*minish)->instru[i];
+	// 	printf("--------------------------\n");
+	// 	printf("        instr        \n");
+	// 	printf("--------------------------\n");
+	// 	printf("whole command : |%s|\n", instr->command);
+	// 	size_t j = 0;
+	// 	while(instr->executable[j])
+	// 	{
+	// 		printf("executable : %s | type : %d\n", instr->executable[j]->content, instr->executable[j]->type);
+	// 		j++;
+	// 	}
+		// t_redir *in = instr->in_redir;
+		// if(!in)
+		// 	printf("NO REDIR_IN\n");
 
-		else
-			while(in)
-			{
-				printf("redir_in : |file=%s|, |type=%d|\n", in->file_name, in->type);
-				in = in->next;
-			}
-		t_redir *out = instr->out_redir;
-		if(!out)
-			printf("NO REDIR_OUT\n");
+		// else
+		// 	while(in)
+		// 	{
+		// 		printf("redir_in : |file=%s|, |type=%d|\n", in->file_name, in->type);
+		// 		in = in->next;
+		// 	}
+		// t_redir *out = instr->out_redir;
+		// if(!out)
+		// 	printf("NO REDIR_OUT\n");
 
-		else
-			while(out)
-			{
-				printf("redir_in : |file=%s|, |type=%d|\n", out->file_name, out->type);
-				out = out->next;
-			}
-		i++;
-	}
+		// else
+		// 	while(out)
+		// 	{
+		// 		printf("redir_out : |file=%s|, |type=%d|\n", out->file_name, out->type);
+		// 		out = out->next;
+		// 	}
+		// i++;
+	// }
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// free_commands(cmd_as_tokens);
 	//need to free cmd_as_tokens_here
@@ -84,7 +92,8 @@ void	init_minish(t_minishell **minish, char **envp)
 	(*minish)->instru = NULL;
 	(*minish)->number_of_commands = 0;
 	(*minish)->fd_pipes = NULL;
-	set_envp(&(*minish)->envp, envp);	//need to free this
+	if(!set_envp(&(*minish)->envp, envp))
+		exit_shell("Something went wrong while setting env\n", (*minish));
 }
 
 int	main(int ac, char **av, char **envp)

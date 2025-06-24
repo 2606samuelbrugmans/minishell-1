@@ -6,7 +6,7 @@
 /*   By: scesar <scesar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 15:54:24 by scesar            #+#    #+#             */
-/*   Updated: 2025/06/20 11:55:57 by scesar           ###   ########.fr       */
+/*   Updated: 2025/06/24 13:35:19 by scesar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,14 +145,18 @@ char *ft_strjoinchar(char *str, char c)
 	//     free(str);
 	return(new_str);
 }
-// int special_symb(char c)
-// {
-//     if(c == '<' )
-//         return(REDIR_IN);
-//     if(c == '>' )
-//         return(REDIR_OUT);
-//     if(c == '|' )
-//         return(PIPE);
-//     else
-//         return(NONE);
-// }
+
+int	count_commands(t_commands *cmd_as_token)
+{
+	int count;
+	t_commands *travel;
+
+	count = 0;
+	travel = cmd_as_token;
+	while(travel)
+	{
+		count++;
+		travel = travel->next_command;
+	}
+	return(count);
+}

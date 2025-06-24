@@ -6,7 +6,7 @@
 /*   By: scesar <scesar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 16:26:57 by scesar            #+#    #+#             */
-/*   Updated: 2024/07/01 13:23:31 by scesar           ###   ########.fr       */
+/*   Updated: 2025/06/24 19:38:33 by scesar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ char	*ft_strdup(const char	*str)
 	size_t	len;
 	size_t	i;
 
+	if(!str)
+		return(NULL);
 	i = 0;
 	len = ft_strlen((char *) str);
 	cpy = (char *)malloc(len + 1);

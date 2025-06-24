@@ -6,11 +6,17 @@
 /*   By: scesar <scesar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 12:16:28 by scesar            #+#    #+#             */
-/*   Updated: 2025/06/20 14:09:16 by scesar           ###   ########.fr       */
+/*   Updated: 2025/06/24 16:21:26 by scesar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../inc/minishell.h"
+
+void	exit_shell(char *error_message, t_minishell *minish)
+{
+	printf("%s", error_message);
+	exit(1);
+}
 
 void	free_commands(t_commands *cmd)
 {
