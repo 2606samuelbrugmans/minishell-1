@@ -4,7 +4,7 @@ int is_builtin(const char *cmd)
 {
     return
     (
-        ft_strcmp(cmd, "echo") == 0 ||
+        ft_strcmp(cmd, "echo") == 0 ||      //try with smth like echooo, or cd12,...
         ft_strcmp(cmd, "cd") == 0 ||
         ft_strcmp(cmd, "pwd") == 0 ||
         ft_strcmp(cmd, "export") == 0 ||
@@ -89,7 +89,7 @@ int builtin_cd(char **argv, t_minishell *minish)
         }
         path = getenv("HOME");
     }
-    else    
+    else
         path = argv[1];
     if (chdir(path) != 0)
     {
@@ -135,7 +135,7 @@ int find_first(char **envp)
     tmp = ft_strcmp(envp[0], envp[1]);
     if (tmp > 0)
         index_two = 1;
-    else 
+    else
         index_two = 0;
     index = 2;
     while (envp[index] != NULL)
@@ -152,7 +152,7 @@ void print_declare(char **envp)
     int *order;
     int index;
 	int len;
-	
+
 	len =ft_sstrlen(envp);
     order = malloc(sizeof(int) * + 1);
     order[0] = ft_sstrlen(envp);
@@ -177,7 +177,7 @@ int builtin_export(char **argv, t_minishell *minish)
     index = 1;
     if (argv[1] == NULL)
         print_declare(minish->envp);
-    else 
+    else
     {
         while (argv[index] != NULL)
         {

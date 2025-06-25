@@ -55,7 +55,7 @@ void	execute(t_minishell *minish, int parser)
 	if (execror == -1)
 		error(minish, "execution failed", parser);
 }
-///  no touch clean 
+///  no touch clean
 void access_test(t_minishell *minish, int parser)
 {
 	int index;
@@ -108,7 +108,7 @@ void access_test(t_minishell *minish, int parser)
 		}
 		if (index != minish->instru[parser].number_files_to - 1)
 			close(fd);
-		else 
+		else
 			minish->instru[parser].to_file = fd;
 		index++;
 	}

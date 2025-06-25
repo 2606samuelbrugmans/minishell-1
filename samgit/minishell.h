@@ -11,20 +11,19 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 ///
-
 typedef struct t_instructions
 {
 	char 	*command;
 	char	**executable;
 	char 	*path_command;
 	int		number_files_to;
-	int		*redirection_to; //> | >>
-	int		number_files_from; // size of from_files_str
-	int		*redirection_from; //  << |< tous les types de redirections des ficbiers a lire
-	char	**from_file_str; // tous les fichiers a lire
-	int		from_file; // fd
-	char	**to_file_str; // tous les fichiers a ecrire
-	int		to_file; // fd
+	int		*redirection_to;
+	int		number_files_from;
+	int		*redirection_from;
+	char	**from_file_str;
+	int		from_file;
+	char	**to_file_str;
+	int		to_file;
 }	t_instructions;
 
 typedef struct t_minishell

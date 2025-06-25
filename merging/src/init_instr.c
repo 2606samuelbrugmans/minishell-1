@@ -6,7 +6,7 @@
 /*   By: scesar <scesar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 20:06:44 by scesar            #+#    #+#             */
-/*   Updated: 2025/06/24 13:45:28 by scesar           ###   ########.fr       */
+/*   Updated: 2025/06/25 12:13:34 by scesar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ t_instructions	*init_insrtu(t_minishell *minish, t_commands	*cmd_as_tokens)
 	size_t	index;
 
 	index = 0;
-	minish->instru = malloc(minish->number_of_commands * sizeof(t_instructions));
+	minish->instru = malloc((minish->number_of_commands + 1) * sizeof(t_instructions));
 	if(!minish->instru)
 		return(NULL);		//malloc error;
 	while(cmd_as_tokens)

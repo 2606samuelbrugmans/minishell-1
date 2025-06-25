@@ -74,7 +74,7 @@ typedef struct s_instructions
 							//executable.args[1].content = "-la"			and so executable.arg[1].type = FLAG
 							//executable.args[2].content = "file.txt"		and so executable.arg[2].type = FILENAME
 							//executable.args[3] = NULL
-	char	*command;;		// = whole str = "ls -la file.txt"
+	char	*command;		// = whole str = "ls -la file.txt"
 	int pipe[2];
 	t_redir	*in_redir;
 	t_redir	*out_redir;
@@ -153,6 +153,27 @@ void	exit_shell(char *error_message, t_minishell *minish);
 void free_minish(t_minishell **minish);
 void free_envp(t_env *env);
 
+
+///////////////////////////////////////////////////////EXECUTION///////////////////////////////////////////////////////
+
+//family
+int	run(t_minishell *minish);
+
+//builtins
+int built_in_parent(char *cmd);
+int is_builtin(const char *cmd);
+int builtin_env(char **envp);
+int exec_builtin(t_token **executables, t_minishell *shell);
+int builtin_echo(char **argv);
+int builtin_cd(char **argv, t_minishell *minish);
+int builtin_pwd(void);
+int find_nth(char**envp, int meower);
+int find_first(char **envp);
+void print_declare(char **envp);
+int builtin_export(char **argv, t_minishell *minish);
+int builtin_exit(void);
+int builtin_unset(t_token **executables, t_minishell *minish);
+int is_in_where(int *repertoire, int index, int unseteds);
 
 
 // char	*remove_quote(char *string, char quote);
