@@ -1,20 +1,20 @@
 /* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   init_env.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: scesar <scesar@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/24 19:32:55 by scesar            #+#    #+#             */
-/*   Updated: 2025/06/24 19:44:44 by scesar           ###   ########.fr       */
-/*                                                                            */
+/*																			*/
+/*														:::	  ::::::::   */
+/*   init_env.c										 :+:	  :+:	:+:   */
+/*													+:+ +:+		 +:+	 */
+/*   By: scesar <scesar@student.42.fr>			  +#+  +:+	   +#+		*/
+/*												+#+#+#+#+#+   +#+		   */
+/*   Created: 2025/06/24 19:32:55 by scesar			#+#	#+#			 */
+/*   Updated: 2025/06/24 19:44:44 by scesar		   ###   ########.fr	   */
+/*																			*/
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
 int	set_next_var(t_env **next_envv, char *envv, char *equal)
 {
-	if(!envv || !equal)		//check if works with VAR=      like an empty value
+	if(!envv || !equal)		//check if works with VAR=	  like an empty value
 		return(0);
 	*next_envv = malloc(sizeof(t_env));								//need to free at the end
 	if(!next_envv)

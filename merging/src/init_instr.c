@@ -1,13 +1,13 @@
 /* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   init_instr.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: scesar <scesar@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/20 20:06:44 by scesar            #+#    #+#             */
-/*   Updated: 2025/06/25 12:13:34 by scesar           ###   ########.fr       */
-/*                                                                            */
+/*																			*/
+/*														:::	  ::::::::   */
+/*   init_instr.c									   :+:	  :+:	:+:   */
+/*													+:+ +:+		 +:+	 */
+/*   By: scesar <scesar@student.42.fr>			  +#+  +:+	   +#+		*/
+/*												+#+#+#+#+#+   +#+		   */
+/*   Created: 2025/06/20 20:06:44 by scesar			#+#	#+#			 */
+/*   Updated: 2025/06/25 12:13:34 by scesar		   ###   ########.fr	   */
+/*																			*/
 /* ************************************************************************** */
 
 # include "../inc/minishell.h"
@@ -39,12 +39,42 @@ void  *add_redir(t_redir **redir_list, t_token_type type, char *file)
 	return(new);
 }
 
-void set_redir(t_instructions *instr, t_commands *cmd)
+// void set_redir(t_instructions *instr, t_commands *cmd)
+// {
+// 	size_t index;
+
+// 	index = 0;
+// 	// instr->redir = malloc(sizeof(t_redir));
+// 	while(cmd->args[index])
+// 	{
+// 		if(cmd->args[index]->type == REDIR_IN || cmd->args[index]->type == HEREDOC)
+// 		{
+// 			if (cmd->args[index + 1] && cmd->args[index + 1]->type == FILENAME)
+// 				add_redir(&instr->in_redir, cmd->args[index]->type, cmd->args[index + 1]->content);
+// 			index++;
+// 		}
+// 		else if(cmd->args[index]->type == REDIR_OUT || cmd->args[index]->type == APPEND)
+// 		{
+// 			if (cmd->args[index + 1] && cmd->args[index + 1]->type == FILENAME)
+// 				add_redir(&instr->out_redir, cmd->args[index]->type, cmd->args[index + 1]->content);
+// 			index++;
+// 		}
+// 		index ++;
+// 	}
+// }
+
+//////// in progress
+void set_redir(t_instructions *instr, t_commands *cmd)					//remaking a redir strcut as a tab
 {
 	size_t index;
 
 	index = 0;
-	// instr->redir = malloc(sizeof(t_redir));
+	instr->in_redir = malloc(sizeof(t_redir) * count_redir(&cmd, REDIR_IN));
+	if(!instr->in_redir)
+		return(NULL);		//malloc error
+	instr->out_redir = malloc(sizeof(t_redir) * count_redir(&cmd, REDIR_OUT));
+	if(!instr->in_redir)
+		return(NULL);		//malloc error
 	while(cmd->args[index])
 	{
 		if(cmd->args[index]->type == REDIR_IN || cmd->args[index]->type == HEREDOC)

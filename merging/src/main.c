@@ -1,13 +1,13 @@
 /* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: scesar <scesar@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/17 17:03:54 by scesar            #+#    #+#             */
-/*   Updated: 2025/06/25 12:38:17 by scesar           ###   ########.fr       */
-/*                                                                            */
+/*																			*/
+/*														:::	  ::::::::   */
+/*   main.c											 :+:	  :+:	:+:   */
+/*													+:+ +:+		 +:+	 */
+/*   By: scesar <scesar@student.42.fr>			  +#+  +:+	   +#+		*/
+/*												+#+#+#+#+#+   +#+		   */
+/*   Created: 2025/06/17 17:03:54 by scesar			#+#	#+#			 */
+/*   Updated: 2025/06/25 12:38:17 by scesar		   ###   ########.fr	   */
+/*																			*/
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
@@ -33,7 +33,7 @@ int treat_input(t_minishell **minish, char *input)
 	//need to free cmd_as_tokens_here
 	(*minish)->fd_pipes = malloc(sizeof(int[2]) * ((*minish)->number_of_commands));
 	if (!(*minish)->fd_pipes)
-    	return (0);
+		return (0);
 	if (!(*minish)->instru)
 		return(0);		//handle errors or empty inputs
 	run(*minish);
@@ -113,7 +113,7 @@ int	main(int ac, char **av, char **envp)
 // 	// {
 // 	// 	t_instructions *instr = &(*minish)->instru[i];
 // 	// 	printf("--------------------------\n");
-// 	// 	printf("        instr        \n");
+// 	// 	printf("		instr		\n");
 // 	// 	printf("--------------------------\n");
 // 	// 	printf("whole command : |%s|\n", instr->command);
 // 	// 	size_t j = 0;

@@ -24,25 +24,25 @@ typedef struct s_instructions   t_instructions;
 
 typedef enum e_token_type
 {
-    NONE = -1,
-    CMD,
-    ARG,
-    FLAG,
-    PIPE,
-    REDIR_OUT,
-    REDIR_IN,
-    HEREDOC,
-    APPEND,
-    FILENAME,
+	NONE = -1,
+	CMD,
+	ARG,
+	FLAG,
+	PIPE,
+	REDIR_OUT,
+	REDIR_IN,
+	HEREDOC,
+	APPEND,
+	FILENAME,
 
-}            t_token_type;
+}			t_token_type;
 
 
 typedef struct s_token		//need to understand this
 {
 	char *content;
-    t_token_type  type;
-}               t_token;
+	t_token_type  type;
+}			   t_token;
 
 typedef struct s_commands	//don't really care, it's for me only
 {
@@ -50,7 +50,7 @@ typedef struct s_commands	//don't really care, it's for me only
 	t_token **args;
 	struct s_commands *next_command;
 
-}               t_commands;
+}			   t_commands;
 
 typedef struct s_redir
 {
@@ -62,10 +62,10 @@ typedef struct s_redir
 
 typedef struct s_env		//linked list of variable, always good to see how it works (basically a dictionnary)
 {
-    char *VAR;
-    char *value;
-    struct s_env *next;
-}              t_env;
+	char *VAR;
+	char *value;
+	struct s_env *next;
+}			  t_env;
 
 typedef struct s_instructions
 {
@@ -104,14 +104,14 @@ char *get_path(t_env **envp);
 //split_shell
 char **ft_split_shell(char *input);
 size_t nbr_of_elem(char *input);
-int    put_elem_in_tab(char **tab, size_t tab_index, char *input, size_t *input_index);
+int	put_elem_in_tab(char **tab, size_t tab_index, char *input, size_t *input_index);
 size_t next_arg_len(char *input, size_t index);
 
 size_t end_quotes(char *input, size_t *index);
 
 //tokenizer
 int tok_type_init(char *content, t_commands *commands, size_t index);
-t_commands    *tokenizer(char *input);
+t_commands	*tokenizer(char *input);
 
 //checker
 int first_check(char *input);
@@ -128,6 +128,7 @@ size_t ft_countchar(char *str, char to_count);
 size_t tab_size(char **tab);
 void free_tab(char **tab);
 char *ft_strjoinchar(char *str, char c);
+int count_redir(t_token **cmd_as_token, t_token_type redir_type);
 
 //init_env
 t_env	*set_envp(t_env **minish_env, char **envp);
@@ -158,13 +159,23 @@ void free_envp(t_env *env);
 
 //family
 int	run(t_minishell *minish);
+void	child_process(t_minishell *minish, t_instructions *instr, int parser);
+void close_parent(t_minishell *minish);
+void 	access_test(t_minishell *minish, t_instructions *instr, int parser);
 
 //builtins
+int is_builtin(char *cmd);
 int built_in_parent(char *cmd);
-int is_builtin(const char *cmd);
-int builtin_env(char **envp);
 int exec_builtin(t_token **executables, t_minishell *shell);
-int builtin_echo(char **argv);
+int builtin_echo(t_token **executables);
+
+//path
+char	*path_finding(char *pathed, char **env);
+
+
+
+
+int builtin_env(char **envp);
 int builtin_cd(char **argv, t_minishell *minish);
 int builtin_pwd(void);
 int find_nth(char**envp, int meower);
@@ -177,7 +188,6 @@ int is_in_where(int *repertoire, int index, int unseteds);
 
 
 // char	*remove_quote(char *string, char quote);
-// void	child_process(t_minishell *minish, int parser);
 // void 	close_stuff(t_minishell *minish);
 // void	store(t_minishell *minish, int pars,
 // 	char *filename, char direction);
@@ -199,7 +209,6 @@ int is_in_where(int *repertoire, int index, int unseteds);
 // void 	nested(t_minishell *minish, int parser);
 // int 	pipe_nested(t_minishell *minish, int length);
 // void 	no_redirection_proc(t_minishell *minish, int parser);
-// void 	access_test(t_minishell *minish, int parser);
 // void	execute(t_minishell *minish, int parser);
 // void	process(t_minishell *minish);
 // int		run(t_minishell *minish);
@@ -213,7 +222,6 @@ int is_in_where(int *repertoire, int index, int unseteds);
 // char	*ft_substr(char const *s, unsigned int start,
 // 	size_t len);
 // ////////////////////////////////// paths
-// char	*path_finding(char *pathed, char **env);
 // char	*potential_pathing(char *paths, char *command_to_path, int *index);
 // int		find_string(char **env, char *path);
 // char	*get_path(char *command_to_path, char *paths, int index);
