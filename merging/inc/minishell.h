@@ -56,7 +56,6 @@ typedef struct s_redir
 {
 	t_token_type type;
 	char		*file_name;
-	struct s_redir *next;
 }			t_redir;
 
 
@@ -77,7 +76,9 @@ typedef struct s_instructions
 	char	*command;		// = whole str = "ls -la file.txt"
 	int pipe[2];
 	t_redir	*in_redir;
+	int		nb_files_in;
 	t_redir	*out_redir;
+	int		nb_files_out;
 	t_instructions *next;
 	char 	*path_command;
 } t_instructions;
@@ -128,7 +129,7 @@ size_t ft_countchar(char *str, char to_count);
 size_t tab_size(char **tab);
 void free_tab(char **tab);
 char *ft_strjoinchar(char *str, char c);
-int count_redir(t_token **cmd_as_token, t_token_type redir_type);
+int count_redir(t_commands **cmd_as_token, t_token_type redir_type);
 
 //init_env
 t_env	*set_envp(t_env **minish_env, char **envp);
@@ -145,8 +146,8 @@ int add_loc_var(t_env **minish_envp, t_env **minish_local_var, char *input);
 
 //init_instr
 t_instructions	*init_insrtu(t_minishell *minish, t_commands	*cmd_as_tokens);
-void set_redir(t_instructions *instr, t_commands *cmd);
-void  *add_redir(t_redir **redir_list, t_token_type type, char *file);
+int set_redir(t_instructions **instr, t_commands *cmd);
+t_redir  *add_redir(t_redir **redir_list, t_token_type type, char *file, size_t *io_index);
 int	count_commands(t_commands *cmd_as_token);
 
 //free everything
@@ -231,8 +232,6 @@ int is_in_where(int *repertoire, int index, int unseteds);
 // /////////////// debug
 // void print_minishell(t_minishell *minish);
 // void print_instructions(t_instructions *instr);
-
-
 
 
 

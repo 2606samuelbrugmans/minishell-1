@@ -1,13 +1,13 @@
 /* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: scesar <scesar@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/02 14:50:41 by scesar            #+#    #+#             */
-/*   Updated: 2024/07/02 17:44:31 by scesar           ###   ########.fr       */
-/*                                                                            */
+/*																			*/
+/*														:::	  ::::::::   */
+/*   get_next_line.c									:+:	  :+:	:+:   */
+/*													+:+ +:+		 +:+	 */
+/*   By: scesar <scesar@student.42.fr>			  +#+  +:+	   +#+		*/
+/*												+#+#+#+#+#+   +#+		   */
+/*   Created: 2024/07/02 14:50:41 by scesar			#+#	#+#			 */
+/*   Updated: 2024/07/02 17:44:31 by scesar		   ###   ########.fr	   */
+/*																			*/
 /* ************************************************************************** */
 
 #include "get_next_line.h"
@@ -89,18 +89,18 @@ char	*get_next_line(int fd)
 // int main(void)
 // {
 // 	char *str;
-//     int fd = open("test.txt", O_RDONLY);
-//     if (fd == -1)
-//         return(1);
+//	 int fd = open("test.txt", O_RDONLY);
+//	 if (fd == -1)
+//		 return(1);
 // 	str = get_next_line(fd);
-// 	while (str) 
+// 	while (str)
 // 	{
 // 		printf("line from main : %s \n", str);
 // 		free(str);
 // 		str = get_next_line(fd);
 // 	}
 // 	// free(str);
-//     close(fd);
-//     // system ("leaks a.out");
-//     return (0);
+//	 close(fd);
+//	 // system ("leaks a.out");
+//	 return (0);
 // }

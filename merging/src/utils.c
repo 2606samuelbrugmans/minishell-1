@@ -6,7 +6,7 @@
 /*   By: scesar <scesar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:51:19 by scesar            #+#    #+#             */
-/*   Updated: 2025/06/27 17:29:01 by scesar           ###   ########.fr       */
+/*   Updated: 2025/06/30 21:40:28 by scesar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,25 +161,25 @@ int	count_commands(t_commands *cmd_as_token)
 	return(count);
 }
 
-int count_redir(t_token **cmd_as_token, t_token_type redir_type)
+int count_redir(t_commands **cmd_as_token, t_token_type redir_type)
 {
 	size_t index;
 	int count;
-	t_commands *travel;
+	t_token **travel;
 
 	index = 0;
 	count = 0;
-	travel = (*cmd_as_token);
-	while(travel->args[index])
+	travel = (*cmd_as_token)->args;
+	while(travel[index])
 	{
 		if(redir_type == REDIR_IN)
 		{
-			if (travel->args[index]->type == REDIR_IN || travel->args[index]->type == HEREDOC)
+			if (travel[index]->type == REDIR_IN || travel[index]->type == HEREDOC)
 				count++;
 		}
 		else if(redir_type == REDIR_OUT)
 		{
-			if (travel->args[index]->type == REDIR_OUT || travel->args[index]->type == APPEND)
+			if (travel[index]->type == REDIR_OUT || travel[index]->type == APPEND)
 				count++;
 		}
 		index ++;

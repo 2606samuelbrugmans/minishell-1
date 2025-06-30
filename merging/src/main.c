@@ -30,6 +30,52 @@ int treat_input(t_minishell **minish, char *input)
 		return(0);		//handle errors
 	(*minish)->number_of_commands = count_commands(cmd_as_tokens);
 	(*minish)->instru = init_insrtu((*minish), cmd_as_tokens);
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// for you to test, but a bit wierd, I'l simplify things and explain you also
+	size_t i = 0;
+	while(i < (*minish)->number_of_commands)
+	{
+		t_instructions instr = (*minish)->instru[i];
+		printf("--------------------------\n");
+		printf("		instr		\n");
+		printf("--------------------------\n");
+		printf("whole command : |%s|\n", instr.command);
+		size_t j = 0;
+		while(instr.executable[j])
+		{
+			printf("executable : %s | type : %d\n", instr.executable[j]->content, instr.executable[j]->type);
+			j++;
+		}
+		t_redir *in = instr.in_redir;
+		if(!in)
+			printf("NO REDIR_IN\n");
+
+		else
+		{
+			int in_index = 0;
+			while(in[in_index].file_name)
+			{
+				printf("redir_in : |file=%s|, |type=%d|\n", in[in_index].file_name, in[in_index].type);
+				in_index++;
+			}
+		}
+		t_redir *out = instr.out_redir;
+		if(!out)
+			printf("NO REDIR_OUT\n");
+
+		else
+		{
+			int out_index = 0;
+			while(out[out_index].file_name)
+			{
+				printf("redir_out : |file=%s|, |type=%d|\n", out[out_index].file_name, out[out_index].type);
+				out_index++;
+			}
+		}
+		i++;
+	}
+	exit(1);
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//need to free cmd_as_tokens_here
 	(*minish)->fd_pipes = malloc(sizeof(int[2]) * ((*minish)->number_of_commands));
 	if (!(*minish)->fd_pipes)
@@ -106,45 +152,9 @@ int	main(int ac, char **av, char **envp)
 // 		return(0);		//handle errors
 // 	(*minish)->number_of_commands = count_commands(cmd_as_tokens);
 // 	(*minish)->instru = init_insrtu((*minish), cmd_as_tokens);
-// 	///////////////////////////////////////////////////////////////////////////////////////////////////////////
-// 	//for you to test, but a bit wierd, I'l simplify things and explain you also
-// 	// size_t i = 0;
-// 	// while(i < (*minish)->number_of_commands)
-// 	// {
-// 	// 	t_instructions *instr = &(*minish)->instru[i];
-// 	// 	printf("--------------------------\n");
-// 	// 	printf("		instr		\n");
-// 	// 	printf("--------------------------\n");
-// 	// 	printf("whole command : |%s|\n", instr->command);
-// 	// 	size_t j = 0;
-// 	// 	while(instr->executable[j])
-// 	// 	{
-// 	// 		printf("executable : %s | type : %d\n", instr->executable[j]->content, instr->executable[j]->type);
-// 	// 		j++;
-// 	// 	}
-// 		// t_redir *in = instr->in_redir;
-// 		// if(!in)
-// 		// 	printf("NO REDIR_IN\n");
 
-// 		// else
-// 		// 	while(in)
-// 		// 	{
-// 		// 		printf("redir_in : |file=%s|, |type=%d|\n", in->file_name, in->type);
-// 		// 		in = in->next;
-// 		// 	}
-// 		// t_redir *out = instr->out_redir;
-// 		// if(!out)
-// 		// 	printf("NO REDIR_OUT\n");
 
-// 		// else
-// 		// 	while(out)
-// 		// 	{
-// 		// 		printf("redir_out : |file=%s|, |type=%d|\n", out->file_name, out->type);
-// 		// 		out = out->next;
-// 		// 	}
-// 		// i++;
-// 	// }
-// 	///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // 	// free_commands(cmd_as_tokens);
 // 	//need to free cmd_as_tokens_here
 // 	if (!(*minish)->instru)

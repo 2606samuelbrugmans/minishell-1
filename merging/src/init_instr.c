@@ -12,31 +12,9 @@
 
 # include "../inc/minishell.h"
 
-void  *add_redir(t_redir **redir_list, t_token_type type, char *file)
+void free_instr (t_instructions *instru)
 {
-	t_redir	*new;
-	t_redir	*last;
 
-	new = malloc(sizeof(t_redir));
-	if(!new)
-		return(NULL);		//malloc error
-	new->type = type;
-	new->file_name = ft_strdup(file);
-	if(!new->file_name)
-		return(NULL);		//malloc error
-	new->next = NULL;
-	if(!(*redir_list))
-	{
-		*redir_list = new;
-	}
-	else
-	{
-		last = *redir_list;
-		while(last->next)
-			last = last->next;
-		last->next = new;
-	}
-	return(new);
 }
 
 // void set_redir(t_instructions *instr, t_commands *cmd)
@@ -63,34 +41,70 @@ void  *add_redir(t_redir **redir_list, t_token_type type, char *file)
 // 	}
 // }
 
+int init_redir(t_instructions **instr, t_commands *cmd, size_t *index, size_t *in_index, size_t *out_index)
+{
+	int in_count;
+	int out_count;
+
+	in_count = count_redir(&cmd, REDIR_IN);
+	out_count = count_redir(&cmd, REDIR_OUT);
+	(*index) = 0;
+	(*in_index) = 0;
+	(*out_index) = 0;
+	(*instr)->in_redir = malloc(sizeof(t_redir) * (in_count + 1));
+	if(!(*instr)->in_redir)
+		return(0);		//malloc error
+	(*instr)->out_redir = malloc(sizeof(t_redir) * (out_count + 1));
+	if(!(*instr)->out_redir)
+		return(0);		//malloc error
+	(*instr)->nb_files_in = in_count;
+	(*instr)->nb_files_out = out_count;
+	(*instr)->in_redir[in_count].file_name = NULL;
+	(*instr)->out_redir[out_count].file_name = NULL;
+	return(1);
+}
+
+t_redir  *add_redir(t_redir **redir_list, t_token_type type, char *file, size_t *io_index)
+{
+	t_redir *added;
+
+	(*redir_list)[*io_index].file_name = ft_strdup(file);
+	if(!(*redir_list)[*io_index].file_name)
+		return(NULL);		//malloc error
+	(*redir_list)[*io_index].type = type;
+	added = &(*redir_list)[*io_index];
+	(*io_index) ++;
+	return(added);
+}
+
+
 //////// in progress
-void set_redir(t_instructions *instr, t_commands *cmd)					//remaking a redir strcut as a tab
+int set_redir(t_instructions *instr, t_commands *cmd)
 {
 	size_t index;
+	size_t in_index;
+	size_t out_index;
 
-	index = 0;
-	instr->in_redir = malloc(sizeof(t_redir) * count_redir(&cmd, REDIR_IN));
-	if(!instr->in_redir)
-		return(NULL);		//malloc error
-	instr->out_redir = malloc(sizeof(t_redir) * count_redir(&cmd, REDIR_OUT));
-	if(!instr->in_redir)
-		return(NULL);		//malloc error
+	if(!init_redir(instr, cmd, &index, &in_index, &out_index))
+		return(0);
 	while(cmd->args[index])
 	{
 		if(cmd->args[index]->type == REDIR_IN || cmd->args[index]->type == HEREDOC)
 		{
-			if (cmd->args[index + 1] && cmd->args[index + 1]->type == FILENAME)
-				add_redir(&instr->in_redir, cmd->args[index]->type, cmd->args[index + 1]->content);
-			index++;
+			if(!add_redir(&(*instr)->in_redir, cmd->args[index]->type, cmd->args[index + 1]->content, &in_index))
+				return(0);
+			index += 2;
 		}
 		else if(cmd->args[index]->type == REDIR_OUT || cmd->args[index]->type == APPEND)
 		{
-			if (cmd->args[index + 1] && cmd->args[index + 1]->type == FILENAME)
-				add_redir(&instr->out_redir, cmd->args[index]->type, cmd->args[index + 1]->content);
-			index++;
+			if(!add_redir(&(*instr)->out_redir, cmd->args[index]->type, cmd->args[index + 1]->content, &out_index))
+				return(0);
+			index += 2;
 		}
-		index ++;
+		else
+			index ++;
 	}
+	return(1);
 }
 
 t_instructions	*init_insrtu(t_minishell *minish, t_commands	*cmd_as_tokens)
@@ -109,7 +123,8 @@ t_instructions	*init_insrtu(t_minishell *minish, t_commands	*cmd_as_tokens)
 		minish->instru[index].path_command = NULL;
 		minish->instru[index].in_redir = NULL;
 		minish->instru[index].out_redir = NULL;
-		set_redir(&minish->instru[index], cmd_as_tokens);
+		if(!set_redir(&minish->instru[index], cmd_as_tokens))
+			return(NULL);			//malloc error;
 		cmd_as_tokens = cmd_as_tokens->next_command;
 		index ++;
 	}
