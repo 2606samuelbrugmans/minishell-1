@@ -67,7 +67,7 @@ void	execute(t_minishell *minish, t_instructions *instr, int parser)
 {
 	int	execror;
 
-	write(2, "reached execution", 18);			//see if still necessary
+	write(2, "reached execution\n", 19);			//see if still necessary
 	execror = execve(instr->path_command, instr->exec, NULL);
 	if (execror == -1)
 		error(minish, "execution failed", parser);

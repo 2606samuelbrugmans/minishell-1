@@ -150,6 +150,7 @@ int set_redir(t_instructions *instr, t_commands *cmd);
 t_redir  *add_redir(t_redir *redir_list, t_token_type type, char *file, size_t *io_index);
 int	count_commands(t_commands *cmd_as_token);
 char **tok_into_tab(t_token **tokens);
+size_t	tok_to_keep_tab_len(t_token **tokens);
 
 //free everything
 void	exit_shell(char *error_message, t_minishell *minish);

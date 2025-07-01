@@ -41,22 +41,42 @@ void free_instr (t_instructions *instru)
 // 	}
 // }
 
-char **tok_into_tab(t_token **tokens)
+size_t	tok_to_keep_tab_len(t_token **tokens)
 {
 	size_t index;
-	size_t i;
-	char **tab;
+	size_t to_keep;
 
 	index = 0;
-	i = 0;
+	to_keep = 0;
 	while (tokens[index])
-		index++;
-	tab = malloc(sizeof(char *) * (index + 1));
+	{
+		if(tokens[index]->type == CMD || tokens[index]->type == ARG || tokens[index]->type == FLAG)
+			to_keep++;
+		index ++;
+	}
+	return(to_keep);
+}
+
+char **tok_into_tab(t_token **tokens)
+{
+	size_t i;
+	size_t index;
+	size_t to_keep;
+	char **tab;
+
+	i = 0;
+	index = 0;
+	to_keep = tok_to_keep_tab_len(tokens);
+	tab = malloc(sizeof(char *) * (to_keep + 1));
 	if (!tab)
 		return (NULL);
-	while(i < index)
+	while(tokens[i])
 	{
-		tab[i] = tokens[i]->content;
+		if(tokens[i]->type == CMD || tokens[i]->type == ARG || tokens[i]->type == FLAG)
+		{
+			tab[index] = tokens[i]->content;
+			index ++;
+		}
 		i++;
 	}
 	tab[index] = NULL;
