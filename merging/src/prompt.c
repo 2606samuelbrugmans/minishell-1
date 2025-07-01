@@ -12,7 +12,7 @@
 
 #include "../inc/minishell.h"
 
-char *get_path(t_env **envp)
+char *get_curr_path(t_env **envp)
 {
 	char cwd[PATH_MAX];
 	char *path;
@@ -55,7 +55,7 @@ char *get_prompt(t_env **envp)
 		user = ft_strdup("user :");
 	if(!user)
 		return(NULL);
-	path = get_path(envp);
+	path = get_curr_path(envp);
 	if(!path)
 		return(NULL);		//malloc error;
 	temp = ft_strjoin("minishell@", user);

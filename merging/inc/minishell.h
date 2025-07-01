@@ -73,13 +73,13 @@ typedef struct s_instructions
 							//executable.args[1].content = "-la"			and so executable.arg[1].type = FLAG
 							//executable.args[2].content = "file.txt"		and so executable.arg[2].type = FILENAME
 							//executable.args[3] = NULL
+	char **exec;
 	char	*command;		// = whole str = "ls -la file.txt"
 	int pipe[2];
 	t_redir	*in_redir;
 	int		nb_files_in;
 	t_redir	*out_redir;
 	int		nb_files_out;
-	t_instructions *next;
 	char 	*path_command;
 } t_instructions;
 
@@ -100,7 +100,7 @@ t_instructions	*init_insrtu(t_minishell *minish, t_commands	*cmd_as_tokens);
 
 //prompt
 char *get_prompt(t_env **envp);
-char *get_path(t_env **envp);
+char *get_curr_path(t_env **envp);
 
 //split_shell
 char **ft_split_shell(char *input);
@@ -146,9 +146,10 @@ int add_loc_var(t_env **minish_envp, t_env **minish_local_var, char *input);
 
 //init_instr
 t_instructions	*init_insrtu(t_minishell *minish, t_commands	*cmd_as_tokens);
-int set_redir(t_instructions **instr, t_commands *cmd);
-t_redir  *add_redir(t_redir **redir_list, t_token_type type, char *file, size_t *io_index);
+int set_redir(t_instructions *instr, t_commands *cmd);
+t_redir  *add_redir(t_redir *redir_list, t_token_type type, char *file, size_t *io_index);
 int	count_commands(t_commands *cmd_as_token);
+char **tok_into_tab(t_token **tokens);
 
 //free everything
 void	exit_shell(char *error_message, t_minishell *minish);
@@ -160,9 +161,19 @@ void free_envp(t_env *env);
 
 //family
 int	run(t_minishell *minish);
+void	process(t_minishell *minish);
 void	child_process(t_minishell *minish, t_instructions *instr, int parser);
+void	execute(t_minishell *minish, t_instructions *instr, int parser);
 void close_parent(t_minishell *minish);
+void close_stuff(t_minishell *minish, int parser);
+void	error(t_minishell *minish, char *reason, int parser);
+
+//access
 void 	access_test(t_minishell *minish, t_instructions *instr, int parser);
+void	treat_redir_in(t_minishell *minish, t_redir *redir, int parser, int *fd);
+void	treat_redir_out(t_minishell *minish, t_redir *redir, int parser, int *fd);
+int		heredoc_handle(char *stop);
+void no_redirection_proc(t_minishell *minish, t_instructions *instr, int parser);
 
 //builtins
 int is_builtin(char *cmd);
@@ -171,9 +182,12 @@ int exec_builtin(t_token **executables, t_minishell *shell);
 int builtin_echo(t_token **executables);
 
 //path
-char	*path_finding(char *pathed, char **env);
-
-
+char	*path_finding(char *pathed, t_env **envp);
+char	*potential_pathing(char *paths, char *command_to_path, int *index);
+int	find_string(char **env, char *path);
+char	*get_path(char *command_to_path, char *paths, int index);
+int	path_len(char *string, int index);
+void	putcommand(char *command_to_path, char *potential_path, int size);
 
 
 int builtin_env(char **envp);
@@ -209,7 +223,6 @@ int is_in_where(int *repertoire, int index, int unseteds);
 // int 	not_quoted(t_minishell *minish);
 // void 	nested(t_minishell *minish, int parser);
 // int 	pipe_nested(t_minishell *minish, int length);
-// void 	no_redirection_proc(t_minishell *minish, int parser);
 // void	execute(t_minishell *minish, int parser);
 // void	process(t_minishell *minish);
 // int		run(t_minishell *minish);
