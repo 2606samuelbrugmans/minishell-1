@@ -119,8 +119,6 @@ t_redir  *add_redir(t_redir *redir_list, t_token_type type, char *file, size_t *
 	return(added);
 }
 
-
-//////// in progress
 int set_redir(t_instructions *instr, t_commands *cmd)
 {
 	size_t index;

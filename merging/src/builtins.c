@@ -40,8 +40,8 @@ int exec_builtin(t_token **executables, t_minishell *shell)
 {
 	if (ft_strcmp(executables[0]->content, "echo") == 0)
 		return builtin_echo(executables);
-	// if (ft_strcmp(argv[0], "cd") == 0)
-	//	 return builtin_cd(argv, shell);
+	if (ft_strcmp(executables[0]->content, "cd") == 0)
+		 return builtin_cd(executables, shell);
 	if (ft_strcmp(executables[0]->content, "pwd") == 0)
 		return builtin_pwd();
 	// if (ft_strcmp(argv[0], "export") == 0)
@@ -61,17 +61,17 @@ int builtin_echo(t_token **executables)
 	int j;
 	int newline;
 
-	newline = 1;
-	i = 2;
+	i = 1;
 	j = 1;
+	newline = 1;
 	if(executables[1] && executables[1]->content && ft_strcmp(executables[1]->content, "-n") == 0)
 	{
 		while(executables[1]->content[j] && executables[1]->content[j] == 'n')
 			j++;
-		if(executables[1]->content[j] != '\0')
+		if(executables[1]->content[j] == '\0')
 		{
 			newline = 0;
-			i = 1;
+			i = 2;
 		}
 	}
 	while (executables[i])
@@ -85,31 +85,32 @@ int builtin_echo(t_token **executables)
 		printf("\n");
 	return (0);
 }
-// int builtin_cd(char **argv, t_minishell *minish)
-// {
-//	 char *path;
-//	 int home;
+int builtin_cd(t_token **executables, t_minishell *minish)
+{
+	 char *path;
+	 int home;
 
-//	 if (!argv[1])
-//	 {
-//		 home = find_string(minish->envp, "HOME");
-// 		if (home == -1)
-//		 {
-//			 write(2, "bash: cd: HOME not set", 23);
-// 			return (0);
-//		 }
-//		 path = getenv("HOME");
-//	 }
-//	 else
-//		 path = argv[1];
-//	 if (chdir(path) != 0)
-//	 {
-//		 perror("cd");
-//		 return 1;
-//	 }
-//	 // Update PWD and OLDPWD in env here
-//	 return 0;
-// }
+	 if (!executables[1]->content)
+	 {
+		home = find_string(minish->envp, "HOME");
+		if (home == -1)
+		{
+			write(2, "bash: cd: HOME not set", 23);
+			return (0);
+		}
+		path = getenv("HOME");
+	}
+	else
+		path = executables[1]->content;
+	if (chdir(path) != 0)
+	 {
+		perror("cd");
+		return 1;
+	}
+	 // Update PWD and OLDPWD in env here
+	return (0);
+}
+
 int builtin_pwd(void)
 {
 	char cwd[500];

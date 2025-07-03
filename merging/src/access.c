@@ -6,7 +6,7 @@
 /*   By: scesar <scesar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:11:14 by scesar            #+#    #+#             */
-/*   Updated: 2025/07/01 20:39:48 by scesar           ###   ########.fr       */
+/*   Updated: 2025/07/02 12:15:42 by scesar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,7 @@ int heredoc_handle(char *stop)
 	while(1)
 	{
 		input = readline("> ");
-		if (input == NULL)
-			break;
-		if(!input || ft_strncmp(input, stop, ft_strlen(input)))
+		if(input && ft_strncmp(stop, input, ft_strlen(stop)) == 0)
 		{
 			free(input);
 			break;
