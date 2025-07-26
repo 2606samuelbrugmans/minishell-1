@@ -1,0 +1,9 @@
+total 84
+drwxrwxr-x 2 samuel samuel  4096 Jul 25 21:52 inc
+drwxrwxr-x 4 samuel samuel  4096 Jul 26 10:00 Libft
+-rw-rw-r-- 1 samuel samuel  2245 Jul 25 21:52 list_Thigns that don't work.txt
+-rw-rw-r-- 1 samuel samuel   618 Jul 25 21:52 Makefile
+-rwxrwxr-x 1 samuel samuel 61392 Jul 26 12:03 minishell
+-rw-r--r-- 1 samuel samuel     0 Jul 26 12:43 out
+drwxrwxr-x 2 samuel samuel  4096 Jul 26 12:03 src
+-rw-r--r-- 1 samuel samuel    71 Jul 26 11:12 stuff
