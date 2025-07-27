@@ -28,10 +28,8 @@ void	free_commands(t_commands *cmd)
 	while (current)
 	{
 		next = current->next_command;
-		// printf("free_commands: freeing as_str at %p\n", (void *)current->as_str);
 		free(current->as_str);
 		free_tokens(current->args);
-		// printf("free_commands: freeing command node at %p\n", (void *)current);
 		free(current);
 		current = next;
 	}

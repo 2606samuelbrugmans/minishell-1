@@ -36,9 +36,8 @@ int	add_loc_var(t_env **minish_envp, t_env **minish_local_var, char *input)
 	if (!equal || !pres_var)
 		return (free(pres_var), 0);
 	next_var = get_var(minish_envp, minish_local_var, pres_var);
-	if (next_var != NULL)
 	if (!update_val(next_var, equal + 1, pres_var))
-		return (free(pres_var), 0);						//malloc error
+		return (free(pres_var), 0);
 	free(pres_var);
 	set_next_var(&next_var, input, equal);
 	next_var->next = NULL;
@@ -113,8 +112,8 @@ char	*get_new_string(t_minishell minishell, char *string)
 		return (NULL);
 	while (string[str_ind])
 	{
-		if (string[str_ind] == '\"')
-			in_double = !in_double, str_ind++;
+		if (update_in_double(string, &str_ind, &in_double))
+			continue ;
 		else if (string[str_ind] == '\'' && !in_double)
 			handle_single_quote(&new_str, string, &str_ind);
 		else if (is_expandable_dollar(string, str_ind, in_double))

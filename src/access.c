@@ -46,7 +46,7 @@ void	treat_redir_in(t_minishell *minish, t_redir *redir, int parser, int *fd)
 	if (redir->type == REDIR_IN)
 	{
 		if (access(redir->file_name, F_OK) != 0)
-			error(minish, "no such file or directory:", redir->file_name, 127);
+			error(minish, "no such file or directory", redir->file_name, 1);
 		else if (access(redir->file_name, R_OK) != 0)
 			error(minish, "permission denied:", redir->file_name, 126);
 		else
@@ -67,6 +67,8 @@ void	treat_redir_in(t_minishell *minish, t_redir *redir, int parser, int *fd)
 void	treat_redir_out(t_minishell *minish, t_redir *redir,
 		int parser, int *fd)
 {
+	if (!redir->file_name)
+		error(minish, "no such file or directory", NULL, 1);
 	if (access(redir->file_name, F_OK) == 0
 		&& access(redir->file_name, W_OK) != 0)
 		error(minish, "permission denied:", redir->file_name, 126);
@@ -96,6 +98,7 @@ void	access_test(t_minishell *minish, t_instructions *instr, int parser)
 	index = 0;
 	while (index < instr->nb_files_out)
 	{
+		write(2, "treat_redir_out\n", 16);
 		treat_redir_out(minish, &instr->out_redir[index], parser, &fd);
 		if (index != instr->nb_files_out - 1)
 			close(fd);

@@ -21,13 +21,10 @@ void	free_tokens(t_token **tokens)
 	i = 0;
 	while (tokens[i])
 	{
-		// printf("free tok %p content %p\n", (void *)tokens[i],
-		// 	(void *)tokens[i]->content);
 		free(tokens[i]->content);
 		free(tokens[i]);
 		i++;
 	}
-	// printf("free_tokens: freeing tokens array at %p\n", (void *)tokens);
 	free(tokens);
 }
 

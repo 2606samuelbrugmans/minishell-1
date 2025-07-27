@@ -99,6 +99,7 @@ int	remove_env_var(t_env **head, const char *var)
 	}
 	return (0);
 }
+
 char	*get_var_value(t_env **minish_envp, t_env **minish_local_var, char *VAR)
 {
 	t_env	*var_node;

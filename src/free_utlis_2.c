@@ -12,7 +12,7 @@
 
 #include "../inc/minishell.h"
 
-void	free_pipe_token(t_token **tokens)
+void	free_pipe(t_token **tokens)
 {
 	size_t	i;
 

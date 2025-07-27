@@ -17,6 +17,7 @@ int	update_shlvl(t_env **env)
 	char	*new_value;
 	int		level;
 
+	write(2, "update_shlvl\n", 14);
 	if (!(*env)->value)
 		level = 0;
 	else
@@ -48,7 +49,7 @@ int	set_next_var(t_env **next_envv, char *envv, char *equal)
 	if (!(*next_envv)->var)
 		return (0);
 	(*next_envv)->value = ft_strdup(equal + 1);
-	if (ft_strcmp((*next_envv)->var, "shlvl") == 0)
+	if (ft_strcmp((*next_envv)->var, "SHLVL") == 0)
 		return (update_shlvl(next_envv));
 	if (!(*next_envv)->value)
 	{
@@ -104,8 +105,8 @@ t_env	*create_env_node(char *var, char *value)
 	new = malloc(sizeof(t_env));
 	if (!new)
 		return (NULL);
-	new->var = strdup(var);
-	new->value = strdup(value);
+	new->var = ft_strdup(var);
+	new->value = ft_strdup(value);
 	new->next = NULL;
 	return (new);
 }

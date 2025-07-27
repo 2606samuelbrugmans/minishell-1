@@ -53,7 +53,7 @@ char	*valid_var_add(char *input)	//check if enough protection
 	while (input[i] && input[i] != '=')
 	{
 		if (!ft_isalnum(input[i]) && input[i] != '_')
-			return (0);		
+			return (0);
 		i++;
 	}
 	return (equal);
