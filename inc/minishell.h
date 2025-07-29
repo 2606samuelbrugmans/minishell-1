@@ -237,6 +237,8 @@ void			error(t_minishell *minish, char *reason, char *specific,
 					int exit_stat);
 char			*path_finding(char *pathed, t_env **envp);
 void			path_not_found(char *pcommand, t_minishell *minish);
+void 			disable_echoctl(void);
+int			handle_exit_status(int status);
 
 //access
 void			access_test(t_minishell *minish, t_instructions *instr,

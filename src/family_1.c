@@ -44,13 +44,14 @@ void	wait_exit(t_minishell *minish, pid_t	last_pid)
 	while (index < minish->number_of_commands)
 	{
 		wait_pid = wait(&status);
-		if (wait_pid == last_pid)
+		if (wait_pid == -1)
 		{
-			if (WIFEXITED(status))
-				minish->last_exit_status = WEXITSTATUS(status);
-			else if (WIFSIGNALED(status))
-				minish->last_exit_status = 128 + WTERMSIG(status);
+			perror("wait");
+			free_minish_total(&minish);
+			exit(1);
 		}
+		if (wait_pid == last_pid)
+			minish->last_exit_status = handle_exit_status(status);
 		index++;
 	}
 }
@@ -81,7 +82,7 @@ void	process(t_minishell *minish)
 	}
 	close_parent(minish);
 	wait_exit(minish, last_pid);
-	signal(SIGINT, sigint_handler);
+	setup_signals();
 }
 
 void	path_not_found(char *pcommand, t_minishell *minish)
