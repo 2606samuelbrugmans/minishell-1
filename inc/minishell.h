@@ -109,7 +109,6 @@ typedef struct t_minishell
 
 int					main(int argc, char **argv, char **envp);
 void				init_minish(t_minishell **minish, char **envp, int ac, char **av);
-t_instructions		*init_insrtu(t_minishell *minish, t_commands	*cmd_as_tokens);
 int 				is_interactive(t_minishell *minish);
 int					is_directory(const char *path);
 
