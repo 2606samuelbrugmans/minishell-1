@@ -90,6 +90,8 @@ typedef struct s_instructions
 	int		nb_files_in;
 	t_redir	*out_redir;
 	int		nb_files_out;
+	bool	skip;
+	int		fd_in;
 	char	*path_command;
 }			t_instructions;
 
@@ -229,7 +231,7 @@ int				run(t_minishell *minish);
 void			process(t_minishell *minish);
 void			child_process(t_minishell *minish, t_instructions *instr,
 					int parser);
-void			execute(t_minishell *minish, t_instructions *instr, int parser);
+void			execute(t_minishell *minish, t_instructions *instr, int parse, char **exec);
 void			close_parent(t_minishell *minish);
 void			close_stuff(t_minishell *minish, int parser);
 void			error(t_minishell *minish, char *reason, char *specific,
@@ -237,18 +239,29 @@ void			error(t_minishell *minish, char *reason, char *specific,
 char			*path_finding(char *pathed, t_env **envp);
 void			path_not_found(char *pcommand, t_minishell *minish);
 void 			disable_echoctl(void);
-int			handle_exit_status(int status);
+int				handle_exit_status(int status);
+void			child_signal(void);
+void			heredoc_signals(void);
+
 
 //access
 void			access_test(t_minishell *minish, t_instructions *instr,
 					int parser);
-void			treat_redir_in(t_minishell *minish, t_redir *redir, int parser,
+void			treat_redir_in(t_minishell *minish, t_redir *redir,
 					int *fd);
+void				do_ins(t_minishell *minish, t_instructions *instr);
+
 void			treat_redir_out(t_minishell *minish, t_redir *redir, int parser,
 					int *fd);
 int				heredoc_handle(char *stop);
 void			no_redirection_proc(t_minishell *minish, t_instructions *instr,
 					int parser);
+int				check_perm(char *path, t_token_type type);
+char			**shift_to_first_non_empty(char **args);
+int				find_non_empty(char **str);
+int				path_has_directory(const char *path);
+int				dir_exists(const char *path);
+void here_wrap(t_minishell *minish);
 
 //builtins
 int				is_n_flag(const char *str);
@@ -292,7 +305,6 @@ void			setup_signals(void);
 void			sigquit_handler(int sig);
 void			sigint_handler(int sig);
 void			enable_echoctl(void);
-
 ///// tiny.c
 bool			is_env_char_end(char c);
 bool			is_executable_token(t_token_type type);

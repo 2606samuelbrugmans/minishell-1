@@ -57,7 +57,9 @@ void	free_instructions(t_instructions *instru, int count)
 			}
 			free(instru[i].exec);
 		}
-		free(instru[i].path_command);
+		if(instru[i].path_command)
+			free(instru[i].path_command);
+		instru[i].skip = false;
 		i++;
 	}
 	free(instru);
@@ -76,6 +78,7 @@ void	free_minish_partial(t_minishell **minish)
 	(*minish)->instru = NULL;
 	(*minish)->number_of_commands = 0;
 	(*minish)->fd_pipes = NULL;
+	
 }
 
 void	free_minish_total(t_minishell **minish)

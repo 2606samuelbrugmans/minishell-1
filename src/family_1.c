@@ -17,6 +17,7 @@ int	run(t_minishell *minish)
 	int	i;
 
 	i = 0;
+
 	if (minish->instru[0].exec[0] && built_in_parent(minish->instru[0].exec[0])
 		&& minish->number_of_commands == 1)
 		minish->last_exit_status = exec_builtin(minish->instru[0].exec, minish);
@@ -28,6 +29,8 @@ int	run(t_minishell *minish)
 				perror("bablda");
 			i++;
 		}
+		child_signal();
+		here_wrap(minish);
 		process(minish);
 	}
 	free_minish_partial(&minish);
@@ -71,11 +74,7 @@ void	process(t_minishell *minish)
 		if (forked == -1)
 			perror("couldn't fork");
 		else if (forked == 0)
-		{
-			signal(SIGINT, SIG_DFL);
-			signal(SIGQUIT, SIG_DFL);
 			child_process(minish, &minish->instru[parser], parser);
-		}
 		else if (parser == minish->number_of_commands - 1)
 			last_pid = forked;
 		parser++;
@@ -97,19 +96,24 @@ void	path_not_found(char *pcommand, t_minishell *minish)
 
 void	child_process(t_minishell *minish, t_instructions *instr, int parser)
 {
+	int i;
+	char **exec;
+
+	if (instr->skip == true)
+		exit(minish->last_exit_status);
+	exec = shift_to_first_non_empty(instr->exec);
 	access_test(minish, instr, parser);
 	no_redirection_proc(minish, instr, parser);
-	if (instr->exec[0] != NULL && is_builtin(instr->exec[0]))
-		instr->path_command = instr->exec[0];
-	else if (instr->exec[0] != NULL)
-		instr->path_command = path_finding(instr->exec[0], &minish->envp);
-	if (instr->exec[0] != NULL && instr->path_command == NULL)
-		path_not_found(instr->exec[0], minish);
-	if (instr->exec[0] != NULL && is_builtin(instr->path_command))
-		exec_builtin(instr->exec, minish);
-	
-	else if (instr->exec[0] != NULL && instr->exec[0][0] != 0)
-		execute(minish, instr, parser);
+	if (exec != NULL && is_builtin(exec[0]))
+		instr->path_command = exec[0];
+	else if (exec[0] != NULL)
+		instr->path_command = path_finding(exec[0], &minish->envp);
+	if (exec[0] != NULL && instr->path_command == NULL)
+		path_not_found(exec[0], minish);
+	if (exec[0] != NULL && is_builtin(instr->path_command))
+		exec_builtin(exec, minish);
+	else if (instr->exec[0] != NULL && exec[0][0] != 0)
+		execute(minish, instr, parser, exec);
 	close_stuff(minish, parser);
 	exit(0);
 }

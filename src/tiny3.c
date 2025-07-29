@@ -1,0 +1,59 @@
+#include "../inc/minishell.h"
+void	do_ins(t_minishell *minish, t_instructions *instr)
+{
+	int index;
+	int fd;
+
+	index = 0;
+	while (index < instr->nb_files_in)
+	{
+		treat_redir_in(minish, &instr->in_redir[index], &fd);
+		if (index != instr->nb_files_in - 1)
+			close(fd);
+		else
+			instr->pipe[0] = fd;
+		index++;
+	}
+
+
+}
+void treat_heredoc(t_minishell *minish, t_redir *redir, int *fd)
+{
+	(*fd) = -2;
+	if (redir->type == HEREDOC)
+	{
+		(*fd) = heredoc_handle(redir->file_name);
+		if ((*fd) == -1)
+			error(minish, "heredoc error", NULL, 130);
+	}
+}
+void wrap_up(t_minishell *minish, t_instructions *instru)
+{
+	int index;
+	int fd;
+	
+	index = 0;
+	instru->fd_in = -1;
+	fd = -2;
+	while (index < instru->nb_files_in)
+	{
+		treat_heredoc(minish, &instru->in_redir[index], &fd);
+		if (fd != -2 && index != instru->nb_files_in - 1)
+			close(fd);
+		else
+			instru->fd_in = fd;
+		index++;
+	}
+	ft_printf(1, "%d\n", instru->fd_in);
+}
+void here_wrap(t_minishell *minish)
+{
+	int index;
+	
+	index = 0;
+	while (index < minish->number_of_commands)
+	{
+		wrap_up(minish, &minish->instru[index]);
+		index++;
+	}
+}
