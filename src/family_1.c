@@ -17,7 +17,6 @@ int	run(t_minishell *minish)
 	int	i;
 
 	i = 0;
-
 	if (minish->instru[0].exec[0] && built_in_parent(minish->instru[0].exec[0])
 		&& minish->number_of_commands == 1)
 		minish->last_exit_status = exec_builtin(minish->instru[0].exec, minish);
@@ -29,7 +28,6 @@ int	run(t_minishell *minish)
 				perror("bablda");
 			i++;
 		}
-		child_signal();
 		here_wrap(minish);
 		process(minish);
 	}
@@ -67,7 +65,7 @@ void	process(t_minishell *minish)
 
 	last_pid = -1;
 	parser = 0;
-	signal(SIGINT, SIG_IGN);
+	silence_signals();
 	while (parser < minish->number_of_commands)
 	{
 		forked = fork();
@@ -99,6 +97,7 @@ void	child_process(t_minishell *minish, t_instructions *instr, int parser)
 	int i;
 	char **exec;
 
+	child_signal();
 	if (instr->skip == true)
 		exit(minish->last_exit_status);
 	exec = shift_to_first_non_empty(instr->exec);

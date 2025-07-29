@@ -37,6 +37,7 @@ void wrap_up(t_minishell *minish, t_instructions *instru)
 	fd = -2;
 	while (index < instru->nb_files_in)
 	{
+		silence_signals();
 		treat_heredoc(minish, &instru->in_redir[index], &fd);
 		if (fd != -2 && index != instru->nb_files_in - 1)
 			close(fd);
@@ -44,7 +45,7 @@ void wrap_up(t_minishell *minish, t_instructions *instru)
 			instru->fd_in = fd;
 		index++;
 	}
-	ft_printf(1, "%d\n", instru->fd_in);
+	setup_signals();
 }
 void here_wrap(t_minishell *minish)
 {

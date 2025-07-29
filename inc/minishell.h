@@ -261,7 +261,9 @@ char			**shift_to_first_non_empty(char **args);
 int				find_non_empty(char **str);
 int				path_has_directory(const char *path);
 int				dir_exists(const char *path);
-void here_wrap(t_minishell *minish);
+void 			here_wrap(t_minishell *minish);
+void 			heredoc_child(char *stop, int write_fd);
+void			silence_signals(void);
 
 //builtins
 int				is_n_flag(const char *str);

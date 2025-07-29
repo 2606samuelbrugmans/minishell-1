@@ -14,33 +14,28 @@
 
 int	heredoc_handle(char *stop)
 {
-	char	*input;
-	int		fd;
-	char	*tmp_file;
+	int		fd[2];
+	pid_t	pid;
+	int		status;
 
-	tmp_file = "/tmp/.minishell_heredoc";
-	fd = open(tmp_file, O_WRONLY | O_CREAT | O_TRUNC, 0600);
-	if (fd == -1)
+	if (pipe(fd) == -1)
 		return (-1);
-	while (1)
+	pid = fork();
+	if (pid == -1)
+		return (-1);
+	if (pid == 0)
 	{
-		input = readline("> ");
-		if (input == NULL)
-			break ;
-		if (input && (ft_strncmp(input, stop, ft_strlen(stop)) == 0))
-		{
-			free(input);
-			break ;
-		}
-		putstr_bsn(input, fd, YES);
-		free(input);
+		close(fd[0]);
+		heredoc_signals();	
+		heredoc_child(stop, fd[1]);
+		exit(0);
 	}
-	close(fd);
-	fd = (open(tmp_file, O_RDONLY));
-	unlink(tmp_file);
-	return (fd);
+	// parent process
+	close(fd[1]); // close write end, will read from fd[0]
+	waitpid(pid, &status, 0);
+	// Optionally check if child exited properly
+	return (fd[0]); // return read end of the pipe for later input redirection
 }
-
 void	treat_redir_in(t_minishell *minish, t_redir *redir, int *fd)
 {
 	if (redir->type == REDIR_IN)
@@ -95,7 +90,6 @@ void	access_test(t_minishell *minish, t_instructions *instr, int parser)
 			instr->pipe[1] = fd;
 		index++;
 	}
-	write(2, "passed", 7);
 }
 
 void	no_redirection_proc(t_minishell *minish, t_instructions *instr,

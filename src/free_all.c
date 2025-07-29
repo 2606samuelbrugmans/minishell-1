@@ -57,8 +57,7 @@ void	free_instructions(t_instructions *instru, int count)
 			}
 			free(instru[i].exec);
 		}
-		if(instru[i].path_command)
-			free(instru[i].path_command);
+		free(instru[i].path_command);
 		instru[i].skip = false;
 		i++;
 	}

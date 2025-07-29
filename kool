@@ -1,0 +1,17 @@
+total 100
+-rw-r--r-- 1 samuel samuel     0 Jul 27 17:21 €
+-rw-r--r-- 1 samuel samuel     0 Jul 27 17:21 à
+-rw-r--r-- 1 samuel samuel     0 Jul 28 01:10 0
+-rw-r--r-- 1 samuel samuel     0 Jul 28 01:29 cqr
+drwxrwxr-x 2 samuel samuel  4096 Jul 25 21:52 inc
+-rw-r--r-- 1 samuel samuel     0 Jul 30 01:30 kool
+drwxrwxr-x 4 samuel samuel  4096 Jul 29 23:02 Libft
+-rw-rw-r-- 1 samuel samuel   618 Jul 25 21:52 Makefile
+-rwxrwxr-x 1 samuel samuel 66744 Jul 30 01:29 minishell
+drwxrwxr-x 6 samuel samuel  4096 Jul 29 22:48 minishell_tester
+-rw-r--r-- 1 samuel samuel     0 Jul 30 00:28 mlo
+d--------- 2 samuel samuel  4096 Jul 29 14:28 perm2.c
+d--------- 2 samuel samuel  4096 Jul 28 15:34 perm.c
+-rw-r--r-- 1 samuel samuel     0 Jul 30 00:27 soemthing
+drwxrwxr-x 2 samuel samuel  4096 Jul 30 01:29 src
+-rw-rw-r-- 1 samuel samuel   214 Jul 29 02:08 to_stef.txt

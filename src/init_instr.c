@@ -89,7 +89,6 @@ t_instructions	*init_insrtu(t_minishell *minish, t_commands	*cmd_as_tokens)
 		instru[index].path_command = NULL;
 		instru[index].in_redir = NULL;
 		instru[index].out_redir = NULL;
-		instru[index].fd_in = -1;
 		out = prep_set_redir(&instru[index], cmd_as_tokens, minish);
 		if (out == 0)
 			return (NULL);
