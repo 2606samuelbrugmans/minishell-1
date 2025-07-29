@@ -106,7 +106,8 @@ void	child_process(t_minishell *minish, t_instructions *instr, int parser)
 		path_not_found(instr->exec[0], minish);
 	if (instr->exec[0] != NULL && is_builtin(instr->path_command))
 		exec_builtin(instr->exec, minish);
-	else if (instr->exec[0] != NULL)
+	
+	else if (instr->exec[0] != NULL && instr->exec[0][0] != 0)
 		execute(minish, instr, parser);
 	close_stuff(minish, parser);
 	exit(0);

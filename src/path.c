@@ -17,6 +17,11 @@ char	*path_finding(char *pathed, t_env **envp)
 	t_env		*path;
 	char		*full_path;
 
+	if (is_directory(pathed))
+	{
+		ft_printf(2, "%s: Is a directory\n", pathed);
+		exit(126);
+	}
 	if (ft_strchr(pathed, '/'))
 	{
 		if (access(pathed, X_OK) == 0)

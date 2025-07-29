@@ -12,22 +12,24 @@
 
 #include "../inc/minishell.h"
 
-void	builtin_exit(char **executables)
+void	builtin_exit(char **executables, t_minishell *minish)
 {
 	int	exit_status;
 
+	if (is_interactive(minish))
+			ft_printf(1, "exit\n");
 	if (executables[1] == NULL)
 		exit_status = (0);
-	else if (executables[2] != NULL)
-	{
-		write(2, "bash: exit: too many arguments\n", 31);
-		exit_status = (2);
-	}
 	else if (ft_is_number(executables[1]) == 0)
 	{
 		ft_printf(2, "bash: exit: %s", executables[1]);
 		ft_printf(2, ": numeric argument required\n");
 		exit_status = 2;
+	}
+	else if (executables[2] != NULL)
+	{
+		write(2, "bash: exit: too many arguments\n", 31);
+		exit_status = (1);
 	}
 	else
 	{
@@ -35,7 +37,6 @@ void	builtin_exit(char **executables)
 		if (exit_status < 0 || exit_status > 255)
 			exit_status = exit_status % 256;
 	}
-	ft_printf(1, "exit %d\n", exit_status);
 	exit(exit_status);
 }
 

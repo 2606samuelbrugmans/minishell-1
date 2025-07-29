@@ -28,6 +28,7 @@
 # include <readline/history.h>
 # include <signal.h>
 # include <termios.h>
+# include <sys/stat.h>
 ///
 
 # define YES 1
@@ -97,6 +98,7 @@ typedef struct t_minishell
 	t_env			*envp;
 	t_env			*local_var;
 	char			*parsed_string;
+	int				non_inter;
 	t_instructions	*instru;
 	int				number_of_commands;
 	int				(*fd_pipes)[2];
@@ -105,13 +107,15 @@ typedef struct t_minishell
 
 ////////////////////////////////////PARSING////////////////////////////////////
 
-int				main(int argc, char **argv, char **envp);
-void			init_minish(t_minishell **minish, char **envp);
-t_instructions	*init_insrtu(t_minishell *minish, t_commands	*cmd_as_tokens);
+int					main(int argc, char **argv, char **envp);
+void				init_minish(t_minishell **minish, char **envp, int ac, char **av);
+t_instructions		*init_insrtu(t_minishell *minish, t_commands	*cmd_as_tokens);
+int 				is_interactive(t_minishell *minish);
+int					is_directory(const char *path);
 
 //prompt.c
-char			*get_prompt(t_env **envp);
-char			*get_curr_path(t_env **envp);
+char				*get_prompt(t_env **envp);
+char				*get_curr_path(t_env **envp);
 
 //ft_split_shell.c
 char			**ft_split_shell(char *input);
@@ -190,6 +194,7 @@ void			handle_single_quote(char **dest, const char *str, size_t *i);
 void			handle_expand(char **dest, t_minishell ms, char *str,
 					size_t *i);
 int				update_in_double(const char *s, size_t *i, bool *in_double);
+void			set_non_interactive(t_minishell **minish, int ac, char **av);
 
 //init_instr
 t_instructions	*init_insrtu(t_minishell *minish, t_commands	*cmd_as_tokens);
@@ -216,7 +221,8 @@ void			free_commands(t_commands *cmd);
 void			free_envp(t_env *env);
 void			free_array(char ***array);
 void			free_pipe(t_token **tokens);
-
+int	cleanup_and_exit(t_minishell *minish);
+int	treat_input(t_minishell **minish, char *input);
 ///////////////////////////////////EXECUTION///////////////////////////////////
 
 //family
@@ -258,7 +264,7 @@ void			print_declare(t_env *envp);
 int				edit_env(char *content, t_minishell *minish);
 int				is_valid_identifier(const char *str);
 int				builtin_export(char **executables, t_minishell *minish);
-void			builtin_exit(char **executables);
+void			builtin_exit(char **executables, t_minishell *minish);
 int				builtin_unset(char **executables, t_env **envp);
 void			print_env_array(char **envp);
 

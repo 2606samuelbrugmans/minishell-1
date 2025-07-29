@@ -61,7 +61,7 @@ int	set_redir(t_instructions *instr, t_commands *cmd,
 			if (!add_redir(instr->in_redir, cmd->args[i[0]]->type, s, &i[1]))
 				return (free(s), 0);
 			free(s);
-			i[0] += 2;
+			i[0] += 1;
 		}
 		else if (out_tok(cmd->args[i[0]]->type) && cmd->args[i[0] + 1])
 		{
@@ -69,10 +69,9 @@ int	set_redir(t_instructions *instr, t_commands *cmd,
 			if (!add_redir(instr->out_redir, cmd->args[i[0]]->type, s, &i[2]))
 				return (free(s), 0);
 			free(s);
-			i[0] += 2;
+			i[0] += 1;
 		}
-		else
-			i[0]++;
+		i[0]++;
 	}
 	return (1);
 }

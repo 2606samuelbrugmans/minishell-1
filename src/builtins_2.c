@@ -21,7 +21,7 @@ int	exec_builtin(char **exec, t_minishell *shell)
 	if (ft_strcmp(exec[0], "pwd") == 0)
 		return (builtin_pwd());
 	if (ft_strcmp(exec[0], "exit") == 0)
-		builtin_exit(exec);
+		builtin_exit(exec, shell);
 	if (ft_strcmp(exec[0], "unset") == 0)
 		return (builtin_unset(exec, &shell->envp));
 	if (ft_strcmp(exec[0], "cd") == 0)

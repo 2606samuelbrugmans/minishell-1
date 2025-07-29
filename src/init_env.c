@@ -17,7 +17,6 @@ int	update_shlvl(t_env **env)
 	char	*new_value;
 	int		level;
 
-	write(2, "update_shlvl\n", 14);
 	if (!(*env)->value)
 		level = 0;
 	else
