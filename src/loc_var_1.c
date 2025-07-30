@@ -6,16 +6,14 @@
 /*   By: scesar <scesar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 18:14:58 by scesar            #+#    #+#             */
-/*   Updated: 2025/07/23 20:39:58 by scesar           ###   ########.fr       */
+/*   Updated: 2025/07/30 16:22:25 by scesar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-int	update_val(t_env *next_var, char *after_equal, char *to_free)
+int	update_val(t_env *next_var, char *after_equal)
 {
-	if (to_free)
-		free(to_free);
 	if (next_var->value)
 		free(next_var->value);
 	next_var->value = ft_strdup(after_equal);
@@ -31,16 +29,16 @@ int	add_loc_var(t_env **minish_envp, t_env **minish_local_var, char *input)
 	char	*equal;
 	char	*pres_var;
 
-	equal = valid_var_add(input);
+	if (!valid_var_add(input, &equal))
+		return (0);
 	pres_var = ft_substr(input, 0, equal - input);
-	if (!equal || !pres_var)
-		return (free(pres_var), 0);
+	if (!pres_var)
+		return (0);
 	next_var = get_var(minish_envp, minish_local_var, pres_var);
-	if (!update_val(next_var, equal + 1, pres_var))
-		return (free(pres_var), 0);
 	free(pres_var);
+	if (next_var)
+		return (update_val(next_var, equal + 1));
 	set_next_var(&next_var, input, equal);
-	next_var->next = NULL;
 	if (!*minish_local_var)
 		*minish_local_var = next_var;
 	else

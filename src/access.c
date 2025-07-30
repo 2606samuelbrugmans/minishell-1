@@ -6,7 +6,7 @@
 /*   By: scesar <scesar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:11:14 by scesar            #+#    #+#             */
-/*   Updated: 2025/07/24 10:05:38 by scesar           ###   ########.fr       */
+/*   Updated: 2025/07/30 18:34:41 by scesar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,43 +26,28 @@ int	heredoc_handle(char *stop)
 	if (pid == 0)
 	{
 		close(fd[0]);
-		heredoc_signals();	
+		heredoc_signals();
 		heredoc_child(stop, fd[1]);
 		exit(0);
 	}
-	// parent process
-	close(fd[1]); // close write end, will read from fd[0]
+	close(fd[1]);
 	waitpid(pid, &status, 0);
-	// Optionally check if child exited properly
-	return (fd[0]); // return read end of the pipe for later input redirection
+	return (fd[0]);
 }
+
 void	treat_redir_in(t_minishell *minish, t_redir *redir, int *fd)
 {
 	if (redir->type == REDIR_IN)
 	{
-		if (!redir->file_name)
-			error(minish, " No such file or directory", NULL, 1);
-		if (access(redir->file_name, F_OK) != 0)
-			error(minish, " No such file or directory", redir->file_name, 1);
-		else if (access(redir->file_name, R_OK) != 0)
-			error(minish, "permission denied:", redir->file_name, 126);
-		else
-		{
-			(*fd) = open(redir->file_name, O_RDONLY);
-			if ((*fd) == -1)
-				error(minish, "couldn't open file", redir->file_name, 126);
-		}
+		(*fd) = open(redir->file_name, O_RDONLY);
+		if ((*fd) == -1)
+			error(minish, "couldn't open file", redir->file_name, 126);
 	}
 }
 
 void	treat_redir_out(t_minishell *minish, t_redir *redir,
 		int parser, int *fd)
 {
-	if (!redir->file_name)
-		error(minish, "no such file or directory", NULL, 1);
-	if (access(redir->file_name, F_OK) == 0
-		&& access(redir->file_name, W_OK) != 0)
-		error(minish, "permission denied:", redir->file_name, 1);
 	if (redir->type == REDIR_OUT)
 		(*fd) = open(redir->file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	else if (redir->type == APPEND)
@@ -77,12 +62,16 @@ void	access_test(t_minishell *minish, t_instructions *instr, int parser)
 	int	fd;
 
 	if (instr->fd_in == -1)
+	{
 		do_ins(minish, instr);
-	else 
+	}
+	else
 		instr->pipe[0] = instr->fd_in;
+
 	index = 0;
 	while (index < instr->nb_files_out)
 	{
+		ft_printf(2, "%s\n", instr->out_redir[index].file_name);
 		treat_redir_out(minish, &instr->out_redir[index], parser, &fd);
 		if (index != instr->nb_files_out - 1)
 			close(fd);

@@ -6,13 +6,14 @@
 /*   By: scesar <scesar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 23:38:06 by scesar            #+#    #+#             */
-/*   Updated: 2025/07/18 23:39:51 by scesar           ###   ########.fr       */
+/*   Updated: 2025/07/30 18:36:37 by scesar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-void	execute(t_minishell *minish, t_instructions *instr, int parse, char **exec)
+void	execute(t_minishell *minish, t_instructions *instr,
+			int parse, char **exec)
 {
 	int		execror;
 	char	**valid_envp;
@@ -64,6 +65,7 @@ void	error(t_minishell *minish, char *reason, char *specific, int exit_stat)
 		ft_printf(2, "bash: %s :%s", specific, reason);
 	exit(exit_stat);
 }
+
 int	find_non_empty(char **str)
 {
 	int	i;

@@ -6,7 +6,7 @@
 /*   By: scesar <scesar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 14:45:43 by scesar            #+#    #+#             */
-/*   Updated: 2025/07/25 17:50:53 by scesar           ###   ########.fr       */
+/*   Updated: 2025/07/30 18:34:19 by scesar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,8 @@ int	main(int ac, char **av, char **envp)
 	char			*prompt;
 	char			*input;
 
-	init_minish(&minish, envp, ac ,av);
-	while (!(ac == 3 && ft_strcmp(av[1], "-c") == 0) )
+	init_minish(&minish, envp, ac, av);
+	while (!(ac == 3 && ft_strcmp(av[1], "-c") == 0))
 	{
 		prompt = get_prompt(&minish->envp);
 		if (!prompt)

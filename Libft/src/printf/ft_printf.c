@@ -28,9 +28,11 @@ int	args_match_format(const char format, va_list args_to_print, int fd)
 	else if (format == 'u')
 		ret_value += ft_putnbr_unint_(va_arg(args_to_print, unsigned long), fd);
 	else if (format == 'x')
-		ret_value += ft_puthexa_min_fd_(va_arg(args_to_print, unsigned int), fd);
+		ret_value += ft_puthexa_min_fd_(va_arg(args_to_print,
+					unsigned int), fd);
 	else if (format == 'X')
-		ret_value += ft_puthexa_maj_fd_(va_arg(args_to_print, unsigned int), fd);
+		ret_value += ft_puthexa_maj_fd_(va_arg(args_to_print,
+					unsigned int), fd);
 	else if (format == '%')
 		ret_value += ft_putchar_fd_('%', fd);
 	else

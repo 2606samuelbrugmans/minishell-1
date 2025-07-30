@@ -6,7 +6,7 @@
 /*   By: scesar <scesar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 14:45:59 by scesar            #+#    #+#             */
-/*   Updated: 2025/07/23 20:16:22 by scesar           ###   ########.fr       */
+/*   Updated: 2025/07/30 18:36:45 by scesar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ void	free_minish_partial(t_minishell **minish)
 	(*minish)->instru = NULL;
 	(*minish)->number_of_commands = 0;
 	(*minish)->fd_pipes = NULL;
-	
 }
 
 void	free_minish_total(t_minishell **minish)

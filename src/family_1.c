@@ -6,7 +6,7 @@
 /*   By: scesar <scesar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 23:33:53 by scesar            #+#    #+#             */
-/*   Updated: 2025/07/25 18:12:28 by scesar           ###   ########.fr       */
+/*   Updated: 2025/07/30 18:36:20 by scesar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ void	process(t_minishell *minish)
 
 void	path_not_found(char *pcommand, t_minishell *minish)
 {
-	write(2, "bash: ", 6);
 	write(2, pcommand, ft_strlen(pcommand));
 	write(2, ": command not found\n", 21);
 	close_parent(minish);
@@ -94,15 +93,17 @@ void	path_not_found(char *pcommand, t_minishell *minish)
 
 void	child_process(t_minishell *minish, t_instructions *instr, int parser)
 {
-	int i;
-	char **exec;
+	int		i;
+	char	**exec;
 
 	child_signal();
+	write(2, "amazing", 8);
 	if (instr->skip == true)
 		exit(minish->last_exit_status);
 	exec = shift_to_first_non_empty(instr->exec);
 	access_test(minish, instr, parser);
 	no_redirection_proc(minish, instr, parser);
+	write(2, "sexefault\n", 10);
 	if (exec != NULL && is_builtin(exec[0]))
 		instr->path_command = exec[0];
 	else if (exec[0] != NULL)

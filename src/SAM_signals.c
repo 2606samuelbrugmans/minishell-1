@@ -6,12 +6,11 @@
 /*   By: scesar <scesar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 17:33:26 by scesar            #+#    #+#             */
-/*   Updated: 2025/07/17 17:51:55 by scesar           ###   ########.fr       */
+/*   Updated: 2025/07/30 18:41:38 by scesar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-// Disable readline's default signal handlers
 
 void	sigint_handler(int sig)
 {
@@ -20,12 +19,7 @@ void	sigint_handler(int sig)
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
-
 }
-// if the line buffer is not empty
-	/// print "Quit: 3" and exit with status 131
-	// this is the behavior for Ctrl+\ (SIGQUIT)
-	// Do nothing if prompt is empty
 
 void	sigquit_handler(int sig)
 {
@@ -42,9 +36,10 @@ void	enable_echoctl(void)
 	term.c_lflag |= ECHOCTL;
 	tcsetattr(STDIN_FILENO, TCSANOW, &term);
 }
+
 int	handle_exit_status(int status)
 {
-	int sig;
+	int	sig;
 
 	if (WIFSIGNALED(status))
 	{
@@ -59,6 +54,7 @@ int	handle_exit_status(int status)
 		return (WEXITSTATUS(status));
 	return (1);
 }
+
 void	setup_signals(void)
 {
 	signal(SIGINT, sigint_handler);
@@ -66,11 +62,3 @@ void	setup_signals(void)
 	signal(SIGQUIT, SIG_IGN);
 	enable_echoctl();
 }
-void	child_signal(void)
-{
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
-}
-
-// Note: Handle Ctrl+D (EOF) in your main loop:
-// if (!input) { exit/relaunch }eeeee

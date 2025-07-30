@@ -6,7 +6,7 @@
 /*   By: scesar <scesar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 17:26:38 by scesar            #+#    #+#             */
-/*   Updated: 2025/07/25 17:27:15 by scesar           ###   ########.fr       */
+/*   Updated: 2025/07/30 18:37:58 by scesar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	mark_instructions_skipped(t_instructions **instru, size_t count)
 	while (i < count + 1)
 	{
 		free_redirs((*instru)[i].in_redir, (*instru)[i].nb_files_in);
-    	free_redirs((*instru)[i].out_redir, (*instru)[i].nb_files_out);
+		free_redirs((*instru)[i].out_redir, (*instru)[i].nb_files_out);
 		(*instru)[i].path_command = (char *)("");
 		(*instru)[i].in_redir = NULL;
 		(*instru)[i].out_redir = NULL;
@@ -76,7 +76,7 @@ t_instructions	*init_insrtu(t_minishell *minish, t_commands	*cmd_as_tokens)
 {
 	size_t			index;
 	t_instructions	*instru;
-	int out;
+	int				out;
 
 	out = 0;
 	index = 0;

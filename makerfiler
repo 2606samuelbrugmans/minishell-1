@@ -1,0 +1,18 @@
+total 104
+-rw-r--r-- 1 samuel samuel     0 Jul 30 20:32 as
+-rw-r--r-- 1 samuel samuel   618 Jul 30 20:46 ds
+-rw-r--r-- 1 samuel samuel     0 Jul 30 20:47 dz
+-rw-r--r-- 1 samuel samuel     0 Jul 30 21:03 dzadz
+-rw-r--r-- 1 samuel samuel     0 Jul 30 21:00 feazfz
+drwxrwxr-x 2 samuel samuel  4096 Jul 30 19:15 inc
+drwxrwxr-x 4 samuel samuel  4096 Jul 30 20:00 Libft
+-rw-rw-r-- 1 samuel samuel   525 Jul 30 19:15 list_Thigns that don't work.txt
+---------- 1 samuel samuel   713 Jul 30 19:15 main_test.c
+-rw-rw-r-- 1 samuel samuel   618 Jul 30 19:15 Makefile
+-rw-r--r-- 1 samuel samuel     0 Jul 30 21:03 makerfiler
+-rwxrwxr-x 1 samuel samuel 66976 Jul 30 21:03 minishell
+drwxrwxr-x 6 samuel samuel  4096 Jul 30 19:16 minishell_tester
+drwxrwxr-x 2 samuel samuel  4096 Jul 30 21:03 src
+-rw-rw-r-- 1 samuel samuel   214 Jul 30 19:15 to_stef.txt
+-rw-r--r-- 1 samuel samuel     0 Jul 30 21:01 zaf
+-rw-r--r-- 1 samuel samuel     0 Jul 30 20:40 zd

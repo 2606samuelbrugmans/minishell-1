@@ -1,11 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc2.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: scesar <scesar@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/30 18:37:30 by scesar            #+#    #+#             */
+/*   Updated: 2025/07/30 18:37:43 by scesar           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/minishell.h"
 
-void heredoc_child(char *stop, int write_fd)
+void	heredoc_child(char *stop, int write_fd)
 {
-	char *line;
+	char	*line;
 
-	heredoc_signals(); // set proper signals for heredoc input
-
+	heredoc_signals();
 	while (1)
 	{
 		line = readline("> ");

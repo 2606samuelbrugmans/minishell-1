@@ -38,7 +38,8 @@ void	free_redirs(t_redir *redir, int count)
 	while (i < count)
 	{
 		if (redir[i].file_name)
-			free(redir[i].file_name);
+            free(redir[i].file_name);
+		redir[i].index = 0;
 		i++;
 	}
 	free(redir);

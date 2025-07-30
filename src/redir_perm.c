@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redir_perm.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: scesar <scesar@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/30 18:39:29 by scesar            #+#    #+#             */
+/*   Updated: 2025/07/30 18:40:23 by scesar           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/minishell.h"
 
 int	find_last_slash(const char *path)
@@ -12,13 +24,7 @@ int	find_last_slash(const char *path)
 	return (i);
 }
 
-/*
- * Copies directory part from path into dir_buf.
- * Returns 1 if directory part exists and was copied,
- * 0 if no directory part (no slash found).
- * Assumes dir_buf_size > 0.
- */
-int copy_dir_part(const char *path, char *dir_buf, int dir_buf_size)
+int	copy_dir_part(const char *path, char *dir_buf, int dir_buf_size)
 {
 	int	i;
 	int	copy_len;
@@ -41,34 +47,38 @@ int copy_dir_part(const char *path, char *dir_buf, int dir_buf_size)
 	return (1);
 }
 
-/*
- * Checks if the directory part of the path exists and is a directory.
- * Returns 1 if no directory part or directory exists, 0 otherwise.
- */
 int	check_directory_part(const char *path)
 {
 	char	dir[1024];
 
 	if (!copy_dir_part(path, dir, 1024))
-		return (1); // no directory part, so treat as valid
-
+		return (1);
 	return (is_directory(dir));
 }
-int	check_perm(char *path, t_token_type type)
-{
-	int index;
 
-	if (path[0] == 0)
-		return (ft_printf(2, "bash: %s: No such file or directory\n", path),2);
-	if (!check_directory_part(path))
-		return (ft_printf(2, "bash: %s: No such file or directory\n", path),2);
-	if (is_directory(path))
-		return (ft_printf(2, "%s: Is a directory\n", path), 3);
-	if (type == REDIR_IN && access(path, F_OK) != 0)
-		return (ft_printf(2, "%s: No such file or directory\n", path),2);
-	if (access(path, F_OK) == 0 && out_tok(type) && (access(path, R_OK) != 0))
-		return (ft_printf(2, "%s: Permission denied\n", path), 3);
-	else if (type == REDIR_IN && (access(path, W_OK ) != 0))
-		return (ft_printf(2, "%s: Permission denied\n", path), 3);
+int	check_perm(t_redir redir, t_minishell minish)
+{
+	write(2, "hereducker", 10);
+	if (redir.type == HEREDOC)
+		return (1);
+	if (redir.file_name[0] == 0)
+		return (ft_printf(2, "bash: %s: No such file or directory\n",
+			 redir.file_name),minish.last_exit_status = 1,0);
+	if (!check_directory_part(redir.file_name))
+		return (ft_printf(2, "bash: %s: No such file or directory\n",
+			 redir.file_name),minish.last_exit_status = 1,0);
+	if (is_directory(redir.file_name))
+		return (ft_printf(2, "%s: Is a directory\n",redir.file_name),
+			minish.last_exit_status = 1, 0);
+	if (redir.type == REDIR_IN && access(redir.file_name, F_OK) != 0)
+		return (ft_printf(2, "%s: No such file or directory\n",
+			redir.file_name),minish.last_exit_status = 1, 0);
+	if (access(redir.file_name, F_OK) == 0 && out_tok(redir.type) 
+		&& (access(redir.file_name, R_OK) != 0))
+		return (ft_printf(2, "%s: Permission denied\n",
+			redir.file_name), minish.last_exit_status = 1, 0);
+	else if (redir.type == REDIR_IN && (access(redir.file_name, W_OK ) != 0))
+		return (ft_printf(2, "%s: Permission denied\n",redir.file_name),
+			minish.last_exit_status = 1, 0);
 	return (1);
 }
