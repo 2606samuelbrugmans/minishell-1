@@ -59,7 +59,7 @@ void	init_minish(t_minishell **minish, char **envp, int ac, char **av)
 	if (!set_envp(&(*minish)->envp, envp))
 		exit_shell("Something went wrong while setting env\n", minish);
 	if (get_var(&(*minish)->envp, NULL, "SHLVL") == NULL)
-		exec_builtin(shlvl, (*minish));
+		exec_builtin(shlvl, (*minish), 0);
 	set_non_interactive(minish, ac, av);
 }
 

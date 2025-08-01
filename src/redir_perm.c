@@ -6,7 +6,7 @@
 /*   By: scesar <scesar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 18:39:29 by scesar            #+#    #+#             */
-/*   Updated: 2025/07/30 18:40:23 by scesar           ###   ########.fr       */
+/*   Updated: 2025/08/01 15:31:57 by scesar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,29 +56,28 @@ int	check_directory_part(const char *path)
 	return (is_directory(dir));
 }
 
-int	check_perm(t_redir redir, t_minishell minish)
+int	check_perm(t_redir redir, t_minishell *minish)
 {
-	write(2, "hereducker", 10);
 	if (redir.type == HEREDOC)
 		return (1);
 	if (redir.file_name[0] == 0)
 		return (ft_printf(2, "bash: %s: No such file or directory\n",
-			 redir.file_name),minish.last_exit_status = 1,0);
+				redir.file_name), minish->last_exit_status = 1, 0);
 	if (!check_directory_part(redir.file_name))
 		return (ft_printf(2, "bash: %s: No such file or directory\n",
-			 redir.file_name),minish.last_exit_status = 1,0);
+				redir.file_name), minish->last_exit_status = 1, 0);
 	if (is_directory(redir.file_name))
-		return (ft_printf(2, "%s: Is a directory\n",redir.file_name),
-			minish.last_exit_status = 1, 0);
+		return (ft_printf(2, "%s: Is a directory\n", redir.file_name),
+			minish->last_exit_status = 1, 0);
 	if (redir.type == REDIR_IN && access(redir.file_name, F_OK) != 0)
 		return (ft_printf(2, "%s: No such file or directory\n",
-			redir.file_name),minish.last_exit_status = 1, 0);
-	if (access(redir.file_name, F_OK) == 0 && out_tok(redir.type) 
+				redir.file_name), minish->last_exit_status = 1, 0);
+	if (access(redir.file_name, F_OK) == 0 && out_tok(redir.type)
 		&& (access(redir.file_name, R_OK) != 0))
 		return (ft_printf(2, "%s: Permission denied\n",
-			redir.file_name), minish.last_exit_status = 1, 0);
-	else if (redir.type == REDIR_IN && (access(redir.file_name, W_OK ) != 0))
-		return (ft_printf(2, "%s: Permission denied\n",redir.file_name),
-			minish.last_exit_status = 1, 0);
+				redir.file_name), minish->last_exit_status = 1, 0);
+	else if (redir.type == REDIR_IN && (access(redir.file_name, W_OK) != 0))
+		return (ft_printf(2, "%s: Permission denied\n", redir.file_name),
+			minish->last_exit_status = 1, 0);
 	return (1);
 }
