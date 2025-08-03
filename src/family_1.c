@@ -6,7 +6,7 @@
 /*   By: scesar <scesar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 23:33:53 by scesar            #+#    #+#             */
-/*   Updated: 2025/08/01 15:30:49 by scesar           ###   ########.fr       */
+/*   Updated: 2025/08/02 13:13:10 by scesar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ int	run(t_minishell *minish)
 	int	i;
 
 	i = 0;
-	here_wrap(minish);
+	if (!here_wrap(minish))
+		return (free_minish_partial(&minish), 0);
 	if (minish->instru[0].exec[0] && built_in_parent(minish->instru[0].exec[0])
 		&& minish->number_of_commands == 1 && minish->instru[0].skip == false)
 		minish->last_exit_status
@@ -27,7 +28,7 @@ int	run(t_minishell *minish)
 		while (i < minish->number_of_commands)
 		{
 			if (pipe(minish->fd_pipes[i]) == -1)
-				perror("bablda");
+				perror("couldn't pipe: ");
 			i++;
 		}
 		process(minish);
@@ -95,24 +96,24 @@ void	path_not_found(char *pcommand, t_minishell *minish)
 void	child_process(t_minishell *minish, t_instructions *instr, int parser)
 {
 	int		i;
-	char	**exec;
 
 	child_signal();
-	exec = shift_to_first_non_empty(instr->exec);
 	access_test(minish, instr, parser);
 	if (instr->skip == true)
 		exit(minish->last_exit_status);
+	if (instr->empty_skip)
+		exit(0);
 	no_redirection_proc(minish, instr, parser);
-	if (exec != NULL && is_builtin(exec[0]))
-		instr->path_command = exec[0];
-	else if (exec[0] != NULL)
-		instr->path_command = path_finding(exec[0], &minish->envp);
-	if (exec[0] != NULL && instr->path_command == NULL)
-		path_not_found(exec[0], minish);
-	if (exec[0] != NULL && is_builtin(instr->path_command))
-		exec_builtin(exec, minish, 0);
-	else if (instr->exec[0] != NULL && exec[0][0] != 0)
-		execute(minish, instr, parser, exec);
+	if (instr->exec != NULL && is_builtin(instr->exec[0]))
+		instr->path_command = instr->exec[0];
+	else if (instr->exec[0] != NULL)
+		instr->path_command = path_finding(instr->exec[0], &minish->envp);
+	if (instr->exec[0] != NULL && instr->path_command == NULL)
+		path_not_found(instr->exec[0], minish);
+	if (instr->exec[0] != NULL && is_builtin(instr->path_command))
+		exec_builtin(instr->exec, minish, 0);
+	else if (instr->exec[0] != NULL && instr->exec[0][0] != 0)
+		execute(minish, instr, parser, instr->exec);
 	close_stuff(minish, parser);
 	exit(0);
 }

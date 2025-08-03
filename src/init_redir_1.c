@@ -64,11 +64,7 @@ int	prep_set_redir(t_instructions *instr, t_commands *cmd, t_minishell *minish)
 		return (0);
 	instr->skip = false;
 	result = (set_redir(instr, cmd, minish, indexes));
-	if (result == 2)
-		return (instr->skip = true, minish->last_exit_status = 1, 2);
-	if (result == 3)
-		return (instr->skip = true, minish->last_exit_status = 1, 2);
-	return (1);
+	return (result);
 }
 
 int	set_redir(t_instructions *instr, t_commands *cmd,
@@ -83,7 +79,7 @@ int	set_redir(t_instructions *instr, t_commands *cmd,
 		if ((in_tok(cmd->args[i[0]]->type) || out_tok(cmd->args[i[0]]->type))
 			&& (cmd->args[i[0] + 1]))
 		{
-			s = get_new_string(*minish, cmd->args[i[0] + 1]->content);
+			s = get_new_string(minish, cmd->args[i[0] + 1]->content);
 			if (in_tok(cmd->args[i[0]]->type))
 				res = (process_redir(instr->in_redir,
 							cmd->args[i[0]]->type, s, i));

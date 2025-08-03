@@ -33,10 +33,12 @@ bool	in_tok(t_token_type type)
 	return (type == REDIR_IN || type == HEREDOC);
 }
 
-int	update_in_double(const char *s, size_t *i, bool *in_double)
+int	update_in_double(const char *s, size_t *i,
+	bool *in_double, t_minishell *minish)
 {
 	if (s[*i] == '\"')
 	{
+		minish->empty_skip = false;
 		*in_double = !(*in_double);
 		(*i)++;
 		return (1);

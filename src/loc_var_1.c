@@ -97,7 +97,7 @@ char	*replace_var(t_minishell minishell, char *string,
 	return (free(pres_var), renew_str);
 }
 
-char	*get_new_string(t_minishell minishell, char *string)
+char	*get_new_string(t_minishell *minishell, char *string)
 {
 	char	*new_str;
 	bool	in_double;
@@ -110,12 +110,12 @@ char	*get_new_string(t_minishell minishell, char *string)
 		return (NULL);
 	while (string[str_ind])
 	{
-		if (update_in_double(string, &str_ind, &in_double))
+		if (update_in_double(string, &str_ind, &in_double, minishell))
 			continue ;
 		else if (string[str_ind] == '\'' && !in_double)
 			handle_single_quote(&new_str, string, &str_ind);
-		else if (is_expandable_dollar(string, str_ind, in_double))
-			handle_expand(&new_str, minishell, string, &str_ind);
+		else if (is_expandable_dollar(string, str_ind, in_double, minishell))
+			handle_expand(&new_str, *minishell, string, &str_ind);
 		else
 			append_char(&new_str, string[str_ind++]);
 		if (!new_str)

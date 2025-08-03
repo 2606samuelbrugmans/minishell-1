@@ -12,7 +12,7 @@
 
 #include "../inc/minishell.h"
 
-int	heredoc_handle(char *stop)
+int	heredoc_handle(char *stop, t_minishell *minish)
 {
 	int		fd[2];
 	pid_t	pid;
@@ -32,6 +32,9 @@ int	heredoc_handle(char *stop)
 	}
 	close(fd[1]);
 	waitpid(pid, &status, 0);
+	minish->last_exit_status = handle_exit_status(status);
+	if (minish->last_exit_status == 130)
+		return (close(fd[0]), -2);
 	return (fd[0]);
 }
 

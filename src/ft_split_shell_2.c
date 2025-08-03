@@ -12,7 +12,8 @@
 
 #include "../inc/minishell.h"
 
-bool	is_expandable_dollar(const char *string, int str_ind, bool in_double)
+bool	is_expandable_dollar(const char *string, int str_ind
+		, bool in_double, t_minishell *minish)
 {
 	if (string[str_ind] != '$')
 		return (false);
@@ -26,5 +27,5 @@ bool	is_expandable_dollar(const char *string, int str_ind, bool in_double)
 		return (false);
 	if (string[str_ind + 1] == '\'')
 		return (false);
-	return (true);
+	return (minish->empty_skip = true, true);
 }

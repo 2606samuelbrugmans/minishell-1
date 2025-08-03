@@ -36,13 +36,13 @@ void	treat_heredoc(t_minishell *minish, t_redir *redir, int *fd)
 {
 	if (redir->type == HEREDOC)
 	{
-		(*fd) = heredoc_handle(redir->file_name);
+		(*fd) = heredoc_handle(redir->file_name, minish);
 		if ((*fd) == -1)
 			error(minish, "heredoc error", NULL, 130);
 	}
 }
 
-void	wrap_up(t_minishell *minish, t_instructions *instru)
+int	wrap_up(t_minishell *minish, t_instructions *instru)
 {
 	int	index;
 	int	fd;
@@ -55,10 +55,7 @@ void	wrap_up(t_minishell *minish, t_instructions *instru)
 		silence_signals();
 		treat_heredoc(minish, &instru->in_redir[index], &fd);
 		if (fd == -2)
-		{
-			index++;
-			continue ;
-		}
+			return (0);
 		if (instru->in_redir[index].type == HEREDOC
 			&& index == instru->nb_files_in - 1)
 			instru->fd_in = fd;
@@ -67,19 +64,22 @@ void	wrap_up(t_minishell *minish, t_instructions *instru)
 		index++;
 	}
 	setup_signals();
+	return (1);
 }
 
-void	here_wrap(t_minishell *minish)
+int	here_wrap(t_minishell *minish)
 {
 	int	index;
 
 	index = 0;
 	while (index < minish->number_of_commands)
 	{
-		wrap_up(minish, &minish->instru[index]);
+		if (!wrap_up(minish, &minish->instru[index]))
+			return (0);
 		index++;
 	}
 	check_all_redirs(minish);
+	return (1);
 }
 
 int	check_all_redirs(t_minishell *minish)

@@ -6,7 +6,7 @@
 /*   By: scesar <scesar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 16:52:09 by scesar            #+#    #+#             */
-/*   Updated: 2025/08/01 15:15:31 by scesar           ###   ########.fr       */
+/*   Updated: 2025/08/02 14:25:59 by scesar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ typedef struct s_instructions
 	bool	skip;
 	int		fd_in;
 	char	*path_command;
+	bool	empty_skip;
 }			t_instructions;
 
 typedef struct t_minishell
@@ -106,6 +107,7 @@ typedef struct t_minishell
 	int				number_of_commands;
 	int				(*fd_pipes)[2];
 	int				last_exit_status;
+	bool			empty_skip;
 }				t_minishell;
 
 ////////////////////////////////////PARSING////////////////////////////////////
@@ -135,9 +137,6 @@ void			put_elem_in_quotes(char	**elem, char **input,
 					size_t *input_index, size_t *elem_index);
 size_t			next_arg_len(char *input, size_t index);
 size_t			end_quotes(char *input, size_t *index);
-
-bool			is_expandable_dollar(const char *string, int str_ind,
-					bool in_double);
 
 //tokenizer
 int				tok_type_init(char *content, t_commands *commands,
@@ -195,16 +194,17 @@ char			*fill_renew_str(char *last_str, size_t last_str_ind,
 					size_t len_var, t_env *actual_var);
 char			*replace_var(t_minishell minishell, char *string,
 					size_t *str_ind, char *temp);
-char			*get_new_string(t_minishell minishell, char *string);
+char			*get_new_string(t_minishell *minishell, char *string);
 int				add_loc_var(t_env **minish_envp, t_env **minish_local_var,
 					char *input);
 bool			is_expandable_dollar(const char *string, int str_ind,
-					bool in_double);
+					bool in_double, t_minishell *shell);
 void			append_char(char **dest, char c);
 void			handle_single_quote(char **dest, const char *str, size_t *i);
 void			handle_expand(char **dest, t_minishell ms, char *str,
 					size_t *i);
-int				update_in_double(const char *s, size_t *i, bool *in_double);
+int				update_in_double(const char *s, size_t *i,
+					bool *in_double, t_minishell *minish);
 void			set_non_interactive(t_minishell **minish, int ac, char **av);
 
 //init_instr
@@ -214,8 +214,9 @@ int				set_redir(t_instructions *instr, t_commands *cmd,
 int				prep_set_redir(t_instructions *instr,
 					t_commands *cmd, t_minishell *minish);
 int				count_commands(t_commands *cmd_as_token);
-char			**tok_into_tab(t_minishell *minish, t_token **tokens);
-size_t			tok_to_keep_tab_len(t_token **tokens);
+char			**tok_into_tab(t_minishell *minish, t_token **tokens,
+					size_t i, size_t index);
+size_t			tok_to_keep_tab_len(t_token **tokensn, size_t index);
 t_token			**init_executable(t_token **cmd_as_tokens,
 					t_instructions *instru, int index, t_minishell *minish);
 bool			out_tok(t_token_type type);
@@ -234,6 +235,8 @@ void			free_array(char ***array);
 void			free_pipe(t_token **tokens);
 int				cleanup_and_exit(t_minishell *minish);
 int				treat_input(t_minishell **minish, char *input);
+void			reject_prog(int ac, char **av);
+
 ///////////////////////////////////EXECUTION///////////////////////////////////
 
 //family
@@ -262,14 +265,14 @@ void			treat_redir_in(t_minishell *minish, t_redir *redir,
 void			do_ins(t_minishell *minish, t_instructions *instr);
 void			treat_redir_out(t_minishell *minish, t_redir *redir, int parser,
 					int *fd);
-int				heredoc_handle(char *stop);
+int				heredoc_handle(char *stop, t_minishell *minish);
 void			no_redirection_proc(t_minishell *minish, t_instructions *instr,
 					int parser);
 char			**shift_to_first_non_empty(char **args);
 int				find_non_empty(char **str);
 int				path_has_directory(const char *path);
 int				dir_exists(const char *path);
-void			here_wrap(t_minishell *minish);
+int				here_wrap(t_minishell *minish);
 void			heredoc_child(char *stop, int write_fd);
 void			silence_signals(void);
 

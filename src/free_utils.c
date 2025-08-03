@@ -38,11 +38,15 @@ void	free_redirs(t_redir *redir, int count)
 	while (i < count)
 	{
 		if (redir[i].file_name)
+		{
 			free(redir[i].file_name);
-		redir[i].index = 0;
+			redir[i].file_name = NULL;
+		}
+		redir[i].index = -1;
 		i++;
 	}
 	free(redir);
+	redir = NULL;
 }
 
 void	free_envp(t_env *env)
